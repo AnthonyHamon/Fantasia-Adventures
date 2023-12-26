@@ -1,0 +1,39 @@
+/* cherry-bomb-one-regular - latin */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Cherry Bomb One';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./font/cherry-bomb-one-v8-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  }
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 24px;
+    margin: 0;
+    background-image: url('./img/UI/fantasy-platformer-game-ui/PNG/01main/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header{
+    position: absolute;
+    top: 0;
+    font-size: 36px;
+    font-family: 'Cherry Bomb One';
+}
+
+header h1{
+    margin: 0;
+    margin-top: 24px;
+}
+
+canvas{
+    width: 960px;
+    height: 540px;
+    background-color: black;
+}
