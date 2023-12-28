@@ -1,11 +1,17 @@
-class Clouds extends movableObject{
+class Clouds extends movableObject {
     width = 960;
     height = 540;
 
 
-    constructor(){
+    constructor() {
         super().loadImage('img/level_set/forest/Background/Bright/clouds_small.png');
         this.y = 0;
-        this.x = 0;
+        this.movableObjectAnimation();
     };
+
+    // movableObjectAnimation() {
+    //     this.x = setInterval(() => {
+    //         this.x -= 0.15;
+    //     }, 1000 / 60)
+    // }
 }
