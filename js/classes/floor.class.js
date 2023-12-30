@@ -2,8 +2,8 @@ class Floor extends movableObject {
     height = 64;
     width = 64;
 
-    constructor(ImagePath, x){
-        super().loadImage(ImagePath);
+    constructor(imagePath, x){
+        super().loadImage(imagePath);
         this.x = x;
         this.y = 540 - this.height;
     }

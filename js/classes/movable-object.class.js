@@ -4,7 +4,9 @@ class movableObject {
     height = 128;
     width = 128;
     img;
-    ImageCache = {};
+    imageCache = {};
+    currentImage = 0;
+
 
 
 
@@ -17,14 +19,8 @@ class movableObject {
         arr.forEach(path => {
             let img = new Image();
             img.src = path;
-            this.ImageCache[path] = path;
+            this.imageCache[path] = img;
         });
-    }
-
-    movableObjectAnimation() {
-        this.x = setInterval(() => {
-            this.x -= 0.15;
-        }, 1000 / 60);
     }
 
     moveRight() {

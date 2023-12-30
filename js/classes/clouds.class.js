@@ -9,9 +9,9 @@ class Clouds extends movableObject {
         this.movableObjectAnimation();
     };
 
-    // movableObjectAnimation() {
-    //     this.x = setInterval(() => {
-    //         this.x -= 0.15;
-    //     }, 1000 / 60)
-    // }
+    movableObjectAnimation() {
+        this.x = setInterval(() => {
+            this.x -= 0.15;
+        }, 1000 / 60);
+    }
 }
