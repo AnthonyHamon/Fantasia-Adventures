@@ -6,12 +6,10 @@ class Clouds extends movableObject {
     constructor() {
         super().loadImage('img/level_set/forest/Background/Bright/clouds_small.png');
         this.y = 0;
-        this.movableObjectAnimation();
+        this.animate();
     };
 
-    movableObjectAnimation() {
-        this.x = setInterval(() => {
-            this.x -= 0.15;
-        }, 1000 / 60);
+    animate() {
+        this.moveLeft();
     }
 }

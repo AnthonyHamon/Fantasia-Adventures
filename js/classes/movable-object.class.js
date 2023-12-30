@@ -6,6 +6,7 @@ class movableObject {
     img;
     imageCache = {};
     currentImage = 0;
+    speed = 0.15;
 
 
 
@@ -23,13 +24,17 @@ class movableObject {
         });
     }
 
-    moveRight() {
-        console.log('Moving Right');
+    moveRight(keyboard) {
+       setInterval(() => {
+        if(keyboard.RIGHT)
+            this.x += this.speed;
+        }, 1000 / 60);
     }
 
     moveLeft() {
-
-
+        setInterval(() => {
+            this.x -= this.speed;
+        }, 1000 / 60);
     }
 
 }
