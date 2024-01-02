@@ -7,13 +7,4 @@ class Floor extends movableObject {
         this.x = x;
         this.y = 540 - this.height;
     }
-
-    // calcFloorPosition(){
-    //     let x = 0;
-    //         this.floorTiles.forEach((floor)=>{
-    //             x = floor.x + 64;
-    //             return x;
-    //     });
-       
-    // }
 }

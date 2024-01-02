@@ -10,7 +10,7 @@ class Snake extends movableObject {
     constructor() {
         super().loadImage('img/enemies/Snake/Walk1.png');
         this.loadImages(this.IMAGESWALKING);
-        this.x = 300 + Math.random() * 500;
+        this.x = 300 + Math.random() * 2580;
         this.speed = 0.15 + Math.random() * 0.4;
         this.animate();
     };

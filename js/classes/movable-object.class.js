@@ -1,22 +1,23 @@
 class movableObject {
     x = 0;
-    y = 540 - 164;
+    y = 0;
     height = 128;
     width = 128;
     img;
     imageCache = {};
     currentImage = 0;
     speed = 0.15;
+    otherDirection = false;
 
 
 
 
-    loadImage(path){
+    loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
-    loadImages(arr){
+    loadImages(arr) {
         arr.forEach(path => {
             let img = new Image();
             img.src = path;
@@ -24,11 +25,8 @@ class movableObject {
         });
     }
 
-    moveRight(keyboard) {
-       setInterval(() => {
-        if(keyboard.RIGHT)
-            this.x += this.speed;
-        }, 1000 / 60);
+    moveRight() {
+        
     }
 
     moveLeft() {

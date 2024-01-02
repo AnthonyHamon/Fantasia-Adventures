@@ -1,0 +1,19 @@
+const forestLevel = new Level(
+    [
+        // Snake, Bear, Goblin, Dino, Orc, Spider
+        new Endboss(),
+    ],
+
+    [
+        new Clouds()
+    ],
+
+    [
+        // Background Objects
+    ],
+
+    [
+        // Floor
+    ]
+);
+
