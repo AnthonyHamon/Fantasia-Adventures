@@ -16,8 +16,9 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.addSnake();
-        this.setFloor();
+        this.addSnakes();
+        this.setGround();
+        this.setFirstFloor();
         this.setBackground();
         this.setClouds();
     }
@@ -34,7 +35,11 @@ class World {
 
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
-        this.addObjectToMap(this.level.floorTiles);
+        this.addObjectToMap(this.level.ground);
+        this.addObjectToMap(this.level.firstFloor);
+        this.addObjectToMap(this.level.wall);
+        this.addObjectToMap(this.level.platforms);
+        this.addObjectToMap(this.level.decorations);
         this.addObjectToMap(this.level.enemies);
         this.drawCharacter(this.character);
         this.ctx.translate(this.camera_x, 0);
@@ -74,24 +79,41 @@ class World {
     }
 
 
-    addSnake() {
-        for (let i = 0; i < 10; i++) {
+    addSnakes() {
+        for (let i = 0; i < 5; i++) {
             const snake = new Snake();
             this.level.enemies.push(snake);
         }
+        setInterval(() => {
+            for (let i = 0; i < 5; i++) {
+                const snake = new Snake();
+                this.level.enemies.push(snake);
+            }
+        }, 35000)
+
     }
 
-    setFloor() {
+    setGround() {
         let x = -64;
-        const firstFloorItem = new Floor('img/level_set/forest/Tiles/Ground_grass_0000_tile.png', -128);
-        this.level.floorTiles.push(firstFloorItem);
+        const firstGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0000_tile.png', -128);
+        this.level.ground.push(firstGroundItem);
         for (let index = 0; index < (this.level.level_end_x / 64); index++) {
-            const floor = new Floor('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', x);
-            this.level.floorTiles.push(floor);
+            const ground = new Ground('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', x);
+            this.level.ground.push(ground);
             x = x + 64;
         }
-        const lastFloorItem = new Floor('img/level_set/forest/Tiles/Ground_grass_0002_tile.png', this.level.level_end_x - 64);
-        this.level.floorTiles.push(lastFloorItem);
+        const lastGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0002_tile.png', this.level.level_end_x - 64);
+        this.level.ground.push(lastGroundItem);
+    }
+
+    setFirstFloor() {
+        let x = 1920;
+        let numberOfImages = Math.round((this.level.level_end_x - x) / 64);
+        for (let index = 0; index < numberOfImages; index++) {
+            const floor = new FirstFloor('img/level_set/forest/Tiles/Ground_grass_0024_tile.png', x);
+            this.level.firstFloor.push(floor);
+            x = x + 64;
+        }
     }
 
     setBackground() {
@@ -102,8 +124,8 @@ class World {
             const bigClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer2.png', x);
             const middelClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer1.png', x);
             const mountains = new BackgroundObject('img/level_set/forest/Background/Bright/mountains.png', x);
-            const trees = new BackgroundObject('img/level_set/forest/Background/Bright/trees.png', x);
-            this.level.backgroundObjects.push(sky, bigClouds, middelClouds, mountains, trees);
+            const treeBackground = new BackgroundObject('img/level_set/forest/Background/Bright/trees.png', x);
+            this.level.backgroundObjects.push(sky, bigClouds, middelClouds, mountains, treeBackground);
             x = x + this.canvas.width;
         }
     }

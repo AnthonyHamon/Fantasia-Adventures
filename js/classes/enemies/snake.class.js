@@ -1,6 +1,6 @@
 class Snake extends movableObject {
     y = 540 - 136;
-    IMAGESWALKING = [
+    IMAGESWALKINGSNAKE = [
         'img/enemies/Snake/Walk1.png',
         'img/enemies/Snake/Walk2.png',
         'img/enemies/Snake/Walk3.png',
@@ -8,9 +8,10 @@ class Snake extends movableObject {
     ];
 
     constructor() {
-        super().loadImage('img/enemies/Snake/Walk1.png');
-        this.loadImages(this.IMAGESWALKING);
-        this.x = 300 + Math.random() * 2580;
+        super().loadImage(this.IMAGESWALKINGSNAKE[0]);
+        this.loadImages(this.IMAGESWALKINGSNAKE);
+        // this.x = 300 + Math.random() * 1300;
+        this.x = 1590 + Math.random() * -560;
         this.speed = 0.15 + Math.random() * 0.4;
         this.animate();
     };
@@ -18,8 +19,8 @@ class Snake extends movableObject {
     animate() {
         this.moveLeft();
         setInterval(() => {
-            let i = this.currentImage % this.IMAGESWALKING.length;
-            let path = this.IMAGESWALKING[i];
+            let i = this.currentImage % this.IMAGESWALKINGSNAKE.length;
+            let path = this.IMAGESWALKINGSNAKE[i];
             this.img = this.imageCache[path];
             this.currentImage++;
         }, 180);

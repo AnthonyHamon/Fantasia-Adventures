@@ -1,4 +1,4 @@
-class Floor extends movableObject {
+class Ground extends movableObject {
     height = 64;
     width = 64;
 

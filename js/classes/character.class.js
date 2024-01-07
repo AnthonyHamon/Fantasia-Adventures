@@ -8,10 +8,11 @@ class Character extends movableObject {
         'img/character/Rogue/Walk/walk6.png'
     ];
     world;
-    speed = 4;
-    x = -120;
+    speed = 3;
+    // x = 0;
+    x = 2100;
     y = 376;
-
+    // y = 200;
 
     constructor() {
         super().loadImage('img/character/Rogue/Walk/walk1.png');
@@ -27,25 +28,25 @@ class Character extends movableObject {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)) {
                 this.x += this.speed;
                 this.otherDirection = false;
-                this.world.level.walking_sound_grass.play();
+                // this.world.level.walking_sound_grass.play();
                 console.log('character position is', this.x);
             }
 
-            if (this.world.keyboard.LEFT && this.x > -120 && this.x < 1920 || this.world.keyboard.LEFT && this.x > 1920) {
+            if (this.world.keyboard.LEFT && this.x > -120 && this.x < 1944 || this.world.keyboard.LEFT && this.x > 1945) {
                 this.x -= this.speed;
                 this.otherDirection = true;
-                this.world.level.walking_sound_grass.play();
+                // this.world.level.walking_sound_grass.play();
                 console.log('character position is', this.x);
             }
 
-            
-            if(this.x > 696 && this.world.camera_x < this.world.canvas.width * 2){
+
+            if (this.x > 696 && this.world.camera_x < this.world.canvas.width * 2) {
                 this.world.camera_x = this.x - 200;
             }
-            if(this.x == 696){
+            if (this.x <= 696) {
                 this.world.camera_x = -200;
             }
-            if(this.world.camera_x == this.world.canvas.width * 2){
+            if (this.world.camera_x == this.world.canvas.width * 2) {
                 this.world.camera_x = this.world.canvas.width * 2;
             }
 
