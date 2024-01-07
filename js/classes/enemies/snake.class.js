@@ -1,11 +1,12 @@
 class Snake extends movableObject {
-    y = 540 - 136;
     IMAGESWALKINGSNAKE = [
         'img/enemies/Snake/Walk1.png',
         'img/enemies/Snake/Walk2.png',
         'img/enemies/Snake/Walk3.png',
         'img/enemies/Snake/Walk4.png'
     ];
+
+    y = 540 - 136;
 
     constructor() {
         super().loadImage(this.IMAGESWALKINGSNAKE[0]);

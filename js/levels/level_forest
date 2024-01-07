@@ -84,8 +84,21 @@ const forestLevel = new Level(
         new Tree('img/level_set/forest/Objects/256/tree.png', 2700, 126),
         new Tree('img/level_set/forest/Objects/128/object_0002_tree3.png', 2732, 130),
         new Tree('img/level_set/forest/Objects/256/tree.png', 2764, 126),
-        new Tree('img/level_set/forest/Objects/128/object_0003_bush1.png', 2775, 138),
+        new Tree('img/level_set/forest/Objects/128/object_0003_bush1.png', 2800, 138),
+    ],
 
+    [
+        // animated Objects
+        new Heart(2800, 40),
+        new Coin(2608, 80),
+        new Heart(2292, 180),
+
+    ],
+
+    [
+        // Stairway
     ]
+
+    
 );
 

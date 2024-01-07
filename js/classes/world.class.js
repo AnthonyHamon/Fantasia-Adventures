@@ -21,6 +21,7 @@ class World {
         this.setFirstFloor();
         this.setBackground();
         this.setClouds();
+        this.setStairway();
     }
 
     setWorld() {
@@ -40,6 +41,8 @@ class World {
         this.addObjectToMap(this.level.wall);
         this.addObjectToMap(this.level.platforms);
         this.addObjectToMap(this.level.decorations);
+        this.addObjectToMap(this.level.animatedObjects);
+        this.addObjectToMap(this.level.stairway);
         this.addObjectToMap(this.level.enemies);
         this.drawCharacter(this.character);
         this.ctx.translate(this.camera_x, 0);
@@ -90,7 +93,6 @@ class World {
                 this.level.enemies.push(snake);
             }
         }, 35000)
-
     }
 
     setGround() {
@@ -137,7 +139,19 @@ class World {
             this.level.clouds.push(cloud);
             x = x + this.canvas.width;
         }
+    }
 
+    setStairway() {
+        let y = 228;
+        let firstStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0012_stairway_corner.png', y);
+        this.level.stairway.push(firstStairwayTile);
+        for (let index = 0; index < 7; index++) {
+            let stairwayFiller = new Stairway('img/level_set/forest/Objects/32/object_0010_stairway_filler.png', y);
+            this.level.stairway.push(stairwayFiller);
+            y = y + 32;
+        }
+        let lastStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0011_stairway_corner2.png', 452);
+        this.level.stairway.push(lastStairwayTile);
     }
 
 
