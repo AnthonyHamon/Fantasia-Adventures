@@ -33,6 +33,5 @@ class Heart extends movableObject{
             this.img = this.imageCache[path];
             this.currentImage++;
         }, 180);
-
     }
 }

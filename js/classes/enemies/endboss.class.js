@@ -38,10 +38,7 @@ class Endboss extends movableObject{
     animate() {
         this.moveLeft();
         setInterval(() => {
-            let i = this.currentImage % this.IMAGESANGRYBOSS.length;
-            let path = this.IMAGESANGRYBOSS[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.playWalkAnimation(this.IMAGESANGRYBOSS);
         }, 180);
 
     }

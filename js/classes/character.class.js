@@ -10,7 +10,7 @@ class Character extends movableObject {
     world;
     speed = 3;
     // x = 0;
-    x = 2100;
+    // x = 2100;
     y = 376;
     // y = 200;
 
@@ -49,6 +49,7 @@ class Character extends movableObject {
             if (this.world.camera_x == this.world.canvas.width * 2) {
                 this.world.camera_x = this.world.canvas.width * 2;
             }
+            
 
         }, 1000 / 60);
 
@@ -57,10 +58,7 @@ class Character extends movableObject {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
 
                 // Walk animation
-                let i = this.currentImage % this.IMAGESWALKING.length;
-                let path = this.IMAGESWALKING[i];
-                this.img = this.imageCache[path];
-                this.currentImage++;
+                this.playWalkAnimation(this.IMAGESWALKING)
             }
         }, 150);
     }

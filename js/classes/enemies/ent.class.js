@@ -22,10 +22,7 @@ class Ent extends movableObject{
     animate() {
         // this.moveLeft();
         setInterval(() => {
-            let i = this.currentImage % this.IMAGESWAITINGENT.length;
-            let path = this.IMAGESWAITINGENT[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.playWalkAnimation(this.IMAGESWAITINGENT);
         }, 180);
 
     }

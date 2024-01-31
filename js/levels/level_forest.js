@@ -76,6 +76,8 @@ const forestLevel = new Level(
 
     [
         new Tree('img/level_set/forest/Objects/128/object_0001_tree2.png', -128, 360),
+        new WoodBox('img/level_set/forest/Objects/32/object_0009_lootbox.png', 336, 452),
+        new DirectionPanel('img/level_set/forest/Objects/32/object_0002_pointer_forward.png', 700, 458),
         new BigTree('img/level_set/forest/Objects/256/tree.png', 632, 282),
         new Tree('img/level_set/forest/Objects/128/object_0002_tree3.png', 1716, 386),
         new BigTree('img/level_set/forest/Objects/256/tree.png', 1920, 26),
@@ -85,14 +87,20 @@ const forestLevel = new Level(
         new Tree('img/level_set/forest/Objects/128/object_0002_tree3.png', 2732, 130),
         new Tree('img/level_set/forest/Objects/256/tree.png', 2764, 126),
         new Tree('img/level_set/forest/Objects/128/object_0003_bush1.png', 2800, 138),
+        new WoodBox('img/level_set/forest/Objects/32/object_0009_lootbox.png', 416, 236),
     ],
 
     [
         // animated Objects
+        new Coin(220, 330),
+        new Heart(480, 268),
+        new Coin(984, 268),
+        new Crystal(1176, 368),
+        new Crystal(1698, 428),
+        new Heart(1698, 288),
         new Heart(2800, 40),
         new Coin(2608, 80),
         new Heart(2292, 180),
-
     ],
 
     [

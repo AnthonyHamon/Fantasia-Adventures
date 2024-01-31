@@ -27,13 +27,20 @@ class movableObject {
     }
 
     moveRight() {
-        
+
     }
 
     moveLeft() {
         setInterval(() => {
             this.x -= this.speed;
         }, 1000 / 60);
+    }
+
+    playWalkAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 
     // animate() {
@@ -43,7 +50,6 @@ class movableObject {
     //         this.img = this.imageCache[path];
     //         this.currentImage++;
     //     }, this.FPS);
-
     // }
 
 }

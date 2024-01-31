@@ -18,9 +18,11 @@ class Coin extends movableObject {
     width = 32;
     height = 32;
 
-    constructor() {
+    constructor(x, y) {
         super().loadImages(this.ANIMATEDCOINIMAGES);
         this.animate();
+        this.x = x;
+        this.y = y;
     }
 
     animate() {
