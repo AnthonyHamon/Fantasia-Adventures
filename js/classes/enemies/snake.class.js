@@ -18,9 +18,13 @@ class Snake extends movableObject {
     };
 
     animate() {
-        this.moveLeft();
+        
         setInterval(() => {
-            this.playWalkAnimation(this.IMAGESWALKINGSNAKE)
+            this.moveLeft();
+        }, 1000 / 60);
+
+        setInterval(() => {
+            this.playAnimation(this.IMAGESWALKINGSNAKE)
         }, 180);
 
     }

@@ -22,7 +22,7 @@ class Spider extends movableObject{
     animate() {
         // this.moveLeft();
         setInterval(() => {
-            this.playWalkAnimation(this.IMAGESSPIDERWAITING)
+            this.playAnimation(this.IMAGESSPIDERWAITING)
         }, 180);
 
     }

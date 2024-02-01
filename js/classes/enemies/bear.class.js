@@ -24,7 +24,7 @@ class Bear extends movableObject{
     animate() {
         this.moveLeft();
         setInterval(() => {
-            this.playWalkAnimation(this.IMAGESWAITINGBEAR);
+            this.playAnimation(this.IMAGESWAITINGBEAR);
         }, 180);
 
     }
