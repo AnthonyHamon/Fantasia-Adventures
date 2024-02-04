@@ -6,6 +6,7 @@ class World {
 
 
     character = new Character();
+    characterInformations = new CharacterInformations();
 
     level = forestLevel;
 
@@ -44,11 +45,13 @@ class World {
         this.addObjectToMap(this.level.platforms);
         this.addObjectToMap(this.level.decorations);
         this.addObjectToMap(this.level.animatedObjects);
+        this.addObjectToMap(this.level.throwableObjects);
         this.addObjectToMap(this.level.stairway);
         this.addObjectToMap(this.level.enemies);
 
         this.ctx.translate(this.camera_x, 0)
         // ------ space for fixed objects
+        this.addTomap(this.characterInformations)
         this.addObjectToMap(this.level.characterInformations);
         this.ctx.translate(-this.camera_x, 0);
 
@@ -68,13 +71,14 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding2(enemy) && !this.character.isDead()) {
                     this.character.hit();
+                    this.resetLifeBar();
                     this.setLifeBar();
                     console.log('Character is colliding: Life is', this.character.life + '%')
                 }
                 // console.log('Character is colliding with:', enemy)
 
             });
-        }, 100);
+        }, 150);
     }
 
 
@@ -129,7 +133,7 @@ class World {
             this.level.enemies.push(snake);
         }
         setInterval(() => {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 2; i++) {
                 const snake = new Snake();
                 this.level.enemies.push(snake);
             }
@@ -196,25 +200,24 @@ class World {
     }
 
     setLifeBar() {
-        // delete LifeBar();
-        let x = 83;
-        let percentage = this.character.life / 4;
+        let x = 80;
+        let percentage = this.character.life;
         if(percentage > 0){
-            let HPCorner = null;
-            HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x);
+            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, 4);
             this.level.characterInformations.push(HPCorner);
             for (let index = 1; index < percentage; index++) {
-                let HP = null;
-                HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 5);
+                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, 2);
                 this.level.characterInformations.push(HP);
-                x = x + 5;
+                x = x + 1.1;
             }
         }
-        
         if(percentage = percentage * 4){
-            let HPEndCorner = null;
-            HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 5);
+            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, 4);
             this.level.characterInformations.push(HPEndCorner);
         }
+    }
+
+    resetLifeBar(){
+        this.level.characterInformations.splice(0);
     }
 }

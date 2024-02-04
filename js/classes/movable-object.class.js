@@ -60,7 +60,7 @@ class movableObject extends DrawableObjects{
     }
 
     hit(){
-        this.life -= 5;
+        this.life -= 0;
         if(this.life < 0){
             this.life = 0;
         }else {

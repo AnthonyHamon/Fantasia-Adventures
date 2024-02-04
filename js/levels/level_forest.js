@@ -1,6 +1,6 @@
 const forestLevel = new Level(
     [
-        // Snake, Bear, Goblin, Dino, Orc, Spider
+        // Snake,
         new Ent(),
         new Bear(),
         new Spider(),
@@ -104,13 +104,18 @@ const forestLevel = new Level(
     ],
 
     [
+        // ThrowableObjects
+        new Bottles()
+    ],
+
+    [
         // Stairway
     ],
 
     [
-        new CharacterInformation('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/character_info_full.png'),
+        // LifeBar
     ],
 
-    
+
 );
 

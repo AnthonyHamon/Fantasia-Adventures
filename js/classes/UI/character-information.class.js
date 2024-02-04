@@ -1,10 +1,10 @@
-class CharacterInformation extends DrawableObjects {
+class CharacterInformations extends DrawableObjects {
 
-    constructor(ImagePath) {
+    constructor() {
         super();
-        this.loadImage(ImagePath);
+        this.loadImage('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/character_info_full.png');
         this.y = 0;
-        this.width = 215;
+        this.width = 202;
         this.height = 80;
     }
 }

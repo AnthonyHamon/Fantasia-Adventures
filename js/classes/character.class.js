@@ -59,19 +59,19 @@ class Character extends movableObject {
 
         setInterval(() => {
             this.world.level.walking_sound_grass.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)) {
+            if (!this.isDead() && this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)) {
                 this.moveRight();
                 // this.world.level.walking_sound_grass.play();
                 // console.log('character position is', this.x);
             }
 
-            if (this.world.keyboard.LEFT && this.x > -120 && this.x < 1944 || this.world.keyboard.LEFT && this.x > 1945) {
+            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -120 && this.x < 1944 || this.world.keyboard.LEFT && this.x > 1945) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
                 // console.log('character position is', this.x);
             }
 
-            if (this.world.keyboard.UP && !this.isAboveGround()) {
+            if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
             }
 
@@ -85,7 +85,7 @@ class Character extends movableObject {
             }
 
             if(this.x > 696 && this.world.camera_x < this.world.canvas.width * 2 && this.isDead()){
-                this.world.camera_x = this.x - 126;
+                this.world.camera_x = this.x - 128;
             }
 
             // if (this.x <= 696) {             // camera stays at beginning position until player reached end of screen then camera jump to player and follow
