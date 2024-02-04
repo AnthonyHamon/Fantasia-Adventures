@@ -8,10 +8,11 @@ class Level{
     decorations;
     animatedObjects;
     stairway;
+    characterInformations;
     level_end_x = 2880;
     walking_sound_grass = new Audio('../audio/walk_grass.mp3');
 
-    constructor(enemies, clouds, backgroundObjects, ground, firstFloor, wall, platforms, decorations, animatedObjects, stairway){
+    constructor(enemies, clouds, backgroundObjects, ground, firstFloor, wall, platforms, decorations, animatedObjects, stairway, characterInformations){
         this.enemies = enemies;
         this.clouds = clouds;
         this.backgroundObjects = backgroundObjects;
@@ -22,6 +23,7 @@ class Level{
         this.decorations = decorations;
         this.animatedObjects = animatedObjects;
         this.stairway = stairway;
+        this.characterInformations = characterInformations;
     }
     
 }

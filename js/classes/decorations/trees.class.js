@@ -1,4 +1,4 @@
-class Tree extends drawableObjects {
+class Tree extends DrawableObjects {
 
     width = 128;
     height = 128;

@@ -1,4 +1,4 @@
-class Spider extends movableObject{
+class Spider extends movableObject {
 
     IMAGESSPIDERWAITING = [
         'img/enemies/spider/idle1.png',
@@ -13,14 +13,19 @@ class Spider extends movableObject{
 
     height = 128;
     width = 128;
+    speed = 0;
 
-    constructor(){
+    constructor() {
         super().loadImages(this.IMAGESSPIDERWAITING);
         this.animate();
     }
 
     animate() {
-        // this.moveLeft();
+
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
+
         setInterval(() => {
             this.playAnimation(this.IMAGESSPIDERWAITING)
         }, 180);

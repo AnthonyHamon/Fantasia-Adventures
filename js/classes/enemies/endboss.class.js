@@ -1,4 +1,4 @@
-class Endboss extends movableObject{
+class Endboss extends movableObject {
     IMAGESWAITINGBOSS = [
         'img/end_Bosses/Boss1/Idle1.png',
         'img/end_Bosses/Boss1/Idle2.png',
@@ -22,21 +22,25 @@ class Endboss extends movableObject{
         'img/end_Bosses/Boss1/Walk6.png',
     ]
 
-    x = (960 * 3) - this.width - 200;
-    height = 300;
     width = 250;
+    height = 300;
+    x = (960 * 3) - this.width;
     y = 240;
     speed = 0;
 
-        
-    constructor(){
+
+    constructor() {
         // super().loadImage(this.IMAGESWALKINGBOSS[0]);
         super().loadImages(this.IMAGESANGRYBOSS);
         this.animate();
     }
 
     animate() {
-        this.moveLeft();
+
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
+    
         setInterval(() => {
             this.playAnimation(this.IMAGESANGRYBOSS);
         }, 180);

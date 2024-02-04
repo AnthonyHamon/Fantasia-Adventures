@@ -105,7 +105,11 @@ const forestLevel = new Level(
 
     [
         // Stairway
-    ]
+    ],
+
+    [
+        new CharacterInformation('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/character_info_full.png'),
+    ],
 
     
 );

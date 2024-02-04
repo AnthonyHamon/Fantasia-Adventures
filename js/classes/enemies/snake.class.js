@@ -7,6 +7,8 @@ class Snake extends movableObject {
     ];
 
     y = 540 - 136;
+    height = 128;
+    width = 128;
 
     constructor() {
         super().loadImage(this.IMAGESWALKINGSNAKE[0]);
@@ -18,7 +20,7 @@ class Snake extends movableObject {
     };
 
     animate() {
-        
+
         setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);

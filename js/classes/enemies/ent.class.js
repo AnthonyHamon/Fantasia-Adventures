@@ -12,6 +12,7 @@ class Ent extends movableObject{
     y = 308;
     width = 256;
     height = 256;
+    speed = 0;
 
 
     constructor(){
@@ -20,7 +21,11 @@ class Ent extends movableObject{
     }
 
     animate() {
-        // this.moveLeft();
+        
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
+
         setInterval(() => {
             this.playAnimation(this.IMAGESWAITINGENT);
         }, 180);

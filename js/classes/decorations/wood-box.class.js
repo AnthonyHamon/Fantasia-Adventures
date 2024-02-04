@@ -1,4 +1,4 @@
-class WoodBox extends drawableObjects{
+class WoodBox extends DrawableObjects{
 
     width = 32;
     height = 32;

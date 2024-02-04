@@ -1,4 +1,4 @@
-class Stairway extends drawableObjects {
+class Stairway extends DrawableObjects {
 
     x = 2292;
     height = 32;

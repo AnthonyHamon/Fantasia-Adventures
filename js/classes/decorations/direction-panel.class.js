@@ -1,4 +1,4 @@
-class DirectionPanel extends drawableObjects{
+class DirectionPanel extends DrawableObjects{
     
     width = 32;
     height = 32;

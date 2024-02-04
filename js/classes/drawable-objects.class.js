@@ -1,10 +1,11 @@
-class drawableObjects{
-    x;
+class DrawableObjects{
+    x = 0;
     y = 360;
-    width = 64;
-    height = 64;
+    width;
+    height;
     img;
     imageCache = {};
+    currentImage = 0;
 
     loadImage(path) {
         this.img = new Image();
@@ -13,9 +14,9 @@ class drawableObjects{
 
     loadImages(arr) {
         arr.forEach(path => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
+            this.img = new Image();
+            this.img.src = path;
+            this.imageCache[path] = this.img;
         });
     }
 }

@@ -1,4 +1,4 @@
-class BigTree extends drawableObjects{
+class BigTree extends DrawableObjects{
     
     width = 256;
     height = 256;

@@ -1,7 +1,9 @@
-class Platforms extends drawableObjects{
+class Platforms extends DrawableObjects{
     
     y = 300;
-
+    width = 64;
+    height = 64;
+    
     constructor(imagePath, x, y){
         super().loadImage(imagePath);
         this.x = x;
