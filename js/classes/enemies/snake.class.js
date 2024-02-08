@@ -10,6 +10,13 @@ class Snake extends movableObject {
     height = 128;
     width = 128;
 
+    offset = {
+        top: 48,
+        right: 38,
+        bottom: 40,
+        left: 48
+    }
+
     constructor() {
         super().loadImage(this.IMAGESWALKINGSNAKE[0]);
         this.loadImages(this.IMAGESWALKINGSNAKE);

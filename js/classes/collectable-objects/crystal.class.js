@@ -1,7 +1,7 @@
 class Crystal extends movableObject{
 
     ANIMATEDCRYSTALIMAGES = [
-        'img/level_set/forest/Objects_Animated/Crystal/crystal.png',
+        'img/level_set/forest/Objects_Animated/Crystal/crystal1.png',
         'img/level_set/forest/Objects_Animated/Crystal/crystal2.png',
         'img/level_set/forest/Objects_Animated/Crystal/crystal3.png',
         'img/level_set/forest/Objects_Animated/Crystal/crystal4.png',

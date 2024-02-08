@@ -27,7 +27,13 @@ class Endboss extends movableObject {
     x = (960 * 3) - this.width;
     y = 240;
     speed = 0;
-
+    
+    offset = {
+        top: 120,
+        right: 36,
+        bottom: 54,
+        left: 128
+    }
 
     constructor() {
         // super().loadImage(this.IMAGESWALKINGBOSS[0]);

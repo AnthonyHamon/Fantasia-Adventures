@@ -23,7 +23,7 @@ class World {
         this.setBackground();
         this.setClouds();
         this.setStairway();
-        this.checkCollision();
+        this.checkCharacterEvents();
         this.setLifeBar();
     }
 
@@ -44,10 +44,11 @@ class World {
         this.addObjectToMap(this.level.wall);
         this.addObjectToMap(this.level.platforms);
         this.addObjectToMap(this.level.decorations);
-        this.addObjectToMap(this.level.animatedObjects);
-        this.addObjectToMap(this.level.throwableObjects);
+        this.addObjectToMap(this.level.collectableObjects);
         this.addObjectToMap(this.level.stairway);
         this.addObjectToMap(this.level.enemies);
+        this.addObjectToMap(this.level.longRangeAttacks);
+        this.addObjectToMap(this.level.throwableObjects);
 
         this.ctx.translate(this.camera_x, 0)
         // ------ space for fixed objects
@@ -65,21 +66,46 @@ class World {
         });
     }
 
-    checkCollision() {
+    checkCharacterEvents() {
         setInterval(() => {
-
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding2(enemy) && !this.character.isDead()) {
-                    this.character.hit();
-                    this.resetLifeBar();
-                    this.setLifeBar();
-                    console.log('Character is colliding: Life is', this.character.life + '%')
-                }
-                // console.log('Character is colliding with:', enemy)
-
-            });
+            this.checkCollisions();
+            this.magicAttack();
+            // this.throwObjects();
         }, 150);
     }
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy) && !this.character.isDead()) {
+                this.character.hit();
+                this.resetLifeBar();
+                this.setLifeBar();
+                console.log('Character is colliding: Life is', this.character.life + '%')
+            }
+            // console.log('Character is colliding with:', enemy)
+        });
+    }
+
+    magicAttack() {
+        if (!this.character.isDead() && this.keyboard.E) {
+            let tornado = new Tornado(this.character.x + 35, this.character.y + 5);
+            this.level.longRangeAttacks.push(tornado);
+            this.level.longRangeAttacks.forEach(tornado => {
+                setTimeout(() => {
+                    tornado.splice(0);
+                }, 1700);
+            });
+            
+        }
+    }
+
+
+    // throwObjects() {
+    //     if (!this.character.isDead() && this.keyboard.E) {
+    //         let tornado = new Tornado(this.character.x + 35, this.character.y + 5);
+    //         this.level.longRangeAttacks.push(tornado);
+    //     }
+    // }
 
 
     addObjectToMap(objects) {
@@ -90,8 +116,15 @@ class World {
 
 
     addTomap(obj) {
-        this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
-        // this.drawColisionFrame(mo);
+        try {
+            this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
+        } catch (e) {
+            console.warn('Error loading image', e);
+            console.log('could not load image:', this.img.src);
+        }
+        // this.drawColisionFrame(obj);
+        // this.drawOffsetColisionFrame(obj);
+
     }
 
     drawColisionFrame(mo) {
@@ -99,6 +132,14 @@ class World {
         this.ctx.lineWidth = '3';
         this.ctx.strokeStyle = 'blue';
         this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
+        this.ctx.stroke();
+    }
+
+    drawOffsetColisionFrame(mo) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = '3';
+        this.ctx.strokeStyle = 'red';
+        this.ctx.rect(mo.x + mo.offset.left, mo.y + mo.offset.top, mo.width - (mo.offset.right + mo.offset.left), mo.height - (mo.offset.top + mo.offset.bottom));
         this.ctx.stroke();
     }
 
@@ -110,7 +151,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        this.drawColisionFrame(mo);
+        // this.drawColisionFrame(mo);
+        // this.drawOffsetColisionFrame(mo);
     }
 
     flipImage(mo) {
@@ -202,7 +244,7 @@ class World {
     setLifeBar() {
         let x = 80;
         let percentage = this.character.life;
-        if(percentage > 0){
+        if (percentage > 0) {
             let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, 4);
             this.level.characterInformations.push(HPCorner);
             for (let index = 1; index < percentage; index++) {
@@ -211,13 +253,13 @@ class World {
                 x = x + 1.1;
             }
         }
-        if(percentage = percentage * 4){
+        if (percentage = percentage * 4) {
             let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, 4);
             this.level.characterInformations.push(HPEndCorner);
         }
     }
 
-    resetLifeBar(){
+    resetLifeBar() {
         this.level.characterInformations.splice(0);
     }
 }

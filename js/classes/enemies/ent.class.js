@@ -14,6 +14,12 @@ class Ent extends movableObject{
     height = 256;
     speed = 0;
 
+    offset = {
+        top: 78,
+        right: 72,
+        bottom: 78,
+        left: 92
+    }
 
     constructor(){
         super().loadImages(this.IMAGESWAITINGENT);

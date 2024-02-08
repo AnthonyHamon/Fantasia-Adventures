@@ -44,6 +44,14 @@ class Character extends movableObject {
     height = 128;
     width = 128;
 
+
+    offset = {
+        top: 64,
+        right: 64,
+        bottom: 20,
+        left: 20
+    }
+
     constructor() {
         super().loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);

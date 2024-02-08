@@ -14,6 +14,13 @@ class Bear extends movableObject{
     height = 128;
     speed = 0;
 
+    offset = {
+        top: 64,
+        right: 8,
+        bottom: 20,
+        left: 28
+    }
+
 
     constructor(){
         super().loadImage(this.IMAGESWAITINGBEAR[0]);

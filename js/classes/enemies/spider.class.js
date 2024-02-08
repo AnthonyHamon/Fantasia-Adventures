@@ -15,6 +15,13 @@ class Spider extends movableObject {
     width = 128;
     speed = 0;
 
+    offset = {
+        top: 36,
+        right: 36,
+        bottom: 48,
+        left: 36
+    }
+
     constructor() {
         super().loadImages(this.IMAGESSPIDERWAITING);
         this.animate();

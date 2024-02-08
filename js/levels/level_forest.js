@@ -104,8 +104,14 @@ const forestLevel = new Level(
     ],
 
     [
-        // ThrowableObjects
-        new Bottles()
+        // Collectable objects
+        new EnergyPotions(),
+        new EnergyPotions(),
+        new EnergyPotions(),
+        new EnergyPotions(),
+        new EnergyPotions(),
+        new EnergyPotions(),
+        new EnergyPotions(),
     ],
 
     [
@@ -113,9 +119,15 @@ const forestLevel = new Level(
     ],
 
     [
-        // LifeBar
+        // throwableObjects
     ],
 
+    [
+        // longRangeAttacks
+    ],
 
+    [
+        // LifeBar
+    ],
 );
 

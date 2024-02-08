@@ -1,6 +1,4 @@
 class LifeBar extends DrawableObjects {
-    LIFE_BAR_IMAGES = [];
-
     width;
     height = 12;
     percentage = 25;
