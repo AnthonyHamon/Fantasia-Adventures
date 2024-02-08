@@ -137,5 +137,18 @@ class Character extends movableObject {
         
     }
 
+    magicAttack() {
+        if (!this.isDead() && this.world.keyboard.E) {
+            let tornado = new Tornado(this.x + 35, this.y + 5);
+            this.world.level.longRangeAttacks.push(tornado);
+            for (let index = 0; index < this.world.level.longRangeAttacks.length; index++) {
+                setTimeout(() => {
+                    this.world.level.longRangeAttacks.splice(index, 1);
+                }, 1700);
+            };
+            
+        }
+    }
+
 }
 

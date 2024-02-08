@@ -69,7 +69,7 @@ class World {
     checkCharacterEvents() {
         setInterval(() => {
             this.checkCollisions();
-            this.magicAttack();
+            this.character.magicAttack();
             // this.throwObjects();
         }, 150);
     }
@@ -86,18 +86,7 @@ class World {
         });
     }
 
-    magicAttack() {
-        if (!this.character.isDead() && this.keyboard.E) {
-            let tornado = new Tornado(this.character.x + 35, this.character.y + 5);
-            this.level.longRangeAttacks.push(tornado);
-            this.level.longRangeAttacks.forEach(tornado => {
-                setTimeout(() => {
-                    tornado.splice(0);
-                }, 1700);
-            });
-            
-        }
-    }
+  
 
 
     // throwObjects() {
