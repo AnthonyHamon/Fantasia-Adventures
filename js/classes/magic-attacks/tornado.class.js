@@ -26,7 +26,6 @@ class Tornado extends LongRangeAttack{
     stopAttackAnimation(animation, x) {
         if (this.x >= x + 208) {
             clearInterval(animation);
-            console.log('characterposition:', x, 'tornado position:', this.x)
         }
     }
 }

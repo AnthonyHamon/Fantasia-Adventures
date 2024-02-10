@@ -6,7 +6,6 @@ class LongRangeAttack extends movableObject {
         let attackRange = setInterval(() => {
             this.x = x += this.speedX;
             this.stopAttackAnimation(attackRange, characterPosition);
-            console.log(x);
         }, 1000 / 60);
     }
 

@@ -7,6 +7,11 @@ class World {
 
     character = new Character();
     characterInformations = new CharacterInformations();
+    lifeBar = [];
+    energyBar =[];
+    magicBar = [];
+    coinBar = [];
+
 
     level = forestLevel;
 
@@ -25,6 +30,9 @@ class World {
         this.setStairway();
         this.checkCharacterEvents();
         this.setLifeBar();
+        this.setEnergyBar();
+        this.setMagicBar();
+        this.setCoinBar();
     }
 
     setWorld() {
@@ -53,7 +61,9 @@ class World {
         this.ctx.translate(this.camera_x, 0)
         // ------ space for fixed objects
         this.addTomap(this.characterInformations)
-        this.addObjectToMap(this.level.characterInformations);
+        this.addObjectToMap(this.lifeBar);
+        this.addObjectToMap(this.energyBar);
+        this.addObjectToMap(this.magicBar);
         this.ctx.translate(-this.camera_x, 0);
 
         this.drawCharacter(this.character);
@@ -70,6 +80,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.character.magicAttack();
+            this.character.restoreJumpEnergy();
             // this.throwObjects();
         }, 150);
     }
@@ -98,9 +109,15 @@ class World {
 
 
     addObjectToMap(objects) {
-        objects.forEach(o => {
-            this.addTomap(o);
-        });
+        try{
+            objects.forEach(o => {
+                this.addTomap(o);
+            });
+        }catch(e){
+            console.warn('Error loading image', e);
+            console.log('could not load image:', objects);
+        }
+        
     }
 
 
@@ -141,12 +158,12 @@ class World {
             this.flipImageBack(mo);
         }
         // this.drawColisionFrame(mo);
-        // this.drawOffsetColisionFrame(mo);
+        // this.drawOffsetColisionFrame(mo);d
     }
 
     flipImage(mo) {
         this.ctx.save();
-        this.ctx.translate((mo.width / 1.4), 0);
+        this.ctx.translate((mo.width / 1.2), 0);
 
         this.ctx.scale(-1, 1);
         mo.x = mo.x * -1;
@@ -235,20 +252,82 @@ class World {
         let percentage = this.character.life;
         if (percentage > 0) {
             let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, 4);
-            this.level.characterInformations.push(HPCorner);
+            this.lifeBar.push(HPCorner);
             for (let index = 1; index < percentage; index++) {
                 let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, 2);
-                this.level.characterInformations.push(HP);
+                this.lifeBar.push(HP);
                 x = x + 1.1;
             }
         }
         if (percentage = percentage * 4) {
             let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, 4);
-            this.level.characterInformations.push(HPEndCorner);
+            this.lifeBar.push(HPEndCorner);
+        }
+    }
+
+    setEnergyBar() {
+        let x = 79;
+        let percentage = this.character.maxEnergy;
+        if (percentage > 0) {
+            let energyCorner = new EnergyBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/energy_corner1.png', x, 4);
+            this.energyBar.push(energyCorner);
+            for (let index = 1; index < percentage; index++) {
+                let energy = new EnergyBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/energy_point.png', x + 4, 2);
+                this.energyBar.push(energy);
+                x = x + 1.1;
+            }
+        }
+        if (percentage = percentage * 4) {
+            let energyEndCorner = new EnergyBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/energy_corner2.png', x + 4, 4);
+            this.energyBar.push(energyEndCorner);
+        }
+    }
+
+    setMagicBar() {
+        let x = 79;
+        let percentage = this.character.maxMagicalEnergy;
+        if (percentage > 0) {
+            let HPCorner = new MagicBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/magic_corner1.png', x, 4);
+            this.magicBar.push(HPCorner);
+            for (let index = 1; index < percentage; index++) {
+                let HP = new MagicBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/magic_point.png', x + 4, 2);
+                this.magicBar.push(HP);
+                x = x + 1.1;
+            }
+        }
+        if (percentage = percentage * 4) {
+            let HPEndCorner = new MagicBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/magic_corner2.png', x + 4, 4);
+            this.magicBar.push(HPEndCorner);
+        }
+    }
+
+    setCoinBar() {
+        let x = 80;
+        let percentage = this.character.life;
+        if (percentage > 0) {
+            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, 4);
+            this.lifeBar.push(HPCorner);
+            for (let index = 1; index < percentage; index++) {
+                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, 2);
+                this.lifeBar.push(HP);
+                x = x + 1.1;
+            }
+        }
+        if (percentage = percentage * 4) {
+            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, 4);
+            this.lifeBar.push(HPEndCorner);
         }
     }
 
     resetLifeBar() {
-        this.level.characterInformations.splice(0);
+        this.lifeBar.splice(0);
+    }
+
+    resetEnergyBar() {
+        this.energyBar.splice(0);
+    }
+
+    resetMagicBar() {
+        this.magicBar.splice(0);
     }
 }

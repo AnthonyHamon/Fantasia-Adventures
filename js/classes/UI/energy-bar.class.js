@@ -1,4 +1,4 @@
-class LifeBar extends DrawableObjects {
+class EnergyBar extends DrawableObjects{
     width;
     height = 12;
     
@@ -6,8 +6,7 @@ class LifeBar extends DrawableObjects {
     constructor(imagePath, x, width) {
         super().loadImage(imagePath);
         this.x = x;
-        this.y = 8;
+        this.y = 26;
         this.width = width;
     }
 }
-

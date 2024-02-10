@@ -4,8 +4,6 @@ class movableObject extends DrawableObjects {
     speedY = 0;
     speedX = 0;
     gravityAcceleration = 0.5;
-    // offsetY = 64;
-    // offsetX = 64;
     life = 100;
     lastHit = 0;
 
@@ -39,7 +37,7 @@ class movableObject extends DrawableObjects {
         if (this instanceof ThrowableObjects) {
             return true;
         } else if (!this.isDead()) {
-            return this.y < 376;
+            return this.y < 312;
         }
     }
 

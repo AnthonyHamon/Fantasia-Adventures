@@ -39,17 +39,20 @@ class Character extends movableObject {
     ]
 
     world;
+    maxEnergy = 80;
+    maxMagicalEnergy = 80;
+    maxCoin = 80;
     speed = 3;
-    y = 376;
-    height = 128;
-    width = 128;
+    y = 312;
+    height = 256;
+    width = 256;
 
 
     offset = {
-        top: 64,
-        right: 64,
-        bottom: 20,
-        left: 20
+        top: 128,
+        right: 128,
+        bottom: 80,
+        left: 80
     }
 
     constructor() {
@@ -59,7 +62,6 @@ class Character extends movableObject {
         this.loadImages(this.IMAGES_HURT);
         this.animate();
         this.applyGravity();
-        this.deathPosition();
     };
 
 
@@ -73,16 +75,18 @@ class Character extends movableObject {
                 // console.log('character position is', this.x);
             }
 
-            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -120 && this.x < 1944 || this.world.keyboard.LEFT && this.x > 1945) {
+            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -120 && this.x < 1944 || this.world.keyboard.LEFT && this.x > 1881) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
                 // console.log('character position is', this.x);
             }
 
-            if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround()) {
+            if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
+                this.maxEnergy -= 30;
                 this.jump();
+                this.world.resetEnergyBar();
+                this.world.setEnergyBar();
             }
-
 
             // if (this.x > 696 && this.world.camera_x < this.world.canvas.width * 2) {     // camera follow player since he reached end of  previous screen
             //     this.world.camera_x = this.x - 200;
@@ -90,10 +94,6 @@ class Character extends movableObject {
 
             if (this.world.camera_x < this.world.canvas.width * 2) {    // camera goes with player from beginning
                 this.world.camera_x = this.x - 200;
-            }
-
-            if(this.x > 696 && this.world.camera_x < this.world.canvas.width * 2 && this.isDead()){
-                this.world.camera_x = this.x - 128;
             }
 
             // if (this.x <= 696) {             // camera stays at beginning position until player reached end of screen then camera jump to player and follow
@@ -107,12 +107,14 @@ class Character extends movableObject {
 
 
         setInterval(() => {
+            this.restoreJumpEnergy();
+        }, 1000);
+
+
+        setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEATH);
-                this.width = 256;
-                this.height = 256;
-                this.y = 328;
-            }else if (this.isHurt()){
+            } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround() & !this.isDead()) {
                 this.playAnimation(this.IMAGES_JUMPING);
@@ -126,19 +128,11 @@ class Character extends movableObject {
         }, 150);
     }
 
-    deathPosition(){
-        const deathInterval = setInterval(() => {
-            if(this.isDead()){
-                clearInterval(deathInterval);
-                this.x = this.x - 72;
-                this.y = 328;
-            }
-        }, 150);
-        
-    }
-
     magicAttack() {
-        if (!this.isDead() && this.world.keyboard.E) {
+        if (!this.isDead() && this.world.keyboard.E && !this.maxMagicalEnergy <= 0) {
+            this.maxMagicalEnergy -= 20;
+            this.world.resetMagicBar();
+            this.world.setMagicBar();
             let tornado = new Tornado(this.x + 35, this.y + 5);
             this.world.level.longRangeAttacks.push(tornado);
             for (let index = 0; index < this.world.level.longRangeAttacks.length; index++) {
@@ -146,9 +140,19 @@ class Character extends movableObject {
                     this.world.level.longRangeAttacks.splice(index, 1);
                 }, 1700);
             };
-            
         }
     }
 
+    restoreJumpEnergy(){
+        if (this.maxEnergy < 80) {
+            this.maxEnergy += 1;
+            this.world.resetEnergyBar();
+            this.world.setEnergyBar();
+        }
+    }
 }
+
+
+
+
 
