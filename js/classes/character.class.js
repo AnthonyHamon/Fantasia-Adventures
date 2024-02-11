@@ -1,4 +1,6 @@
 class Character extends movableObject {
+    CHARACTERAVATAR = 'img/UI/character-icon/ninja.png';
+
     IMAGES_WALKING = [
         'img/character/Rogue/Walk/walk1.png',
         'img/character/Rogue/Walk/walk2.png',
@@ -41,7 +43,7 @@ class Character extends movableObject {
     world;
     maxEnergy = 80;
     maxMagicalEnergy = 80;
-    maxCoin = 80;
+    maxCoin = 0;
     speed = 3;
     y = 312;
     height = 256;
@@ -133,7 +135,7 @@ class Character extends movableObject {
             this.maxMagicalEnergy -= 20;
             this.world.resetMagicBar();
             this.world.setMagicBar();
-            let tornado = new Tornado(this.x + 35, this.y + 5);
+            let tornado = new Tornado(this.x + 95, this.y + 65);
             this.world.level.longRangeAttacks.push(tornado);
             for (let index = 0; index < this.world.level.longRangeAttacks.length; index++) {
                 setTimeout(() => {
