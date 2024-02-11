@@ -131,8 +131,9 @@ class Character extends movableObject {
     }
 
     magicAttack() {
-        if (!this.isDead() && this.world.keyboard.E && !this.maxMagicalEnergy <= 0) {
-            this.maxMagicalEnergy -= 20;
+
+        if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy > 25) {
+            this.maxMagicalEnergy -= 25;
             this.world.resetMagicBar();
             this.world.setMagicBar();
             let tornado = new Tornado(this.x + 95, this.y + 65);
@@ -145,11 +146,33 @@ class Character extends movableObject {
         }
     }
 
-    restoreJumpEnergy(){
+    restoreJumpEnergy() {
         if (this.maxEnergy < 80) {
             this.maxEnergy += 1;
             this.world.resetEnergyBar();
             this.world.setEnergyBar();
+        }
+    }
+
+    collect(object){
+        let index = this.world.level.collectableObjects.indexOf(object);
+        if(object.type === 'Heart' && this.life < 80){
+            this.world.level.collectableObjects.splice(index, 1);
+            this.life += 20;
+            this.world.resetLifeBar();
+            this.world.setLifeBar();
+        }
+        if(object.type === 'Coin') {
+            this.maxCoin += 10;
+            this.world.level.collectableObjects.splice(index, 1);
+            this.world.resetCoinBar();
+            this.world.setCoinBar();
+        }
+        if(object.type === 'MagicalEnergy' && this.maxMagicalEnergy < 70){
+            this.maxMagicalEnergy += 25;
+            this.world.level.collectableObjects.splice(index, 1);
+            this.world.resetMagicBar();
+            this.world.setMagicBar();
         }
     }
 }

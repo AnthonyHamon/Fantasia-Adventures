@@ -8,7 +8,7 @@ class World {
     character = new Character();
     characterInformations = new CharacterInformations();
     lifeBar = [];
-    energyBar =[];
+    energyBar = [];
     magicBar = [];
     coinBar = [];
     characterAvatar = new CharacterAvatar(this.character.CHARACTERAVATAR);
@@ -82,6 +82,7 @@ class World {
     checkCharacterEvents() {
         setInterval(() => {
             this.checkCollisions();
+            this.checkCollection();
             this.character.magicAttack();
             this.character.restoreJumpEnergy();
             // this.throwObjects();
@@ -100,7 +101,20 @@ class World {
         });
     }
 
-  
+    checkCollection() {
+        this.level.collectableObjects.forEach((object) => {
+            if (this.character.isColliding(object)) {
+                this.character.collect(object);
+                console.log(object.type)
+            }
+            // if (this.character.isColliding(object) && !this.character.isDead()) {
+            //     this.character.collect(object);
+            //     console.log('Character is colliding with:', object)
+            // }
+        });
+    }
+
+
 
 
     // throwObjects() {
@@ -112,15 +126,15 @@ class World {
 
 
     addObjectToMap(objects) {
-        try{
+        try {
             objects.forEach(o => {
                 this.addTomap(o);
             });
-        }catch(e){
+        } catch (e) {
             console.warn('Error loading image', e);
             console.log('could not load image:', objects);
         }
-        
+
     }
 
 

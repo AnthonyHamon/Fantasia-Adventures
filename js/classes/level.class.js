@@ -7,9 +7,9 @@ class Level {
     platforms;
     decorations;
     collectableObjects;
+    stairway;
     throwableObjects;
     longRangeAttacks;
-    stairway;
     level_end_x = 2880;
     walking_sound_grass = new Audio('../audio/walk_grass.mp3');
 

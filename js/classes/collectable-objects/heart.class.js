@@ -1,4 +1,4 @@
-class Heart extends movableObject{
+class Heart extends DrawableObjects{
     ANIMATEDHEARTIMAGES = [
         'img/level_set/forest/Objects_Animated/Heart/heart.png',
         'img/level_set/forest/Objects_Animated/Heart/heart2.png',
@@ -12,7 +12,7 @@ class Heart extends movableObject{
         'img/level_set/forest/Objects_Animated/Heart/heart10.png',
     ];
 
-
+    type = 'Heart';
     x = 2800;
     y = 40;
     width = 32;

@@ -19,6 +19,7 @@ class Tornado extends LongRangeAttack{
         this.animate(x);
         this.useLongRangeAttack(x);
         this.y = y;
+        this.x = x;
         this.width = 128;
         this.height = 128;
     }

@@ -1,4 +1,4 @@
-class Crystal extends movableObject{
+class Crystal extends DrawableObjects{
 
     ANIMATEDCRYSTALIMAGES = [
         'img/level_set/forest/Objects_Animated/Crystal/crystal1.png',

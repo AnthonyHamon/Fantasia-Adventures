@@ -1,4 +1,4 @@
-class DrawableObjects{
+class DrawableObjects {
     x = 0;
     y = 360;
     width;
@@ -13,6 +13,7 @@ class DrawableObjects{
         bottom: 0,
         left: 0
     }
+
 
     loadImage(path) {
         this.img = new Image();

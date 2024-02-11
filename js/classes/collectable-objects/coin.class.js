@@ -1,4 +1,4 @@
-class Coin extends movableObject {
+class Coin extends DrawableObjects {
     ANIMATEDCOINIMAGES = [
         'img/level_set/forest/Objects_Animated/Coin/coin.png',
         'img/level_set/forest/Objects_Animated/Coin/coin2.png',
@@ -12,7 +12,7 @@ class Coin extends movableObject {
         'img/level_set/forest/Objects_Animated/Coin/coin10.png',
     ];
 
-
+    type = 'Coin';
     x = 2608;
     y = 80;
     width = 32;

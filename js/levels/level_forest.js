@@ -91,20 +91,17 @@ const forestLevel = new Level(
     ],
 
     [
-        // animated Objects
         new Coin(220, 330),
-        new Heart(480, 268),
         new Coin(984, 268),
-        new Crystal(1176, 368),
-        new Crystal(1698, 428),
+        new Coin(2608, 80),
+
+        new Heart(480, 268),
+        new Heart(500, 400), // just for test, must be removed
+        new Heart(1698, 428),
         new Heart(1698, 288),
         new Heart(2800, 40),
-        new Coin(2608, 80),
         new Heart(2292, 180),
-    ],
-
-    [
-        // Collectable objects
+        
         new EnergyPotions(),
         new EnergyPotions(),
         new EnergyPotions(),

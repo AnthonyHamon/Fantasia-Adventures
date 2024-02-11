@@ -1,11 +1,12 @@
-class EnergyPotions extends DrawableObjects{
+class EnergyPotions extends DrawableObjects {
 
-     width = 32;
-     height = 32;
-     x = 250 + Math.random() * 1800;
-     y = 290 + Math.random() * 86;
+    type = 'MagicalEnergy'
+    width = 32;
+    height = 32;
+    x = 250 + Math.random() * 1800;
+    y = 290 + Math.random() * 86;
 
-    constructor(){
+    constructor() {
         super().loadImage('img/Items/collectable-items/Bottles/1_0006_Bottle7.png');
     }
 
