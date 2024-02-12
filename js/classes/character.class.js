@@ -84,7 +84,7 @@ class Character extends movableObject {
             }
 
             if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
-                this.maxEnergy -= 30;
+                this.maxEnergy -= 2;
                 this.jump();
                 this.world.resetEnergyBar();
                 this.world.setEnergyBar();
@@ -110,12 +110,13 @@ class Character extends movableObject {
 
         setInterval(() => {
             this.restoreJumpEnergy();
-        }, 1000);
+        }, 150);
 
 
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEATH);
+                this.y = 316;
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround() & !this.isDead()) {
@@ -131,7 +132,6 @@ class Character extends movableObject {
     }
 
     magicAttack() {
-
         if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy > 25) {
             this.maxMagicalEnergy -= 25;
             this.world.resetMagicBar();
@@ -146,6 +146,12 @@ class Character extends movableObject {
         }
     }
 
+    closeAttack(){
+        if(!this.isDead() && this.world.keyboard.F && this.maxEnergy > 15){
+            
+        }
+    }
+
     restoreJumpEnergy() {
         if (this.maxEnergy < 80) {
             this.maxEnergy += 1;
@@ -154,30 +160,49 @@ class Character extends movableObject {
         }
     }
 
-    collect(object){
+    collect(object) {
         let index = this.world.level.collectableObjects.indexOf(object);
-        if(object.type === 'Heart' && this.life < 80){
+        if (object.type === 'Heart' && this.life < 99) {
             this.world.level.collectableObjects.splice(index, 1);
-            this.life += 20;
+            if(this.life > 80){
+                this.life = 100;
+            }else{
+                this.life += 20;
+            }
             this.world.resetLifeBar();
             this.world.setLifeBar();
         }
-        if(object.type === 'Coin') {
+        if (object.type === 'Coin') {
             this.maxCoin += 10;
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetCoinBar();
             this.world.setCoinBar();
         }
-        if(object.type === 'MagicalEnergy' && this.maxMagicalEnergy < 70){
+        if (object.type === 'MagicalEnergy' && this.maxMagicalEnergy < 70) {
             this.maxMagicalEnergy += 25;
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetMagicBar();
             this.world.setMagicBar();
         }
     }
+
+    comesFromTop(obj) {
+        const thisBottom = this.y + this.height - this.offset.bottom;
+        const enemyTop = obj.y + obj.offset.top;
+        if(this.isColliding(obj) &&
+        this.isAboveGround &&
+        this.speedY < 0 &&
+        thisBottom >= enemyTop
+        ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+
+
+
 }
-
-
-
-
-

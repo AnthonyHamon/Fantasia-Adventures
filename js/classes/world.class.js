@@ -30,6 +30,7 @@ class World {
         this.setClouds();
         this.setStairway();
         this.checkCharacterEvents();
+        this.checkEnemyEvents();
         this.setLifeBar();
         this.setEnergyBar();
         this.setMagicBar();
@@ -84,18 +85,28 @@ class World {
             this.checkCollisions();
             this.checkCollection();
             this.character.magicAttack();
-            this.character.restoreJumpEnergy();
             // this.throwObjects();
+        }, 150);
+    }
+
+    checkEnemyEvents(){
+        setInterval(() => {
+            this.removeEnemyAfterDeath();
         }, 150);
     }
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.isDead()) {
-                this.character.hit();
+            if (this.character.isColliding(enemy) && !this.character.comesFromTop(enemy) && !this.character.isDead()) {
+                this.character.hit(0);
                 this.resetLifeBar();
                 this.setLifeBar();
-                console.log('Character is colliding: Life is', this.character.life + '%')
+                // console.log('Character is colliding: Life is', this.character.life + '%')
+            }
+            if (this.character.comesFromTop(enemy) && enemy.type === 'Snake'){
+                console.log(enemy, 'is hurt')
+                this.character.jump();
+                enemy.hit(2);
             }
             // console.log('Character is colliding with:', enemy)
         });
@@ -107,11 +118,27 @@ class World {
                 this.character.collect(object);
                 console.log(object.type)
             }
-            // if (this.character.isColliding(object) && !this.character.isDead()) {
-            //     this.character.collect(object);
-            //     console.log('Character is colliding with:', object)
-            // }
         });
+    }
+
+    removeEnemyAfterDeath(){
+        this.level.enemies.forEach((enemy)=>{
+            let index = this.level.enemies.indexOf(enemy);
+            if(enemy.isDead()){
+                setTimeout(() => {
+                    this.level.enemies.splice(index, 1)
+                }, 600);
+            }
+        })
+    }
+
+    removeEnemyAfterDeath(){
+        this.level.enemies.forEach((enemy)=>{
+            let index = this.level.enemies.indexOf(enemy);
+            if(enemy.isDead()){
+                this.level.enemies.splice(index, 1)
+            }
+        })
     }
 
 
@@ -175,7 +202,7 @@ class World {
             this.flipImageBack(mo);
         }
         // this.drawColisionFrame(mo);
-        // this.drawOffsetColisionFrame(mo);d
+        // this.drawOffsetColisionFrame(mo);
     }
 
     flipImage(mo) {

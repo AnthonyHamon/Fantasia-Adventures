@@ -5,6 +5,7 @@ const forestLevel = new Level(
         new Bear(),
         new Spider(),
         new Endboss(),
+        // new Snake(550, 404) // for test
     ],
 
     [
@@ -101,7 +102,7 @@ const forestLevel = new Level(
         new Heart(1698, 288),
         new Heart(2800, 40),
         new Heart(2292, 180),
-        
+
         new EnergyPotions(),
         new EnergyPotions(),
         new EnergyPotions(),
