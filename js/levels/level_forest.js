@@ -125,7 +125,7 @@ const forestLevel = new Level(
     ],
 
     [
-        // LifeBar
+        // closeAttacks
     ],
 );
 

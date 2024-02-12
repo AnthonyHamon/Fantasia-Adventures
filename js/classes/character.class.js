@@ -20,12 +20,22 @@ class Character extends movableObject {
         'img/character/Rogue/Jump/jump7.png',
     ];
 
+    IMAGES_ATTACKING = [
+        'img/character/Rogue/Attack/Attack1.png',
+        'img/character/Rogue/Attack/Attack2.png',
+        'img/character/Rogue/Attack/Attack3.png',
+        'img/character/Rogue/Attack/Attack4.png',
+        'img/character/Rogue/Attack/Attack5.png',
+        'img/character/Rogue/Attack/Attack6.png',
+        'img/character/Rogue/Attack/Attack7.png',
+    ]
+
     IMAGES_HURT = [
         'img/character/Rogue/Hurt/hurt1.png',
         'img/character/Rogue/Hurt/hurt2.png',
         'img/character/Rogue/Hurt/hurt3.png',
         'img/character/Rogue/Hurt/hurt4.png'
-    ]
+    ];
 
     IMAGES_DEATH = [
         'img/character/Rogue/Death/death1.png',
@@ -38,7 +48,7 @@ class Character extends movableObject {
         'img/character/Rogue/Death/death8.png',
         'img/character/Rogue/Death/death9.png',
         'img/character/Rogue/Death/death10.png'
-    ]
+    ];
 
     world;
     maxEnergy = 80;
@@ -60,6 +70,7 @@ class Character extends movableObject {
     constructor() {
         super().loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_ATTACKING);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_HURT);
         this.animate();
@@ -77,15 +88,24 @@ class Character extends movableObject {
                 // console.log('character position is', this.x);
             }
 
-            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -120 && this.x < 1944 || this.world.keyboard.LEFT && this.x > 1881) {
+            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -120 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
                 // console.log('character position is', this.x);
             }
 
             if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
-                this.maxEnergy -= 2;
+                this.maxEnergy -= 50;
                 this.jump();
+                this.world.resetEnergyBar();
+                this.world.setEnergyBar();
+            }
+
+            if (!this.isDead() && this.world.keyboard.F) {
+                this.maxEnergy -= 0.4;
+                if (this.maxEnergy < 0) {
+                    this.maxEnergy = 0
+                }
                 this.world.resetEnergyBar();
                 this.world.setEnergyBar();
             }
@@ -110,7 +130,7 @@ class Character extends movableObject {
 
         setInterval(() => {
             this.restoreJumpEnergy();
-        }, 150);
+        }, 1000 / 60);
 
 
         setInterval(() => {
@@ -121,6 +141,8 @@ class Character extends movableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround() & !this.isDead()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+            } else if (this.attacks()) {
+                this.playAnimation(this.IMAGES_ATTACKING)
             } else {
                 this.loadImage(this.IMAGES_WALKING[0])
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -146,15 +168,24 @@ class Character extends movableObject {
         }
     }
 
-    closeAttack(){
-        if(!this.isDead() && this.world.keyboard.F && this.maxEnergy > 15){
-            
+    attacks() {
+        if (this.world.keyboard.F && this.maxEnergy > 5) {
+            return true;
         }
     }
 
+    // closeAttacks() {
+    //     if (!this.isDead() && this.attacks() && this.maxEnergy > 5) {
+    //         this.maxEnergy -= 1;
+    //         this.world.resetEnergyBar();
+    //         this.world.setEnergyBar();
+    //     }
+    // }
+
+
     restoreJumpEnergy() {
-        if (this.maxEnergy < 80) {
-            this.maxEnergy += 1;
+        if (this.maxEnergy < 80 && !this.world.keyboard.F) {
+            this.maxEnergy += 0.5;
             this.world.resetEnergyBar();
             this.world.setEnergyBar();
         }
@@ -164,9 +195,9 @@ class Character extends movableObject {
         let index = this.world.level.collectableObjects.indexOf(object);
         if (object.type === 'Heart' && this.life < 99) {
             this.world.level.collectableObjects.splice(index, 1);
-            if(this.life > 80){
+            if (this.life > 80) {
                 this.life = 100;
-            }else{
+            } else {
                 this.life += 20;
             }
             this.world.resetLifeBar();
@@ -189,13 +220,24 @@ class Character extends movableObject {
     comesFromTop(obj) {
         const thisBottom = this.y + this.height - this.offset.bottom;
         const enemyTop = obj.y + obj.offset.top;
-        if(this.isColliding(obj) &&
-        this.isAboveGround &&
-        this.speedY < 0 &&
-        thisBottom >= enemyTop
-        ){
+        if (this.isColliding(obj) &&
+            this.isAboveGround &&
+            this.speedY < 0 &&
+            thisBottom >= enemyTop
+        ) {
             return true;
-        }else{
+        } else {
+            return false;
+        }
+    }
+
+
+    isAttacking(enemy) {
+        if (this.isColliding(enemy) &&
+            this.world.keyboard.F &&
+            this.attacks()) {
+            return true
+        } else {
             return false;
         }
     }

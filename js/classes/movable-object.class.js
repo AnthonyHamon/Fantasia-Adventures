@@ -32,7 +32,7 @@ class movableObject extends DrawableObjects {
             }else{
                 this.speedY = 0;
             }
-        }, 1000 / 60)
+        }, 1000 / 60);
     }
 
     isAboveGround() {
