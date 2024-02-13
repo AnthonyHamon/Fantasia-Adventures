@@ -83,6 +83,7 @@ class World {
     checkCharacterEvents() {
         setInterval(() => {
             this.checkCollisions();
+            this.checkPlatformsCollision();
             this.checkCollection();
             this.character.magicAttack();
             // this.throwObjects();
@@ -98,7 +99,7 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !this.character.comesFromTop(enemy) && !this.character.isAttacking(enemy) && !this.character.isDead()) {
-                this.character.hit(0.5);
+                this.character.hit(0);
                 this.resetLifeBar();
                 this.setLifeBar();
                 // console.log('Character is colliding: Life is', this.character.life + '%')
@@ -124,6 +125,20 @@ checkCollection() {
     });
 }
 
+checkPlatformsCollision(){
+    this.level.platforms.forEach(platform => {
+        if(this.character.jumpOnPlatform(platform)){
+            this.character.y = platform.y - this.character.height + this.character.offset.bottom + 10;
+        }
+        if(this.character.isOnPlatformTop(platform)){
+            this.character.isOnPlatform = true;
+        }
+        if(this.character.isOverTheGround(platform)){
+            this.character.isOnPlatform = false;
+        }
+    });
+}
+
 removeEnemyAfterDeath(){
     this.level.enemies.forEach((enemy) => {
         let index = this.level.enemies.indexOf(enemy);
@@ -135,14 +150,14 @@ removeEnemyAfterDeath(){
     })
 }
 
-removeEnemyAfterDeath(){
-    this.level.enemies.forEach((enemy) => {
-        let index = this.level.enemies.indexOf(enemy);
-        if (enemy.isDead()) {
-            this.level.enemies.splice(index, 1)
-        }
-    })
-}
+// removeEnemyAfterDeath(){
+//     this.level.enemies.forEach((enemy) => {
+//         let index = this.level.enemies.indexOf(enemy);
+//         if (enemy.isDead()) {
+//             this.level.enemies.splice(index, 1)
+//         }
+//     })
+// }
 
 
 
@@ -223,12 +238,12 @@ flipImageBack(mo) {
 
 
 addSnakes() {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 2; i++) {
         const snake = new Snake();
         this.level.enemies.push(snake);
     }
     setInterval(() => {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 2; i++) {
             const snake = new Snake();
             this.level.enemies.push(snake);
         }

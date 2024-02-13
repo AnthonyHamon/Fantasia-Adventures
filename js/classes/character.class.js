@@ -95,7 +95,7 @@ class Character extends movableObject {
             }
 
             if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
-                this.maxEnergy -= 50;
+                this.maxEnergy -= 0;
                 this.jump();
                 this.world.resetEnergyBar();
                 this.world.setEnergyBar();
@@ -139,7 +139,7 @@ class Character extends movableObject {
                 this.y = 316;
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround() & !this.isDead()) {
+            } else if (this.isAboveGround() && !this.isOnPlatform && !this.isDead()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.attacks()) {
                 this.playAnimation(this.IMAGES_ATTACKING)
@@ -185,7 +185,7 @@ class Character extends movableObject {
 
     restoreJumpEnergy() {
         if (this.maxEnergy < 80 && !this.world.keyboard.F) {
-            this.maxEnergy += 0.5;
+            this.maxEnergy += 0.3;
             this.world.resetEnergyBar();
             this.world.setEnergyBar();
         }
@@ -231,6 +231,35 @@ class Character extends movableObject {
         }
     }
 
+    jumpOnPlatform(obj) {
+        const thisBottom = this.y + this.height - this.offset.bottom;
+        const platformTop = obj.y + obj.offset.top;
+
+        if (this.comesFromTop(obj) &&
+            this.isAboveGround &&
+            thisBottom >= platformTop) {
+            this.isOnPlatform = true;
+            return true;
+        }
+        // if (this.isOverTheGround(obj)) {
+        //     this.isOnPlatform = false;
+        // }
+    } 
+
+
+    
+    isOnPlatformTop(obj) {
+        return (this.x + this.width - this.offset.right) >= obj.x +obj.offset.left &&
+            (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top &&
+            (this.y + this.offset.top) <= (obj.y + obj.height - obj.offset.bottom) &&
+            (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right)
+    }
+
+    isOverTheGround(obj) {
+        return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
+            (this.x + this.offset.left) >= (obj.x + obj.width - obj.offset.right)
+    }
+
 
     isAttacking(enemy) {
         if (this.isColliding(enemy) &&
@@ -241,8 +270,6 @@ class Character extends movableObject {
             return false;
         }
     }
-
-
 
 
 
