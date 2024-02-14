@@ -1,6 +1,5 @@
 class EnergyPotions extends DrawableObjects {
 
-    type = 'MagicalEnergy'
     width = 32;
     height = 32;
     x = 250 + Math.random() * 1800;

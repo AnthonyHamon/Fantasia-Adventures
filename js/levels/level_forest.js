@@ -50,7 +50,7 @@ const forestLevel = new Level(
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0022_tile.png', 206, 368),
 
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 336, 304),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 400, 240, 24),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 400, 240, 30),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0019_tile.png', 400, 304),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0018_tile.png', 400, 368),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 464, 304),
@@ -66,11 +66,11 @@ const forestLevel = new Level(
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', 1856, 220),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0027_tile.png', 1920, 220),
 
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0037_tile.png', 2368, 120),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0036_tile.png', 2402, 120),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0035_tile.png', 2466, 120),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0037_tile.png', 2368, 120, 30),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0036_tile.png', 2402, 120, 30),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0035_tile.png', 2466, 120, 30),
 
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0034_tile.png', 2594, 100),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0034_tile.png', 2594, 100, 30),
 
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 2752, 80),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 2816, 80),

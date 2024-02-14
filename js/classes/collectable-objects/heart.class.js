@@ -12,7 +12,6 @@ class Heart extends DrawableObjects{
         'img/level_set/forest/Objects_Animated/Heart/heart10.png',
     ];
 
-    type = 'Heart';
     x = 2800;
     y = 40;
     width = 32;

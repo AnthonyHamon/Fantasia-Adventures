@@ -55,7 +55,8 @@ class Character extends movableObject {
     maxMagicalEnergy = 80;
     maxCoin = 0;
     speed = 3;
-    y = 312;
+    x = -240;
+    y = 200;
     height = 256;
     width = 256;
 
@@ -88,7 +89,7 @@ class Character extends movableObject {
                 // console.log('character position is', this.x);
             }
 
-            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -120 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
+            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
                 // console.log('character position is', this.x);
@@ -193,7 +194,7 @@ class Character extends movableObject {
 
     collect(object) {
         let index = this.world.level.collectableObjects.indexOf(object);
-        if (object.type === 'Heart' && this.life < 99) {
+        if (object instanceof Heart && this.life < 99) {
             this.world.level.collectableObjects.splice(index, 1);
             if (this.life > 80) {
                 this.life = 100;
@@ -203,13 +204,13 @@ class Character extends movableObject {
             this.world.resetLifeBar();
             this.world.setLifeBar();
         }
-        if (object.type === 'Coin') {
+        if (object instanceof Coin) {
             this.maxCoin += 10;
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetCoinBar();
             this.world.setCoinBar();
         }
-        if (object.type === 'MagicalEnergy' && this.maxMagicalEnergy < 70) {
+        if (object instanceof EnergyPotions && this.maxMagicalEnergy < 70) {
             this.maxMagicalEnergy += 25;
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetMagicBar();
@@ -236,14 +237,14 @@ class Character extends movableObject {
         const platformTop = obj.y + obj.offset.top;
 
         if (this.comesFromTop(obj) &&
-            this.isAboveGround &&
+            this.isAboveGround(obj) &&
             thisBottom >= platformTop) {
             this.isOnPlatform = true;
             return true;
         }
-        // if (this.isOverTheGround(obj)) {
-        //     this.isOnPlatform = false;
-        // }
+        if (this.isOverTheGround(obj)) {
+            this.isOnPlatform = false;
+        }
     } 
 
 
@@ -259,6 +260,13 @@ class Character extends movableObject {
         return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
             (this.x + this.offset.left) >= (obj.x + obj.width - obj.offset.right)
     }
+
+    collideFromSide(obj) {
+        return (this.x + this.width - this.offset.right >= obj.x) &&
+            (this.x - this.offset.left) <= obj.x &&
+            (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top
+    }
+
 
 
     isAttacking(enemy) {

@@ -5,9 +5,9 @@ class Platforms extends DrawableObjects{
     height = 64;
 
     offset = {
-        top: 0,
+        top: 10,
         right: 0,
-        bottom: 24,
+        bottom: 18,
         left: 0
     }
     

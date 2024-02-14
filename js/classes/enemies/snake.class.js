@@ -25,7 +25,6 @@ class Snake extends movableObject {
         'img/enemies/Snake/Death4.png',
     ];
 
-    type = 'Snake';
     life = 2;
     y = 404;
     height = 128;

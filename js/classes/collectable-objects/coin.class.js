@@ -12,7 +12,6 @@ class Coin extends DrawableObjects {
         'img/level_set/forest/Objects_Animated/Coin/coin10.png',
     ];
 
-    type = 'Coin';
     x = 2608;
     y = 80;
     width = 32;

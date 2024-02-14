@@ -104,7 +104,7 @@ class World {
                 this.setLifeBar();
                 // console.log('Character is colliding: Life is', this.character.life + '%')
             }
-            if (this.character.comesFromTop(enemy) && enemy.type === 'Snake') {
+            if (this.character.comesFromTop(enemy) && enemy instanceof Snake) { // "instance of" does not work
                 console.log(enemy, 'is hurt')
                 this.character.jump();
                 enemy.hit(2);
@@ -127,12 +127,19 @@ checkCollection() {
 
 checkPlatformsCollision(){
     this.level.platforms.forEach(platform => {
-        if(this.character.jumpOnPlatform(platform)){
-            this.character.y = platform.y + platform.offset.top - this.character.height + this.character.offset.bottom + 10;
+        // if(!this.character.isColliding(platform)){
+        //     this.character.obstacle = false;            // need help to resolve this, obstacle switch between true and false because of isColliding. 
+        // }
+        if(this.character.comesFromTop(platform)){
+            this.character.y = platform.y + platform.offset.top - this.character.height + this.character.offset.bottom;
         }
         if(this.character.isOnPlatformTop(platform) && !this.character.isOverTheGround(platform)){
             this.character.isOnPlatform = true;
         }
+        // if(this.character.collideFromSide(platform)){
+        //     console.log('coliding')
+        //     this.character.obstacle = true;             // need help to resolve this, obstacle switch between true and false because of isColliding. 
+        // }
         if(this.character.isOverTheGround(platform)){
             this.character.isOnPlatform = false;
         }
@@ -190,7 +197,7 @@ addTomap(obj) {
         console.warn('Error loading image', e);
         console.log('could not load image:', this.img.src);
     }
-    this.drawColisionFrame(obj);
+    // this.drawColisionFrame(obj);
     this.drawOffsetColisionFrame(obj);
 
 }
@@ -220,7 +227,7 @@ drawCharacter(mo) {
         this.flipImageBack(mo);
     }
     // this.drawColisionFrame(mo);
-    // this.drawOffsetColisionFrame(mo);
+    this.drawOffsetColisionFrame(mo);
 }
 
 flipImage(mo) {
@@ -267,8 +274,8 @@ setFirstFloor() {
     let x = 1920;
     let numberOfImages = Math.round((this.level.level_end_x - x) / 64);
     for (let index = 0; index < numberOfImages; index++) {
-        const floor = new FirstFloor('img/level_set/forest/Tiles/Ground_grass_0024_tile.png', x);
-        this.level.firstFloor.push(floor);
+        const floor = new Platforms('img/level_set/forest/Tiles/Ground_grass_0024_tile.png', x, 220);
+        this.level.platforms.push(floor);
         x = x + 64;
     }
 }

@@ -32,7 +32,7 @@ class movableObject extends DrawableObjects {
             if (this.isAboveGround() && !this.isOnPlatform || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.gravityAcceleration;
-            }else{
+            } else {
                 this.speedY = 0;
             }
         }, 1000 / 60);
@@ -42,8 +42,8 @@ class movableObject extends DrawableObjects {
         if (this instanceof ThrowableObjects) {
             return true;
         } else if (!this.isDead() && !this.isOnPlatform) {
-            return this.y < 312; ;
-        }else {
+            return this.y < 312;;
+        } else {
             return false;
         }
     }
@@ -53,7 +53,7 @@ class movableObject extends DrawableObjects {
     }
 
     isColliding(obj) {
-        return (this.x + this.width - this.offset.right) >= obj.x +obj.offset.left &&
+        return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
             (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top &&
             (this.y + this.offset.top) <= (obj.y + obj.height - obj.offset.bottom) &&
             (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) // change to right because seems to be logical , change to bottom if problems
@@ -61,7 +61,6 @@ class movableObject extends DrawableObjects {
     }
 
     
-
     hit(damage) {
         this.life -= damage;
         if (this.life < 0) {
@@ -81,5 +80,5 @@ class movableObject extends DrawableObjects {
         return this.life == 0;
     }
 
-    
+
 }
