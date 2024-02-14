@@ -3,11 +3,21 @@ class Platforms extends DrawableObjects{
     y = 300;
     width = 64;
     height = 64;
+
+    offset = {
+        top: 0,
+        right: 0,
+        bottom: 24,
+        left: 0
+    }
     
-    constructor(imagePath, x, y){
+    constructor(imagePath, x, y, offset){
         super().loadImage(imagePath);
         this.x = x;
-        this.y = y
+        this.y = y;
+        if(offset){
+            this.offset.top = offset;
+        }
     }
 
     // constructor(imagePath){

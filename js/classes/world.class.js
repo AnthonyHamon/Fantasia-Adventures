@@ -128,9 +128,9 @@ checkCollection() {
 checkPlatformsCollision(){
     this.level.platforms.forEach(platform => {
         if(this.character.jumpOnPlatform(platform)){
-            this.character.y = platform.y - this.character.height + this.character.offset.bottom + 10;
+            this.character.y = platform.y + platform.offset.top - this.character.height + this.character.offset.bottom + 10;
         }
-        if(this.character.isOnPlatformTop(platform)){
+        if(this.character.isOnPlatformTop(platform) && !this.character.isOverTheGround(platform)){
             this.character.isOnPlatform = true;
         }
         if(this.character.isOverTheGround(platform)){
@@ -190,8 +190,8 @@ addTomap(obj) {
         console.warn('Error loading image', e);
         console.log('could not load image:', this.img.src);
     }
-    // this.drawColisionFrame(obj);
-    // this.drawOffsetColisionFrame(obj);
+    this.drawColisionFrame(obj);
+    this.drawOffsetColisionFrame(obj);
 
 }
 

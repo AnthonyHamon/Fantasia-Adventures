@@ -26,9 +26,6 @@ const forestLevel = new Level(
     ],
 
     [
-        new Wall('img/level_set/forest/Tiles/Ground_grass_0000_tile.png', 1792, 220),
-        new Wall('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', 1856, 220),
-        new Wall('img/level_set/forest/Tiles/Ground_grass_0027_tile.png', 1920, 220),
         new Wall('img/level_set/forest/Tiles/Ground_grass_0003_tile.png', 1792, 284),
         new Wall('img/level_set/forest/Tiles/Ground_grass_0004_tile.png', 1856, 284),
         new Wall('img/level_set/forest/Tiles/Ground_grass_0005_tile.png', 1920, 284),
@@ -53,7 +50,7 @@ const forestLevel = new Level(
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0022_tile.png', 206, 368),
 
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 336, 304),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 400, 240),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 400, 240, 24),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0019_tile.png', 400, 304),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0018_tile.png', 400, 368),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 464, 304),
@@ -64,6 +61,10 @@ const forestLevel = new Level(
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 1512, 272),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 1656, 320),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 1720, 320),
+
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0000_tile.png', 1792, 220),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', 1856, 220),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0027_tile.png', 1920, 220),
 
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0037_tile.png', 2368, 120),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0036_tile.png', 2402, 120),
