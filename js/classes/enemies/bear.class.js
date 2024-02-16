@@ -16,9 +16,9 @@ class Bear extends movableObject{
 
     offset = {
         top: 64,
-        right: 8,
+        right: 28,
         bottom: 20,
-        left: 28
+        left: 8
     }
 
 

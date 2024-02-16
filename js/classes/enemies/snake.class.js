@@ -32,9 +32,9 @@ class Snake extends movableObject {
 
     offset = {
         top: 48,
-        right: 38,
+        right: 48,
         bottom: 40,
-        left: 48
+        left: 38
     }
 
     constructor(x, y) {
@@ -46,25 +46,53 @@ class Snake extends movableObject {
         // this.x = 300 + Math.random() * 1300; // must be restored after test
         // this.x = x; // to remove after test
         // this.y = y; // to remove after test
-        this.x = 1590 + Math.random() * -560;
-        this.speed = 0.15 + Math.random() * 0.4;
+        this.x = 400 + Math.random() * 1590;
+        this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
     };
 
     animate() {
 
+        // setInterval(() => {
+        //     this.moveRight();
+        // }, 1000 / 60);
+
         setInterval(() => {
-            this.moveLeft();
+            if(this.reachedEndPoint()){
+                this.moveLeft();
+            }
+            if(this.reachedStart && !this.reachedEnd) {
+                this.moveRight();
+                // this.otherDirection = true;
+            } else if (!this.reachedStartPoint()) {
+                this.moveLeft();
+                // this.otherDirection = false;
+            }
         }, 1000 / 60);
 
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEATH);
-            }else if (this.isHurt()) {
+            } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else {
                 this.playAnimation(this.IMAGES_WALKING_SNAKE);
             }
         }, 200);
+    }
+
+    reachedStartPoint() {
+        if (this.x <= this.startPoint) {
+            this.reachedStart = true;
+            this.reachedEnd = false;
+            this.otherDirection = true;
+        }
+    }
+
+    reachedEndPoint() {
+        if (this.x >= this.endPoint) {
+            this.reachedEnd = true
+            // this.otherDirection = false;
+        }
     }
 }

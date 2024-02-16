@@ -1,6 +1,8 @@
 class movableObject extends DrawableObjects {
     speed = 0.20;
     // obstacle = false;
+    reachedStart = false;
+    reachedEnd = false;
     otherDirection = false;
     speedY = 0;
     speedX = 0;
@@ -8,6 +10,8 @@ class movableObject extends DrawableObjects {
     life = 100;
     lastHit = 0;
     isOnPlatform;
+    startPoint = -192;
+    endPoint = 1710;
 
 
     moveRight() {
@@ -60,7 +64,7 @@ class movableObject extends DrawableObjects {
         // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
-    
+
     hit(damage) {
         this.life -= damage;
         if (this.life < 0) {

@@ -17,9 +17,9 @@ class Spider extends movableObject {
 
     offset = {
         top: 36,
-        right: 36,
+        right: 56,
         bottom: 48,
-        left: 36
+        left: 16
     }
 
     constructor() {

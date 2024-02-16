@@ -16,9 +16,9 @@ class Ent extends movableObject{
 
     offset = {
         top: 78,
-        right: 72,
+        right: 112,
         bottom: 78,
-        left: 92
+        left: 52
     }
 
     constructor(){

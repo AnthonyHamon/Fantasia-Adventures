@@ -89,14 +89,14 @@ class Character extends movableObject {
                 // console.log('character position is', this.x);
             }
 
-            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
+            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890 && this.y <= 55) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
                 // console.log('character position is', this.x);
             }
 
             if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
-                this.maxEnergy -= 0;
+                this.maxEnergy -= 30;
                 this.jump();
                 this.world.resetEnergyBar();
                 this.world.setEnergyBar();
