@@ -1,14 +1,16 @@
 class Spider extends movableObject {
 
-    IMAGESSPIDERWAITING = [
-        'img/enemies/spider/idle1.png',
-        'img/enemies/spider/idle2.png',
-        'img/enemies/spider/idle3.png',
-        'img/enemies/spider/idle4.png'
+    IMAGES_SPIDER_WAITING = [
+        'img/enemies/spider/walk1.png',
+        'img/enemies/spider/walk2.png',
+        'img/enemies/spider/walk3.png',
+        'img/enemies/spider/walk4.png',
+        'img/enemies/spider/walk5.png',
+        'img/enemies/spider/walk6.png',
     ];
 
 
-    x = 2384;
+    x = 2440;
     y = 64;
 
     height = 128;
@@ -23,7 +25,7 @@ class Spider extends movableObject {
     }
 
     constructor() {
-        super().loadImages(this.IMAGESSPIDERWAITING);
+        super().loadImages(this.IMAGES_SPIDER_WAITING);
         this.animate();
     }
 
@@ -34,7 +36,7 @@ class Spider extends movableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            this.playAnimation(this.IMAGESSPIDERWAITING)
+            this.playAnimation(this.IMAGES_SPIDER_WAITING)
         }, 180);
 
     }

@@ -19,4 +19,32 @@ class LongRangeAttack extends movableObject {
         }, 150);
     }
 
+    // useLongRangeAttack(x, otherDirection) {
+    //     setInterval(() => {
+    //         if(!otherDirection){
+    //             this.x = this.longRangeAttackRight(x, otherDirection);
+    //         }else{
+    //             this.x = this.longRangeAttackLeft(x, otherDirection);
+    //         }
+    //     }, 1000 / 60);
+    // }
+
+    // longRangeAttackRight(x) {
+    //         let characterPosition = x;
+    //         let attackRange = setInterval(() => {
+    //             x = x += this.speedX;
+    //         }, 1000 / 60)
+    //         this.stopAttackAnimation(attackRange, characterPosition);
+    // }
+
+
+    // longRangeAttackLeft(x) {
+    //         let characterPosition = x;
+    //         x = x -95;
+    //         let attackRange = setInterval(() => {
+    //             this.x = x -= this.speedX;
+    //         }, 1000 / 60)
+    //         this.stopAttackAnimation(attackRange, characterPosition);
+    // }
+
 }

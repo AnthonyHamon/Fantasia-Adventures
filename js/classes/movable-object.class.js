@@ -1,6 +1,7 @@
 class movableObject extends DrawableObjects {
     speed = 0.20;
     // obstacle = false;
+    hadFirstContact = false;
     reachedStart = false;
     reachedEnd = false;
     otherDirection = false;
@@ -60,6 +61,12 @@ class movableObject extends DrawableObjects {
         return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
             (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top &&
             (this.y + this.offset.top) <= (obj.y + obj.height - obj.offset.bottom) &&
+            (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) // change to right because seems to be logical , change to bottom if problems
+        // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+    }
+
+    collides(obj) {
+        return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left ||
             (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) // change to right because seems to be logical , change to bottom if problems
         // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }

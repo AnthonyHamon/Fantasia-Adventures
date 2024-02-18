@@ -30,6 +30,7 @@ class World {
         this.setClouds();
         this.setStairway();
         this.checkCharacterEvents();
+        this.checkMagicalAttackCollision();
         this.checkEnemyEvents();
         this.setLifeBar();
         this.setEnergyBar();
@@ -56,7 +57,7 @@ class World {
         this.addObjectToMap(this.level.decorations);
         this.addObjectToMap(this.level.collectableObjects);
         this.addObjectToMap(this.level.stairway);
-        this.addObjectToMap(this.level.enemies);
+        this.addObjectToMap(this.level.enemies,  this.character);
         this.addObjectToMap(this.level.longRangeAttacks);
         this.addObjectToMap(this.level.throwableObjects);
 
@@ -82,10 +83,9 @@ class World {
 
     checkCharacterEvents() {
         setInterval(() => {
-            this.checkCollisions();
+            // this.checkEnemiesCollisions();
             this.checkPlatformsCollision();
             this.checkCollection();
-            this.character.magicAttack();
             // this.throwObjects();
         }, 1000 / 60);
     }
@@ -94,26 +94,6 @@ class World {
         setInterval(() => {
             this.removeEnemyAfterDeath();
         }, 1000 / 60);
-    }
-
-    checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.comesFromTop(enemy) && !this.character.isAttacking(enemy) && !this.character.isDead()) {
-                this.character.hit(0);
-                this.resetLifeBar();
-                this.setLifeBar();
-                // console.log('Character is colliding: Life is', this.character.life + '%')
-            }
-            if (this.character.comesFromTop(enemy) && enemy instanceof Snake) { // "instance of" does not work
-                console.log(enemy, 'is hurt')
-                this.character.jump();
-                enemy.hit(2);
-            }
-            if (this.character.isAttacking(enemy)) {
-                enemy.hit(2);
-            }
-            // console.log('Character is colliding with:', enemy)
-        });
     }
 
     checkCollection() {
@@ -144,6 +124,20 @@ class World {
             }
         });
     }
+
+    checkMagicalAttackCollision(){
+        setInterval(() => {
+            this.level.longRangeAttacks.forEach(attack =>{
+                this.level.enemies.forEach(enemy=>{
+                    if(attack.isColliding(enemy) && !(enemy instanceof Snake)){
+                        enemy.hit(2.5);
+                        console.log(enemy, 'life is' , enemy.life)
+                    }
+                })
+            })
+        }, 150);
+    }
+        
 
     // removeEnemyAfterDeath() {
     //     this.level.enemies.forEach((enemy) => {
@@ -185,7 +179,6 @@ class World {
             console.warn('Error loading image', e);
             console.log('could not load image:', objects);
         }
-
     }
 
 
@@ -203,7 +196,7 @@ class World {
             this.flipImageBack(obj);
         }
         // this.drawColisionFrame(obj);
-        this.drawOffsetColisionFrame(obj);
+        // this.drawOffsetColisionFrame(obj);
 
     }
 
@@ -232,7 +225,7 @@ class World {
             this.flipImageBack(mo);
         }
         // this.drawColisionFrame(mo);
-        this.drawOffsetColisionFrame(mo);
+        // this.drawOffsetColisionFrame(mo);
     }
 
     flipImage(mo) {

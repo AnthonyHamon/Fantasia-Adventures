@@ -29,4 +29,6 @@ class Level {
         this.longRangeAttacks = longRangeAttacks;
         this.closeAttacks = closeAttacks;
     }
+
+    
 }

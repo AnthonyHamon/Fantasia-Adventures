@@ -25,7 +25,7 @@ class Snake extends movableObject {
         'img/enemies/Snake/Death4.png',
     ];
 
-    life = 2;
+    life = 4;
     y = 404;
     height = 128;
     width = 128;
@@ -43,19 +43,12 @@ class Snake extends movableObject {
         this.loadImages(this.IMAGES_ATTACKING_SNAKE);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEATH);
-        // this.x = 300 + Math.random() * 1300; // must be restored after test
-        // this.x = x; // to remove after test
-        // this.y = y; // to remove after test
         this.x = 400 + Math.random() * 1590;
         this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
     };
 
     animate() {
-
-        // setInterval(() => {
-        //     this.moveRight();
-        // }, 1000 / 60);
 
         setInterval(() => {
             if(this.reachedEndPoint()){

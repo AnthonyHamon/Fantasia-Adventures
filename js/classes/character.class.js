@@ -50,6 +50,27 @@ class Character extends movableObject {
         'img/character/Rogue/Death/death10.png'
     ];
 
+    IMAGES_IDLE = [
+        'img/character/Rogue/Idle/idle1.png',
+        'img/character/Rogue/Idle/idle2.png',
+        'img/character/Rogue/Idle/idle3.png',
+        'img/character/Rogue/Idle/idle4.png',
+        'img/character/Rogue/Idle/idle5.png',
+        'img/character/Rogue/Idle/idle6.png',
+        'img/character/Rogue/Idle/idle7.png',
+        'img/character/Rogue/Idle/idle8.png',
+        'img/character/Rogue/Idle/idle9.png',
+        'img/character/Rogue/Idle/idle10.png',
+        'img/character/Rogue/Idle/idle11.png',
+        'img/character/Rogue/Idle/idle12.png',
+        'img/character/Rogue/Idle/idle13.png',
+        'img/character/Rogue/Idle/idle14.png',
+        'img/character/Rogue/Idle/idle15.png',
+        'img/character/Rogue/Idle/idle16.png',
+        'img/character/Rogue/Idle/idle17.png',
+        'img/character/Rogue/Idle/idle18.png',
+    ]
+
     world;
     maxEnergy = 80;
     maxMagicalEnergy = 80;
@@ -69,12 +90,17 @@ class Character extends movableObject {
     }
 
     constructor() {
-        super().loadImages(this.IMAGES_WALKING);
+        super();
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_ATTACKING);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_WALKING);
         this.animate();
+        this.checkEnemiesCollisions();
+        // this.checkHadFirstContact();
+        this.magicAttack();
         this.applyGravity();
     };
 
@@ -89,7 +115,7 @@ class Character extends movableObject {
                 // console.log('character position is', this.x);
             }
 
-            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890 && this.y <= 55) {
+            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
                 // console.log('character position is', this.x);
@@ -155,18 +181,21 @@ class Character extends movableObject {
     }
 
     magicAttack() {
-        if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy > 25) {
-            this.maxMagicalEnergy -= 25;
-            this.world.resetMagicBar();
-            this.world.setMagicBar();
-            let tornado = new Tornado(this.x + 95, this.y + 65);
-            this.world.level.longRangeAttacks.push(tornado);
-            for (let index = 0; index < this.world.level.longRangeAttacks.length; index++) {
-                setTimeout(() => {
-                    this.world.level.longRangeAttacks.splice(index, 1);
-                }, 1700);
-            };
-        }
+        setInterval(() => {
+            if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy > 25) {
+                this.maxMagicalEnergy -= 25;
+                this.world.resetMagicBar();
+                this.world.setMagicBar();
+                let tornado = new Tornado(this.x + 95, this.y + 65, this.otherDirection);
+                this.world.level.longRangeAttacks.push(tornado);
+                for (let index = 0; index < this.world.level.longRangeAttacks.length; index++) {
+                    setTimeout(() => {
+                        this.world.level.longRangeAttacks.splice(index, 1);
+                    }, 1700);
+                };
+            }
+        }, 150);
+       
     }
 
     attacks() {
@@ -277,6 +306,50 @@ class Character extends movableObject {
         } else {
             return false;
         }
+    }
+
+    // checkHadFirstContact(){
+    //     setInterval(() => {
+    //         this.world.level.enemies.forEach(enemy => {
+    //             if(this.x > 1200 && !enemy.hadFirstContact){
+    //                 i =  0;
+    //                 hadFirstContact = true;
+    //                 console.log('has first contact', this.hadFirstContact)
+    //             }
+    //         });
+    //     }, 150);   
+    // }
+
+    checkEnemiesCollisions() {
+        setInterval(() => {
+            this.world.level.enemies.forEach((enemy) => {
+            if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
+                this.hit(0.5);
+                this.world.resetLifeBar();
+                this.world.setLifeBar();
+                // console.log('Character is colliding: Life is', this.character.life + '%')
+            }
+            if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy >= 0) { // "instance of" does not work
+                console.log(enemy, 'is hurt')
+                this.jump();
+                this.maxEnergy -= 30;
+                enemy.hit(2);
+            }
+            if (this.isAttacking(enemy) && !this.isHurt() && enemy instanceof Snake) {
+                enemy.hit(2);
+            }
+            // console.log('Character is colliding with:', enemy)
+        });
+        }, 1000 / 60);   
+
+
+        // setInterval(() => {
+        //     this.world.level.enemies.forEach(enemy => {
+        //         if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
+        //             this.hit(5);
+        //         }
+        //     })
+        // }, 100);
     }
 
 
