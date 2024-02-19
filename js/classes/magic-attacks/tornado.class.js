@@ -12,6 +12,13 @@ class Tornado extends LongRangeAttack{
         'img/Skills/tornado/tornado10.png',
         'img/Skills/tornado/tornado11.png',
     ]
+
+    offset = {
+        top: 28,
+        right: 38,
+        bottom: 20,
+        left: 28
+    }
     
     
     constructor(x, y, otherDirection) {

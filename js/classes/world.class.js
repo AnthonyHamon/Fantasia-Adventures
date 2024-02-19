@@ -22,7 +22,6 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
-        this.setWorld();
         this.addSnakes();
         this.setGround();
         this.setFirstFloor();
@@ -31,15 +30,19 @@ class World {
         this.setStairway();
         this.checkCharacterEvents();
         this.checkMagicalAttackCollision();
-        this.checkEnemyEvents();
+        this.checkEnemiesDeath();
         this.setLifeBar();
         this.setEnergyBar();
         this.setMagicBar();
         this.setCoinBar();
+        this.setWorld();
     }
 
     setWorld() {
         this.character.world = this;
+        this.level.enemies.forEach(enemy =>{
+            enemy.world = this;
+        })
     }
 
 
@@ -90,10 +93,10 @@ class World {
         }, 1000 / 60);
     }
 
-    checkEnemyEvents() {
+    checkEnemiesDeath() {
         setInterval(() => {
             this.removeEnemyAfterDeath();
-        }, 1000 / 60);
+        }, 200);
     }
 
     checkCollection() {

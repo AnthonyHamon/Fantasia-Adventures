@@ -1,6 +1,27 @@
-class Bear extends movableObject{
+class Bear extends movableObject {
 
-    IMAGESWAITINGBEAR = [
+    IMAGES_WAITING_BEAR = [
+        'img/enemies/Bear/Walk1.png',
+        'img/enemies/Bear/Walk2.png',
+        'img/enemies/Bear/Walk3.png',
+        'img/enemies/Bear/Walk4.png',
+        'img/enemies/Bear/Walk5.png'
+    ]
+
+    IMAGES_HURT = [
+        'img/enemies/Bear/Hurt1.png',
+        'img/enemies/Bear/Hurt2.png'
+    ]
+
+    IMAGES_DEATH = [
+        'img/enemies/Bear/Death1.png',
+        'img/enemies/Bear/Death2.png',
+        'img/enemies/Bear/Death3.png',
+        'img/enemies/Bear/Death4.png',
+
+    ]
+
+    IMAGES_WALKING_BEAR = [
         'img/enemies/Bear/Walk1.png',
         'img/enemies/Bear/Walk2.png',
         'img/enemies/Bear/Walk3.png',
@@ -14,6 +35,9 @@ class Bear extends movableObject{
     height = 128;
     speed = 0;
 
+    startPoint = 1800;
+    endPoint = 2800;
+
     offset = {
         top: 64,
         right: 28,
@@ -22,21 +46,59 @@ class Bear extends movableObject{
     }
 
 
-    constructor(){
-        super().loadImage(this.IMAGESWAITINGBEAR[0]);
-        this.loadImages(this.IMAGESWAITINGBEAR);
+    constructor() {
+        super().loadImage(this.IMAGES_WAITING_BEAR[0]);
+        this.loadImages(this.IMAGES_WAITING_BEAR);
+        this.loadImages(this.IMAGES_WALKING_BEAR);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEATH);
         this.animate();
     }
 
     animate() {
-        
+
+        let i = 0;
+
         setInterval(() => {
-            this.moveLeft();
+            if (this.reachedEndPoint()) {
+                this.moveLeft();
+            }
+            if (this.reachedStart && !this.reachedEnd) {
+                setTimeout(() => {
+                    this.moveRight();
+                }, 500);
+            } else if (!this.reachedStartPoint() && this.hadFirstContact) {
+                setTimeout(() => {
+                    this.moveLeft();
+                }, 500);
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            this.playAnimation(this.IMAGESWAITINGBEAR);
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEATH)
+            } else if (this.isHurt()) {
+                this.speed = 0;
+                this.playAnimation(this.IMAGES_HURT)
+            } else if (i < 4) {
+                this.playAnimation(this.IMAGES_WAITING_BEAR);
+            } else if (this.hadFirstContact) {
+                this.speed = 1;
+                this.playAnimation(this.IMAGES_WALKING_BEAR);
+
+            }
+            i++;
+
+            setTimeout(() => {
+                if (this.world.character.x > 1500 && !this.hadFirstContact) {
+                    i = 0;
+                    this.hadFirstContact = true;
+                    console.log('has first contact', this.hadFirstContact)
+                }
+            }, 1000);
+
         }, 180);
+
 
     }
 }

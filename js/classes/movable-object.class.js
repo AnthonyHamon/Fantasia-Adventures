@@ -91,5 +91,25 @@ class movableObject extends DrawableObjects {
         return this.life == 0;
     }
 
+    reachedStartPoint() {
+        if (this.x - this.offset.left <= this.startPoint) {
+            this.reachedStart = true;
+            this.reachedEnd = false;
+            this.otherDirection = true;
+            return true;
+        }
+        return false
+    }
+
+    reachedEndPoint() {
+        if (this.x + this.width - this.offset.right >= this.endPoint) {
+            this.reachedEnd = true
+            this.otherDirection = false;
+            return true;
+        }
+        return false;
+    }
+
+
 
 }

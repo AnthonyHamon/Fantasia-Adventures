@@ -56,10 +56,8 @@ class Snake extends movableObject {
             }
             if(this.reachedStart && !this.reachedEnd) {
                 this.moveRight();
-                // this.otherDirection = true;
             } else if (!this.reachedStartPoint()) {
                 this.moveLeft();
-                // this.otherDirection = false;
             }
         }, 1000 / 60);
 
@@ -72,20 +70,5 @@ class Snake extends movableObject {
                 this.playAnimation(this.IMAGES_WALKING_SNAKE);
             }
         }, 200);
-    }
-
-    reachedStartPoint() {
-        if (this.x <= this.startPoint) {
-            this.reachedStart = true;
-            this.reachedEnd = false;
-            this.otherDirection = true;
-        }
-    }
-
-    reachedEndPoint() {
-        if (this.x >= this.endPoint) {
-            this.reachedEnd = true
-            // this.otherDirection = false;
-        }
     }
 }

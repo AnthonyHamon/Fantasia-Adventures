@@ -61,14 +61,13 @@ class Character extends movableObject {
         'img/character/Rogue/Idle/idle8.png',
         'img/character/Rogue/Idle/idle9.png',
         'img/character/Rogue/Idle/idle10.png',
-        'img/character/Rogue/Idle/idle11.png',
         'img/character/Rogue/Idle/idle12.png',
         'img/character/Rogue/Idle/idle13.png',
         'img/character/Rogue/Idle/idle14.png',
         'img/character/Rogue/Idle/idle15.png',
         'img/character/Rogue/Idle/idle16.png',
         'img/character/Rogue/Idle/idle17.png',
-        'img/character/Rogue/Idle/idle18.png',
+        'img/character/Rogue/Idle/idle18.png'
     ]
 
     world;
@@ -195,7 +194,7 @@ class Character extends movableObject {
                 };
             }
         }, 150);
-       
+
     }
 
     attacks() {
@@ -274,12 +273,12 @@ class Character extends movableObject {
         if (this.isOverTheGround(obj)) {
             this.isOnPlatform = false;
         }
-    } 
+    }
 
 
-    
+
     isOnPlatformTop(obj) {
-        return (this.x + this.width - this.offset.right) >= obj.x +obj.offset.left &&
+        return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
             (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top &&
             (this.y + this.offset.top) <= (obj.y + obj.height - obj.offset.bottom) &&
             (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right)
@@ -308,48 +307,38 @@ class Character extends movableObject {
         }
     }
 
-    // checkHadFirstContact(){
-    //     setInterval(() => {
-    //         this.world.level.enemies.forEach(enemy => {
-    //             if(this.x > 1200 && !enemy.hadFirstContact){
-    //                 i =  0;
-    //                 hadFirstContact = true;
-    //                 console.log('has first contact', this.hadFirstContact)
-    //             }
-    //         });
-    //     }, 150);   
-    // }
-
     checkEnemiesCollisions() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
-            if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
-                this.hit(0.5);
-                this.world.resetLifeBar();
-                this.world.setLifeBar();
-                // console.log('Character is colliding: Life is', this.character.life + '%')
-            }
-            if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy >= 0) { // "instance of" does not work
-                console.log(enemy, 'is hurt')
-                this.jump();
-                this.maxEnergy -= 30;
-                enemy.hit(2);
-            }
-            if (this.isAttacking(enemy) && !this.isHurt() && enemy instanceof Snake) {
-                enemy.hit(2);
-            }
-            // console.log('Character is colliding with:', enemy)
-        });
-        }, 1000 / 60);   
+                // if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
+                //     // this.hit(0.5);
+                //     this.world.resetLifeBar();
+                //     this.world.setLifeBar();
+                //     // console.log('Character is colliding: Life is', this.character.life + '%')
+                // }
+                if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy >= 0) { // "instance of" does not work
+                    console.log(enemy, 'is hurt')
+                    this.jump();
+                    this.maxEnergy -= 30;
+                    enemy.hit(2);
+                }
+                if (this.isAttacking(enemy) && !this.isHurt() && enemy instanceof Snake) {
+                    enemy.hit(2);
+                }
+                // console.log('Character is colliding with:', enemy)
+            });
+        }, 1000 / 60);
 
 
-        // setInterval(() => {
-        //     this.world.level.enemies.forEach(enemy => {
-        //         if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
-        //             this.hit(5);
-        //         }
-        //     })
-        // }, 100);
+        setInterval(() => {
+            this.world.level.enemies.forEach(enemy => {
+                if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
+                    this.hit(0); // 4
+                    this.world.resetLifeBar();
+                    this.world.setLifeBar();
+                }
+            })
+        }, 100);
     }
 
 

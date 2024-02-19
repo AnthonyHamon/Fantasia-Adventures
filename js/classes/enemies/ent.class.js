@@ -13,6 +13,16 @@ class Ent extends movableObject {
         'img/enemies/ent/hurt3.png',
     ]
 
+    IMAGES_DEATH = [
+        'img/enemies/ent/death1.png',
+        'img/enemies/ent/death2.png',
+        'img/enemies/ent/death3.png',
+        'img/enemies/ent/death4.png',
+        'img/enemies/ent/death5.png',
+        'img/enemies/ent/death6.png',
+        'img/enemies/ent/death7.png',
+    ]
+
     IMAGES_WALKING = [
         'img/enemies/ent/walk1.png',
         'img/enemies/ent/walk2.png',
@@ -22,12 +32,12 @@ class Ent extends movableObject {
         'img/enemies/ent/walk6.png',
     ]
 
-    world;
     x = 1500;
     y = 308;
     width = 256;
     height = 256;
-    speed = 0;
+    speed = 1;
+    endPoint = 1750;
 
     offset = {
         top: 78,
@@ -40,6 +50,7 @@ class Ent extends movableObject {
         super().loadImages(this.IMAGES_WAITING_ENT);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_DEATH);
         this.animate();
     }
 
@@ -47,25 +58,43 @@ class Ent extends movableObject {
         let i = 0;
 
         setInterval(() => {
-            this.moveLeft();
+            if (this.reachedEndPoint()) {
+                this.moveLeft();
+            }
+            if (this.reachedStart && !this.reachedEnd) {
+                setTimeout(() => {
+                    this.moveRight();
+                }, 500);
+            } else if (!this.reachedStartPoint() && this.hadFirstContact) {
+                setTimeout(() => {
+                    this.moveLeft();
+                }, 500);
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isHurt()) {
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEATH)
+            } else if (this.isHurt()) {
+                this.speed = 0;
                 this.playAnimation(this.IMAGES_HURT)
             } else if (i < 4) {
                 this.playAnimation(this.IMAGES_WAITING_ENT);
-            } else {
-                this.playAnimation(this.IMAGES_WALKING)
+            } else if (this.hadFirstContact) {
+                this.speed = 1;
+                this.playAnimation(this.IMAGES_WALKING);
 
             }
             i++;
 
-            // if (this.world.character.x > 1200 && !this.hadFirstContact) {
-            //     i = 0;
-            //     this.hadFirstContact = true;
-            //     console.log('has first contact', this.hadFirstContact)
-            // }
+            setTimeout(() => {
+                if (this.world.character.x > 900 && !this.hadFirstContact) {
+                    i = 0;
+                    this.hadFirstContact = true;
+                    console.log('has first contact', this.hadFirstContact)
+                }
+            }, 1000);
+
         }, 180);
 
     }

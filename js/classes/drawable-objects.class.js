@@ -1,4 +1,5 @@
 class DrawableObjects {
+    world;
     x = 0;
     y = 360;
     width;
