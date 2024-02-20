@@ -51,10 +51,12 @@ class Snake extends movableObject {
     animate() {
 
         setInterval(() => {
-            if(this.reachedEndPoint()){
+            if (this.isDead()) {
+                this.speed = 0;
+            } else if (this.reachedEndPoint()) {
                 this.moveLeft();
             }
-            if(this.reachedStart && !this.reachedEnd) {
+            if (this.reachedStart && !this.reachedEnd) {
                 this.moveRight();
             } else if (!this.reachedStartPoint()) {
                 this.moveLeft();

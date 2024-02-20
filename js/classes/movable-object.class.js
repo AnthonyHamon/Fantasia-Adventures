@@ -16,14 +16,14 @@ class movableObject extends DrawableObjects {
     endPoint = 1710;
 
 
-    stay(){
+    stay() {
         this.lastMove = new Date().getTime();
     }
 
-    isInactiv(){
+    isInactiv() {
         let timePassed = new Date().getTime() - this.lastMove;
         timePassed = timePassed / 1000;
-        if(timePassed > 5){
+        if (timePassed > 5) {
             return true;
         } else {
             return false;

@@ -112,13 +112,16 @@ class Character extends movableObject {
             if (!this.isDead() && this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)) {
                 this.moveRight();
                 // this.world.level.walking_sound_grass.play();
-            } if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
+            } 
+            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
-            } if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
+            } 
+            if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
                 this.jump();
                 this.updateCharacterEnergy(30);
-            } if (this.attacks()) {
+            } 
+            if (this.attacks()) {
                 this.updateCharacterEnergy(0.4);
             }
             // if (this.moveLeft() || this.moveRight() || this.jump || this.keyboard.F){
@@ -207,9 +210,8 @@ class Character extends movableObject {
         }
     }
 
-    updateCharacterEnergy(loseEnergy) {
-        console.log('character is attacking')
-        this.maxEnergy -= loseEnergy;
+    updateCharacterEnergy(lostEnergy) {
+        this.maxEnergy -= lostEnergy;
         if (this.maxEnergy < 0) {
             this.maxEnergy = 0;
         }
