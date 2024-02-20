@@ -96,45 +96,75 @@ class Character extends movableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALKING);
+        this.moveCharacter();
+        this.checkCharacterStats();
         this.animate();
+        this.moveCamera();
         this.checkEnemiesCollisions();
-        // this.checkHadFirstContact();
         this.magicAttack();
         this.applyGravity();
     };
 
 
-    animate() {
-
+    moveCharacter(){
         setInterval(() => {
             this.world.level.walking_sound_grass.pause();
             if (!this.isDead() && this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)) {
                 this.moveRight();
                 // this.world.level.walking_sound_grass.play();
-                // console.log('character position is', this.x);
-            }
-
-            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
+            } if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
-                // console.log('character position is', this.x);
-            }
-
-            if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
-                this.maxEnergy -= 30;
+            } if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
                 this.jump();
-                this.world.resetEnergyBar();
-                this.world.setEnergyBar();
+                this.updateCharacterEnergy(30);
+            } if (this.attacks()) {
+                this.updateCharacterEnergy(0.4);
             }
+            // if (this.moveLeft() || this.moveRight() || this.jump || this.keyboard.F){
+            //     this.world.START = false;
+            // } 
+            else {
+                console.log('character is staying')
+                this.stay();
+            }
+        }, 1000 / 60);
+    }
 
-            if (!this.isDead() && this.world.keyboard.F) {
-                this.maxEnergy -= 0.4;
-                if (this.maxEnergy < 0) {
-                    this.maxEnergy = 0
+
+    animate() {
+        setInterval(() => {
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEATH);
+                this.y = 316;
+            } else if (this.isInactiv() || this.world.START) {
+                console.log('character is inactiv')
+                this.playAnimation(this.IMAGES_IDLE)
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (this.isAboveGround() && !this.isOnPlatform && !this.isDead()) {
+                this.playAnimation(this.IMAGES_JUMPING);
+            } else if (this.attacks()) {
+                this.playAnimation(this.IMAGES_ATTACKING);
+            } else {
+                this.loadImage(this.IMAGES_WALKING[0])
+                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    // Walk animation
+                    this.playAnimation(this.IMAGES_WALKING);
                 }
-                this.world.resetEnergyBar();
-                this.world.setEnergyBar();
             }
+        }, 150);
+    }
+
+
+    checkCharacterStats(){
+        setInterval(() => {
+            this.restoreJumpEnergy();
+        }, 1000 / 60);
+    }
+
+    moveCamera() {
+        setInterval(() => {
 
             // if (this.x > 696 && this.world.camera_x < this.world.canvas.width * 2) {     // camera follow player since he reached end of  previous screen
             //     this.world.camera_x = this.x - 200;
@@ -152,31 +182,6 @@ class Character extends movableObject {
                 this.world.camera_x = this.world.canvas.width * 2;
             }
         }, 1000 / 60);
-
-
-        setInterval(() => {
-            this.restoreJumpEnergy();
-        }, 1000 / 60);
-
-
-        setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEATH);
-                this.y = 316;
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround() && !this.isOnPlatform && !this.isDead()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.attacks()) {
-                this.playAnimation(this.IMAGES_ATTACKING)
-            } else {
-                this.loadImage(this.IMAGES_WALKING[0])
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    // Walk animation
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
-            }
-        }, 150);
     }
 
     magicAttack() {
@@ -194,22 +199,23 @@ class Character extends movableObject {
                 };
             }
         }, 150);
-
     }
 
     attacks() {
-        if (this.world.keyboard.F && this.maxEnergy > 5) {
+        if (!this.isDead() && this.world.keyboard.F && this.maxEnergy > 5) {
             return true;
         }
     }
 
-    // closeAttacks() {
-    //     if (!this.isDead() && this.attacks() && this.maxEnergy > 5) {
-    //         this.maxEnergy -= 1;
-    //         this.world.resetEnergyBar();
-    //         this.world.setEnergyBar();
-    //     }
-    // }
+    updateCharacterEnergy(loseEnergy) {
+        console.log('character is attacking')
+        this.maxEnergy -= loseEnergy;
+        if (this.maxEnergy < 0) {
+            this.maxEnergy = 0;
+        }
+        this.world.resetEnergyBar();
+        this.world.setEnergyBar();
+    }
 
 
     restoreJumpEnergy() {
@@ -274,8 +280,6 @@ class Character extends movableObject {
             this.isOnPlatform = false;
         }
     }
-
-
 
     isOnPlatformTop(obj) {
         return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&

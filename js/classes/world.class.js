@@ -12,6 +12,7 @@ class World {
     magicBar = [];
     coinBar = [];
     characterAvatar = new CharacterAvatar(this.character.CHARACTERAVATAR);
+    START = false;
 
 
     level = forestLevel;

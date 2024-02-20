@@ -9,11 +9,26 @@ class movableObject extends DrawableObjects {
     speedX = 0;
     gravityAcceleration = 0.5;
     life = 100;
+    lastMove = 0;
     lastHit = 0;
     isOnPlatform;
     startPoint = -192;
     endPoint = 1710;
 
+
+    stay(){
+        this.lastMove = new Date().getTime();
+    }
+
+    isInactiv(){
+        let timePassed = new Date().getTime() - this.lastMove;
+        timePassed = timePassed / 1000;
+        if(timePassed > 5){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     moveRight() {
         this.x += this.speed;
@@ -47,7 +62,7 @@ class movableObject extends DrawableObjects {
         if (this instanceof ThrowableObjects) {
             return true;
         } else if (!this.isDead() && !this.isOnPlatform) {
-            return this.y < 312;;
+            return this.y < 312;
         } else {
             return false;
         }
