@@ -71,6 +71,7 @@ class Character extends movableObject {
     ]
 
     world;
+    isAlreadyAFK = false;
     maxEnergy = 80;
     maxMagicalEnergy = 80;
     maxCoin = 0;
@@ -106,31 +107,33 @@ class Character extends movableObject {
     };
 
 
-    moveCharacter(){
+    moveCharacter() {
         setInterval(() => {
             this.world.level.walking_sound_grass.pause();
-            if (!this.isDead() && this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)) {
+            if (this.canMoveRight()) {
+                this.isAlreadyAFK = false;
                 this.moveRight();
                 // this.world.level.walking_sound_grass.play();
-            } 
-            if (!this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890) {
+            } else if (this.canMoveLeft()) {
+                this.isAlreadyAFK = false;
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
-            } 
-            if (!this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15) {
+            } else if (this.attacks()) {
+                this.isAlreadyAFK = false;
+                this.updateCharacterEnergy(0.4);
+            } else if (!this.isAlreadyAFK) {
+                this.isAlreadyAFK = true;
+                this.stay();
+            }
+
+            if (this.canJump()) {
+                this.isAlreadyAFK = false;
                 this.jump();
                 this.updateCharacterEnergy(30);
-            } 
-            if (this.attacks()) {
-                this.updateCharacterEnergy(0.4);
             }
             // if (this.moveLeft() || this.moveRight() || this.jump || this.keyboard.F){
             //     this.world.START = false;
             // } 
-            else {
-                console.log('character is staying')
-                this.stay();
-            }
         }, 1000 / 60);
     }
 
@@ -140,8 +143,7 @@ class Character extends movableObject {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.y = 316;
-            } else if (this.isInactiv() || this.world.START) {
-                console.log('character is inactiv')
+            } else if (this.isInactiv() && this.isAlreadyAFK || this.world.START) {
                 this.playAnimation(this.IMAGES_IDLE)
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -159,8 +161,19 @@ class Character extends movableObject {
         }, 150);
     }
 
+    canMoveRight() {
+        return !this.isDead() && this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)
+    }
 
-    checkCharacterStats(){
+    canMoveLeft() {
+        return !this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890
+    }
+
+    canJump() {
+        return !this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15
+    }
+
+    checkCharacterStats() {
         setInterval(() => {
             this.restoreJumpEnergy();
         }, 1000 / 60);

@@ -191,7 +191,7 @@ class World {
             this.flipImage(obj);
         }
         try {
-            this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
+            this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);                  // remove try catch when finished 
         } catch (e) {
             console.warn('Error loading image', e);
             console.log('could not load image:', this.img.src);
@@ -199,8 +199,8 @@ class World {
         if (obj.otherDirection) {
             this.flipImageBack(obj);
         }
-        // this.drawColisionFrame(obj);
-        // this.drawOffsetColisionFrame(obj);
+        this.drawColisionFrame(obj);
+        this.drawOffsetColisionFrame(obj);
 
     }
 
