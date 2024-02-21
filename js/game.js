@@ -31,6 +31,9 @@ window.addEventListener('keydown', (e) => {
     if (e.key == 'f')  {
         keyboard.F = true;
     }
+    if (e.key == 's')  {
+        keyboard.S = true;
+    }
 });
 
 
@@ -55,5 +58,8 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.key == 'f')  {
         keyboard.F = false;
+    }
+    if (e.key == 's')  {
+        keyboard.S = false;
     }
 });

@@ -18,7 +18,6 @@ class Bear extends movableObject {
         'img/enemies/Bear/Death2.png',
         'img/enemies/Bear/Death3.png',
         'img/enemies/Bear/Death4.png',
-
     ]
 
     IMAGES_WALKING_BEAR = [
@@ -64,19 +63,31 @@ class Bear extends movableObject {
                 this.moveLeft();
             }
             if (this.reachedStart && !this.reachedEnd) {
-                setTimeout(() => {
                     this.moveRight();
-                }, 500);
             } else if (!this.reachedStartPoint() && this.hadFirstContact) {
-                setTimeout(() => {
                     this.moveLeft();
-                }, 500);
             }
         }, 1000 / 60);
 
+        // setInterval(() => {
+        //     if (this.isDead()) {
+        //         this.speed = 0;
+        //     } else if (this.reachedEndPoint()) {
+        //         this.moveLeft();
+        //     }
+        //     if (this.reachedStart && !this.reachedEnd) {
+        //         this.moveRight();
+        //     } else if (!this.reachedStartPoint()) {
+        //         this.moveLeft();
+        //     }
+        // }, 1000 / 60);
+
         setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEATH)
+            if (this.isDead() && this.deathAnimationStarted) {
+                this.playAnimation(this.IMAGES_DEATH);
+                if (this.currentImage == this.IMAGES_DEATH.length - 1) {
+                    this.deathAnimationEnded = true;
+                }
             } else if (this.isHurt()) {
                 this.speed = 0;
                 this.playAnimation(this.IMAGES_HURT)
@@ -85,7 +96,6 @@ class Bear extends movableObject {
             } else if (this.hadFirstContact) {
                 this.speed = 1;
                 this.playAnimation(this.IMAGES_WALKING_BEAR);
-
             }
             i++;
 
@@ -93,7 +103,6 @@ class Bear extends movableObject {
                 if (this.world.character.x > 1500 && !this.hadFirstContact) {
                     i = 0;
                     this.hadFirstContact = true;
-                    console.log('has first contact', this.hadFirstContact)
                 }
             }, 1000);
 

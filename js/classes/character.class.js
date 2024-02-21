@@ -68,15 +68,24 @@ class Character extends movableObject {
         'img/character/Rogue/Idle/idle16.png',
         'img/character/Rogue/Idle/idle17.png',
         'img/character/Rogue/Idle/idle18.png'
+    ];
+
+    IMAGES_CLIMBING = [
+        'img/character/Rogue/Climb/climb1.png',
+        'img/character/Rogue/Climb/climb2.png',
+        'img/character/Rogue/Climb/climb3.png',
+        'img/character/Rogue/Climb/climb4.png',
     ]
 
     world;
     isAlreadyAFK = false;
+    isClimbing = false;
     maxEnergy = 80;
     maxMagicalEnergy = 80;
     maxCoin = 0;
     speed = 3;
-    x = -240;
+    x = 2200; // -240
+    x = -240
     y = 200;
     height = 256;
     width = 256;
@@ -97,6 +106,7 @@ class Character extends movableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_CLIMBING);
         this.moveCharacter();
         this.checkCharacterStats();
         this.animate();
@@ -121,6 +131,10 @@ class Character extends movableObject {
             } else if (this.attacks()) {
                 this.isAlreadyAFK = false;
                 this.updateCharacterEnergy(0.4);
+            } else if (this.canClimbUp()) {
+                this.climbUp();
+            } else if (this.canClimbDown()) {
+                this.climbDown()
             } else if (!this.isAlreadyAFK) {
                 this.isAlreadyAFK = true;
                 this.stay();
@@ -143,7 +157,7 @@ class Character extends movableObject {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.y = 316;
-            } else if (this.isInactiv() && this.isAlreadyAFK || this.world.START) {
+            } else if (this.isInactiv() && this.isAlreadyAFK && !this.isHurt() || this.world.START) {
                 this.playAnimation(this.IMAGES_IDLE)
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -151,6 +165,8 @@ class Character extends movableObject {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.attacks()) {
                 this.playAnimation(this.IMAGES_ATTACKING);
+            } else if (this.isClimbing){
+                this.playAnimation(this.IMAGES_CLIMBING)
             } else {
                 this.loadImage(this.IMAGES_WALKING[0])
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -171,6 +187,14 @@ class Character extends movableObject {
 
     canJump() {
         return !this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15
+    }
+
+    canClimbUp() {
+        return
+    }
+
+    canClimbDown() {
+        return !this.isDead() && this.world.keyboard.S && this.y < 312;
     }
 
     checkCharacterStats() {
@@ -199,6 +223,22 @@ class Character extends movableObject {
             }
         }, 1000 / 60);
     }
+
+
+    climbDown() {
+        setInterval(() => {
+            this.world.level.stairway.forEach(step => {
+                if(this.isColliding(step)){
+                    this.isClimbing = true;
+                    this.y += 0.2;
+                }
+                if(!this.isColliding(step)){
+                    this.isClimbing = false;
+                }
+            });
+        }, 150);
+    }
+
 
     magicAttack() {
         setInterval(() => {
@@ -329,14 +369,7 @@ class Character extends movableObject {
     checkEnemiesCollisions() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
-                // if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
-                //     // this.hit(0.5);
-                //     this.world.resetLifeBar();
-                //     this.world.setLifeBar();
-                //     // console.log('Character is colliding: Life is', this.character.life + '%')
-                // }
-                if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy >= 0) { // "instance of" does not work
-                    console.log(enemy, 'is hurt')
+                if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy >= 0) {
                     this.jump();
                     this.maxEnergy -= 30;
                     enemy.hit(2);
@@ -344,7 +377,6 @@ class Character extends movableObject {
                 if (this.isAttacking(enemy) && !this.isHurt() && enemy instanceof Snake) {
                     enemy.hit(2);
                 }
-                // console.log('Character is colliding with:', enemy)
             });
         }, 1000 / 60);
 
@@ -359,8 +391,6 @@ class Character extends movableObject {
             })
         }, 100);
     }
-
-
 
 
 }

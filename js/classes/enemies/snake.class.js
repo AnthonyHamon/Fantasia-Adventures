@@ -64,13 +64,23 @@ class Snake extends movableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.isDead() && this.deathAnimationStarted) {
                 this.playAnimation(this.IMAGES_DEATH);
+                if (this.currentImage == this.IMAGES_DEATH.length - 1) {
+                    this.deathAnimationEnded = true;
+                }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else {
                 this.playAnimation(this.IMAGES_WALKING_SNAKE);
             }
         }, 200);
+
+        // setInterval(() => {
+        //     if(this.isDead()){
+        //         let index = this.world.level.enemies.indexOf(this);
+        //         this.world.level.enemies.splice(index, 1)
+        //     }
+        // }, 200);
     }
 }

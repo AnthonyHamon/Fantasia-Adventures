@@ -41,7 +41,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.level.enemies.forEach(enemy =>{
+        this.level.enemies.forEach(enemy => {
             enemy.world = this;
         })
     }
@@ -61,7 +61,7 @@ class World {
         this.addObjectToMap(this.level.decorations);
         this.addObjectToMap(this.level.collectableObjects);
         this.addObjectToMap(this.level.stairway);
-        this.addObjectToMap(this.level.enemies,  this.character);
+        this.addObjectToMap(this.level.enemies, this.character);
         this.addObjectToMap(this.level.longRangeAttacks);
         this.addObjectToMap(this.level.throwableObjects);
 
@@ -97,7 +97,7 @@ class World {
     checkEnemiesDeath() {
         setInterval(() => {
             this.removeEnemyAfterDeath();
-        }, 200);
+        }, 150);
     }
 
     checkCollection() {
@@ -129,23 +129,22 @@ class World {
         });
     }
 
-    checkMagicalAttackCollision(){
+    checkMagicalAttackCollision() {
         setInterval(() => {
-            this.level.longRangeAttacks.forEach(attack =>{
-                this.level.enemies.forEach(enemy=>{
-                    if(attack.isColliding(enemy) && !(enemy instanceof Snake)){
+            this.level.longRangeAttacks.forEach(attack => {
+                this.level.enemies.forEach(enemy => {
+                    if (attack.isColliding(enemy) && !(enemy instanceof Snake)) {
                         enemy.hit(2.5);
-                        console.log(enemy, 'life is' , enemy.life)
                     }
                 })
             })
         }, 150);
     }
-        
+
 
     // removeEnemyAfterDeath() {
     //     this.level.enemies.forEach((enemy) => {
-    //         let index = this.level.enemies.indexOf(enemy);           this function show the death animation but remove also other enemy because of setTimeout
+    //         let index = this.level.enemies.indexOf(enemy);           // this function show the death animation but remove also other enemy because of setTimeout
     //         if (enemy.isDead()) {
     //             setTimeout(() => {
     //                 this.level.enemies.splice(index, 1)
@@ -154,11 +153,13 @@ class World {
     //     })
     // }
 
-    removeEnemyAfterDeath(){
-        this.level.enemies.forEach((enemy) => {
-            let index = this.level.enemies.indexOf(enemy);   // this function remove always the correct enemy but does not show the death animation since enemy is deleted immediately
-            if (enemy.isDead()) {
-                this.level.enemies.splice(index, 1)
+    removeEnemyAfterDeath() {
+        this.level.enemies.forEach((enemy, index) => {
+            if (enemy.isDead() && !enemy.deathAnimationStarted) {
+                enemy.startDeathAnimation();
+            }
+            if (enemy.deathAnimationEnded) {
+                this.level.enemies.splice(index, 1);
             }
         })
     }
@@ -247,7 +248,7 @@ class World {
 
 
     addSnakes() {
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < 2; j++) {
             const snake = new Snake();
             this.level.enemies.push(snake);
         }

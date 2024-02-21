@@ -1,17 +1,19 @@
 class movableObject extends DrawableObjects {
-    speed = 0.20;
     // obstacle = false;
     hadFirstContact = false;
     reachedStart = false;
     reachedEnd = false;
     otherDirection = false;
+    isOnPlatform;
+    deathAnimationStarted = false;
+    deathAnimationEnded = false;
+    speed = 0.20;
     speedY = 0;
     speedX = 0;
     gravityAcceleration = 0.5;
     life = 100;
     lastMove = 0;
     lastHit = 0;
-    isOnPlatform;
     startPoint = -192;
     endPoint = 1710;
 
@@ -49,7 +51,7 @@ class movableObject extends DrawableObjects {
 
     applyGravity() {
         setInterval(() => {
-            if (this.isAboveGround() && !this.isOnPlatform || this.speedY > 0) {
+            if (this.isAboveGround() && !this.isClimbing && !this.isOnPlatform || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.gravityAcceleration;
             } else {
@@ -62,7 +64,7 @@ class movableObject extends DrawableObjects {
         if (this instanceof ThrowableObjects) {
             return true;
         } else if (!this.isDead() && !this.isOnPlatform) {
-            return this.y < 312;
+            return this.y <= 312;
         } else {
             return false;
         }
@@ -80,11 +82,11 @@ class movableObject extends DrawableObjects {
         // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
-    collides(obj) {
-        return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left ||
-            (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) // change to right because seems to be logical , change to bottom if problems
-        // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-    }
+    // collides(obj) {
+    //     return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left ||
+    //         (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) // change to right because seems to be logical , change to bottom if problems
+    //     // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+    // }
 
 
     hit(damage) {
@@ -106,6 +108,12 @@ class movableObject extends DrawableObjects {
         return this.life == 0;
     }
 
+    startDeathAnimation(){
+        this.currentImage = 0;
+        this.speed = 0;
+        this.deathAnimationStarted = true;
+    }
+
     reachedStartPoint() {
         if (this.x - this.offset.left <= this.startPoint) {                 // is x wegen flipimage vertauscht?
             this.reachedStart = true;
@@ -124,7 +132,5 @@ class movableObject extends DrawableObjects {
         }
         return false;
     }
-
-
 
 }
