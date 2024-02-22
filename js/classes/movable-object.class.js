@@ -14,8 +14,8 @@ class movableObject extends DrawableObjects {
     life = 100;
     lastMove = 0;
     lastHit = 0;
-    startPoint = -192;
-    endPoint = 1710;
+    startPoint = -130;
+    endPoint = 1790;
 
 
     stay() {
@@ -115,7 +115,7 @@ class movableObject extends DrawableObjects {
     }
 
     reachedStartPoint() {
-        if (this.x - this.offset.left <= this.startPoint) {                 // is x wegen flipimage vertauscht?
+        if (this.x + this.offset.left <= this.startPoint) {
             this.reachedStart = true;
             this.reachedEnd = false;
             this.otherDirection = true;
@@ -125,7 +125,7 @@ class movableObject extends DrawableObjects {
     }
 
     reachedEndPoint() {
-        if ((this.x + this.width) - this.offset.right >= this.endPoint) {
+        if (this.x + this.width - this.offset.right >= this.endPoint) {
             this.reachedEnd = true
             this.otherDirection = false;
             return true;

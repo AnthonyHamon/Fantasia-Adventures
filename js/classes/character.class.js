@@ -206,17 +206,9 @@ class Character extends movableObject {
     moveCamera() {
         setInterval(() => {
 
-            // if (this.x > 696 && this.world.camera_x < this.world.canvas.width * 2) {     // camera follow player since he reached end of  previous screen
-            //     this.world.camera_x = this.x - 200;
-            // }
-
             if (this.world.camera_x < this.world.canvas.width * 2) {    // camera goes with player from beginning
                 this.world.camera_x = this.x - 200;
             }
-
-            // if (this.x <= 696) {             // camera stays at beginning position until player reached end of screen then camera jump to player and follow
-            //     this.world.camera_x = -200;
-            // }
 
             if (this.world.camera_x == this.world.canvas.width * 2) {
                 this.world.camera_x = this.world.canvas.width * 2;

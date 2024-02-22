@@ -36,8 +36,8 @@ class Ent extends movableObject {
     y = 308;
     width = 256;
     height = 256;
-    speed = 1;
-    endPoint = 1750;
+    speed = 0;
+    endPoint = 1790;
 
     offset = {
         top: 78,
@@ -57,33 +57,33 @@ class Ent extends movableObject {
     animate() {
         let i = 0;
 
-        setInterval(() => {
-            if (this.reachedEndPoint()) {
-                this.moveLeft();
-            }
-            if (this.reachedStart && !this.reachedEnd) {
-                setTimeout(() => {
-                    this.moveRight();
-                }, 500);
-            } else if (!this.reachedStartPoint() && this.hadFirstContact) {
-                setTimeout(() => {
-                    this.moveLeft();
-                }, 500);
-            }
-        }, 1000 / 60);
-
         // setInterval(() => {
-        //     if (this.isDead()) {
-        //         this.speed = 0;
-        //     } else if (this.reachedEndPoint()) {
+        //     if (this.reachedEndPoint()) {
         //         this.moveLeft();
         //     }
         //     if (this.reachedStart && !this.reachedEnd) {
-        //         this.moveRight();
-        //     } else if (!this.reachedStartPoint()) {
-        //         this.moveLeft();
+        //         setTimeout(() => {
+        //             this.moveRight();
+        //         }, 500);
+        //     } else if (!this.reachedStartPoint() && this.hadFirstContact) {
+        //         setTimeout(() => {
+        //             this.moveLeft();
+        //         }, 500);
         //     }
         // }, 1000 / 60);
+
+        setInterval(() => {
+            if (this.isDead()) {
+                this.speed = 0;
+            } else if (this.reachedEndPoint()) {
+                this.moveLeft();
+            }
+            if (this.reachedStart && !this.reachedEnd) {
+                this.moveRight();
+            } else if (!this.reachedStartPoint()) {
+                this.moveLeft();
+            }
+        }, 1000 / 60);
 
         setInterval(() => {
             if (this.isDead() && this.deathAnimationStarted) {

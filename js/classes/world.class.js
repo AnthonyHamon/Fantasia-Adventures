@@ -248,7 +248,7 @@ class World {
 
 
     addSnakes() {
-        for (let j = 0; j < 2; j++) {
+        for (let j = 0; j < 11; j++) {
             const snake = new Snake();
             this.level.enemies.push(snake);
         }

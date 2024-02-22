@@ -1,11 +1,10 @@
 class Bear extends movableObject {
 
     IMAGES_WAITING_BEAR = [
-        'img/enemies/Bear/Walk1.png',
-        'img/enemies/Bear/Walk2.png',
-        'img/enemies/Bear/Walk3.png',
-        'img/enemies/Bear/Walk4.png',
-        'img/enemies/Bear/Walk5.png'
+        'img/enemies/Bear/Idle1.png',
+        'img/enemies/Bear/Idle2.png',
+        'img/enemies/Bear/Idle3.png'
+     
     ]
 
     IMAGES_HURT = [
@@ -58,29 +57,19 @@ class Bear extends movableObject {
 
         let i = 0;
 
+
         setInterval(() => {
-            if (this.reachedEndPoint()) {
+            if (this.isDead()) {
+                this.speed = 0;
+            } else if (this.reachedEndPoint()) {
                 this.moveLeft();
             }
             if (this.reachedStart && !this.reachedEnd) {
-                    this.moveRight();
-            } else if (!this.reachedStartPoint() && this.hadFirstContact) {
-                    this.moveLeft();
+                this.moveRight();
+            } else if (!this.reachedStartPoint()) {
+                this.moveLeft();
             }
         }, 1000 / 60);
-
-        // setInterval(() => {
-        //     if (this.isDead()) {
-        //         this.speed = 0;
-        //     } else if (this.reachedEndPoint()) {
-        //         this.moveLeft();
-        //     }
-        //     if (this.reachedStart && !this.reachedEnd) {
-        //         this.moveRight();
-        //     } else if (!this.reachedStartPoint()) {
-        //         this.moveLeft();
-        //     }
-        // }, 1000 / 60);
 
         setInterval(() => {
             if (this.isDead() && this.deathAnimationStarted) {

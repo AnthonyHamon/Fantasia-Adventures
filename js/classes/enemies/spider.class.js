@@ -17,8 +17,8 @@ class Spider extends movableObject {
     width = 128;
     speed = 1;
 
-    startPoint = 2300;
-    endPoint = 2500;
+    startPoint = 2360;
+    endPoint = 2540;
 
     offset = {
         top: 36,
@@ -34,20 +34,20 @@ class Spider extends movableObject {
     }
 
     enemiesMoveRules() {
+
         setInterval(() => {
-            if (this.reachedEndPoint()) {
+            if (this.isDead()) {
+                this.speed = 0;
+            } else if (this.reachedEndPoint()) {
                 this.moveLeft();
             }
             if (this.reachedStart && !this.reachedEnd) {
-                setTimeout(() => {
-                    this.moveRight();
-                }, 500);
-            } else if (!this.reachedStartPoint() && this.hadFirstContact) {
-                setTimeout(() => {
-                    this.moveLeft();
-                }, 500);
+                this.moveRight();
+            } else if (!this.reachedStartPoint()) {
+                this.moveLeft();
             }
         }, 1000 / 60);
+
     }
 
     animate() {
