@@ -1,10 +1,9 @@
 class movableObject extends DrawableObjects {
-    // obstacle = false;
+    obstacle = false;
     hadFirstContact = false;
     reachedStart = false;
     reachedEnd = false;
     otherDirection = false;
-    isOnPlatform;
     deathAnimationStarted = false;
     deathAnimationEnded = false;
     speed = 0.20;

@@ -78,6 +78,7 @@ class Character extends movableObject {
     ]
 
     world;
+    isOnPlatform;
     isAlreadyAFK = false;
     isClimbing = false;
     maxEnergy = 80;
@@ -172,11 +173,11 @@ class Character extends movableObject {
     }
 
     canMoveRight() {
-        return !this.isDead() && this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2)
+        return !this.isDead() && this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x - (this.width / 2) && !this.obstacle;
     }
 
     canMoveLeft() {
-        return !this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890;
+        return !this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890 && !this.obstacle;
     }
 
     canJump() {
@@ -299,11 +300,12 @@ class Character extends movableObject {
 
     comesFromTop(obj) {
         const thisBottom = this.y + this.height - this.offset.bottom;
-        const enemyTop = obj.y + obj.offset.top;
-        if (this.isColliding(obj) &&
-            this.isAboveGround &&
+        const ObjectTop = obj.y + obj.offset.top;
+        if (
+            this.isColliding(obj) &&
+            this.isAboveGround(obj) &&
             this.speedY < 0 &&
-            thisBottom >= enemyTop
+            thisBottom >= ObjectTop
         ) {
             return true;
         } else {
@@ -311,38 +313,22 @@ class Character extends movableObject {
         }
     }
 
-    jumpOnPlatform(obj) {
-        const thisBottom = this.y + this.height - this.offset.bottom;
-        const platformTop = obj.y + obj.offset.top;
-
-        if (this.comesFromTop(obj) &&
-            this.isAboveGround(obj) &&
-            thisBottom >= platformTop) {
-            this.isOnPlatform = true;
-            return true;
-        }
-        if (this.isOverTheGround(obj)) {
-            this.isOnPlatform = false;
-        }
-    }
 
     isOnPlatformTop(obj) {
-        return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
-            (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top &&
-            (this.y + this.offset.top) <= (obj.y + obj.height - obj.offset.bottom) &&
-            (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right)
-    }
-
-    isOverTheGround(obj) {
         return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
             (this.x + this.offset.left) >= (obj.x + obj.width - obj.offset.right)
     }
 
-    collideFromSide(obj) {
-        return (this.x + this.width - this.offset.right >= obj.x) &&
-            (this.x - this.offset.left) <= obj.x &&
-            (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top
-    }
+    // collideFromSide(mo) {
+    //     return (mo.x + mo.offset.left, mo.y + mo.offset.top, mo.width - (mo.offset.right + mo.offset.left), mo.height - (mo.offset.top + mo.offset.bottom))
+    // }
+    
+    // collideFromSide(obj) {
+    //     return this.y + this.offset.top <= (obj.y + obj.height - obj.offset.bottom) &&
+    //         (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) &&
+    //         (this.x + this.width - this.offset.right >= obj.x) ||
+    //         (this.x + this.offset.left) <= obj.x
+    // }
 
 
 

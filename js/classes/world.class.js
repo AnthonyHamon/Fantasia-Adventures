@@ -108,22 +108,24 @@ class World {
         });
     }
 
+
     checkPlatformsCollision() {
         this.level.platforms.forEach(platform => {
             // if(!this.character.isColliding(platform)){
             //     this.character.obstacle = false;            // need help to resolve this, obstacle switch between true and false because of isColliding. 
             // }
+            
             if (this.character.comesFromTop(platform)) {
                 this.character.y = platform.y + platform.offset.top - this.character.height + this.character.offset.bottom;
             }
-            if (this.character.isOnPlatformTop(platform) && !this.character.isOverTheGround(platform)) {
+            if (this.character.isColliding(platform) && !this.character.isOnPlatformTop(platform)) {
                 this.character.isOnPlatform = true;
             }
             // if(this.character.collideFromSide(platform)){
             //     console.log('coliding')
             //     this.character.obstacle = true;             // need help to resolve this, obstacle switch between true and false because of isColliding. 
             // }
-            if (this.character.isOverTheGround(platform)) {
+            if (this.character.isOnPlatformTop(platform)) {
                 this.character.isOnPlatform = false;
             }
         });
