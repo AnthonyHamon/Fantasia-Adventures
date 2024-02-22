@@ -92,8 +92,8 @@ class Character extends movableObject {
 
 
     offset = {
-        top: 128,
-        right: 128,
+        top: 124,
+        right: 124,
         bottom: 80,
         left: 80
     }
@@ -120,34 +120,28 @@ class Character extends movableObject {
     moveCharacter() {
         setInterval(() => {
             this.world.level.walking_sound_grass.pause();
-            if (this.canMoveRight()) {
+            if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump()) {
+                this.world.START = false;
                 this.isAlreadyAFK = false;
+            } if (this.canMoveRight()) {
                 this.moveRight();
                 // this.world.level.walking_sound_grass.play();
-            } else if (this.canMoveLeft()) {
-                this.isAlreadyAFK = false;
+            } if (this.canMoveLeft()) {
                 this.moveLeft();
                 // this.world.level.walking_sound_grass.play();
-            } else if (this.attacks()) {
-                this.isAlreadyAFK = false;
+            } if (this.attacks()) {
                 this.updateCharacterEnergy(0.4);
-            } else if (this.canClimbUp()) {
+            } if (this.canClimbUp()) {
                 this.climbUp();
-            } else if (this.canClimbDown()) {
+            } if (this.canClimbDown()) {
                 this.climbDown()
-            } else if (!this.isAlreadyAFK) {
+            } if (!this.isAlreadyAFK) {
                 this.isAlreadyAFK = true;
                 this.stay();
-            }
-
-            if (this.canJump()) {
-                this.isAlreadyAFK = false;
-                this.jump();
+            } if (this.canJump()) {
                 this.updateCharacterEnergy(30);
+                this.jump();
             }
-            // if (this.moveLeft() || this.moveRight() || this.jump || this.keyboard.F){
-            //     this.world.START = false;
-            // } 
         }, 1000 / 60);
     }
 
@@ -165,7 +159,7 @@ class Character extends movableObject {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.attacks()) {
                 this.playAnimation(this.IMAGES_ATTACKING);
-            } else if (this.isClimbing){
+            } else if (this.isClimbing) {
                 this.playAnimation(this.IMAGES_CLIMBING)
             } else {
                 this.loadImage(this.IMAGES_WALKING[0])
@@ -182,11 +176,11 @@ class Character extends movableObject {
     }
 
     canMoveLeft() {
-        return !this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890
+        return !this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890;
     }
 
     canJump() {
-        return !this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15
+        return !this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15;
     }
 
     canClimbUp() {
@@ -220,11 +214,11 @@ class Character extends movableObject {
     climbDown() {
         setInterval(() => {
             this.world.level.stairway.forEach(step => {
-                if(this.isColliding(step)){
+                if (this.isColliding(step)) {
                     this.isClimbing = true;
                     this.y += 0.2;
                 }
-                if(!this.isColliding(step)){
+                if (!this.isColliding(step)) {
                     this.isClimbing = false;
                 }
             });
@@ -255,11 +249,21 @@ class Character extends movableObject {
         }
     }
 
+    updateCharacterLife(lifePoint) {
+        if (this.life > 80) {
+            this.life = 100;
+        } else {
+            this.life += lifePoint;
+        }
+        this.world.resetLifeBar();
+        this.world.setLifeBar();
+    }
+
     updateCharacterEnergy(lostEnergy) {
         this.maxEnergy -= lostEnergy;
-        if (this.maxEnergy < 0) {
-            this.maxEnergy = 0;
-        }
+        // if (this.maxEnergy < 0) {
+        //     this.maxEnergy = 0;
+        // }
         this.world.resetEnergyBar();
         this.world.setEnergyBar();
     }
@@ -277,13 +281,7 @@ class Character extends movableObject {
         let index = this.world.level.collectableObjects.indexOf(object);
         if (object instanceof Heart && this.life < 99) {
             this.world.level.collectableObjects.splice(index, 1);
-            if (this.life > 80) {
-                this.life = 100;
-            } else {
-                this.life += 20;
-            }
-            this.world.resetLifeBar();
-            this.world.setLifeBar();
+            this.updateCharacterLife(20);
         }
         if (object instanceof Coin) {
             this.maxCoin += 10;
@@ -361,7 +359,7 @@ class Character extends movableObject {
     checkEnemiesCollisions() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
-                if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy >= 0) {
+                if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy > 0) {
                     this.jump();
                     this.maxEnergy -= 30;
                     enemy.hit(2);

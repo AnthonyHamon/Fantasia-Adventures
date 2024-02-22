@@ -27,6 +27,14 @@ class Bear extends movableObject {
         'img/enemies/Bear/Walk5.png'
     ]
 
+    IMAGES_ATTACKING = [
+        'img/enemies/Bear/Attack1.png',
+        'img/enemies/Bear/Attack2.png',
+        'img/enemies/Bear/Attack3.png',
+        'img/enemies/Bear/Attack4.png',
+        'img/enemies/Bear/Attack5.png'
+    ]
+
     x = 1972;
     y = 120;
     width = 128;
@@ -50,6 +58,7 @@ class Bear extends movableObject {
         this.loadImages(this.IMAGES_WALKING_BEAR);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEATH);
+        this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
     }
 
@@ -82,9 +91,11 @@ class Bear extends movableObject {
                 this.playAnimation(this.IMAGES_HURT)
             } else if (i < 4) {
                 this.playAnimation(this.IMAGES_WAITING_BEAR);
-            } else if (this.hadFirstContact) {
+            } else if (this.hadFirstContact && !this.isColliding(this.world.character)) {
                 this.speed = 1;
                 this.playAnimation(this.IMAGES_WALKING_BEAR);
+            }else if(this.isColliding(this.world.character)){
+                this.playAnimation(this.IMAGES_ATTACKING)
             }
             i++;
 

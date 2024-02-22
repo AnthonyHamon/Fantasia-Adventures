@@ -141,18 +141,6 @@ class World {
         }, 150);
     }
 
-
-    // removeEnemyAfterDeath() {
-    //     this.level.enemies.forEach((enemy) => {
-    //         let index = this.level.enemies.indexOf(enemy);           // this function show the death animation but remove also other enemy because of setTimeout
-    //         if (enemy.isDead()) {
-    //             setTimeout(() => {
-    //                 this.level.enemies.splice(index, 1)
-    //             }, 600);
-    //         }
-    //     })
-    // }
-
     removeEnemyAfterDeath() {
         this.level.enemies.forEach((enemy, index) => {
             if (enemy.isDead() && !enemy.deathAnimationStarted) {
@@ -163,9 +151,6 @@ class World {
             }
         })
     }
-
-
-
 
     // throwObjects() {
     //     if (!this.character.isDead() && this.keyboard.E) {
@@ -200,8 +185,11 @@ class World {
         if (obj.otherDirection) {
             this.flipImageBack(obj);
         }
-        this.drawColisionFrame(obj);
-        this.drawOffsetColisionFrame(obj);
+        if((obj instanceof Platforms)){
+            this.drawColisionFrame(obj);
+            this.drawOffsetColisionFrame(obj);
+        }
+        
 
     }
 
@@ -229,8 +217,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        // this.drawColisionFrame(mo);
-        // this.drawOffsetColisionFrame(mo);
+        this.drawColisionFrame(mo);
+        this.drawOffsetColisionFrame(mo);
     }
 
     flipImage(mo) {

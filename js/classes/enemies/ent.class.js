@@ -32,6 +32,14 @@ class Ent extends movableObject {
         'img/enemies/ent/walk6.png',
     ]
 
+    IMAGES_ATTACKING = [
+        'img/enemies/ent/attack1.png',
+        'img/enemies/ent/attack2.png',
+        'img/enemies/ent/attack3.png',
+        'img/enemies/ent/attack4.png',
+        'img/enemies/ent/attack5.png'
+    ]
+
     x = 1500;
     y = 308;
     width = 256;
@@ -51,26 +59,12 @@ class Ent extends movableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEATH);
+        this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
     }
 
     animate() {
         let i = 0;
-
-        // setInterval(() => {
-        //     if (this.reachedEndPoint()) {
-        //         this.moveLeft();
-        //     }
-        //     if (this.reachedStart && !this.reachedEnd) {
-        //         setTimeout(() => {
-        //             this.moveRight();
-        //         }, 500);
-        //     } else if (!this.reachedStartPoint() && this.hadFirstContact) {
-        //         setTimeout(() => {
-        //             this.moveLeft();
-        //         }, 500);
-        //     }
-        // }, 1000 / 60);
 
         setInterval(() => {
             if (this.isDead()) {
@@ -96,20 +90,18 @@ class Ent extends movableObject {
                 this.playAnimation(this.IMAGES_HURT)
             } else if (i < 4) {
                 this.playAnimation(this.IMAGES_WAITING_ENT);
-            } else if (this.hadFirstContact) {
+            } else if (this.hadFirstContact && !this.isColliding(this.world.character)) {
                 this.speed = 1;
                 this.playAnimation(this.IMAGES_WALKING);
-
+            } else if (this.isColliding(this.world.character)) {
+                this.playAnimation(this.IMAGES_ATTACKING)
             }
             i++;
 
-            setTimeout(() => {
-                if (this.world.character.x > 900 && !this.hadFirstContact) {
-                    i = 0;
-                    this.hadFirstContact = true;
-                }
-            }, 1000);
-
+            if (this.world && this.world.character.x > 900 && !this.hadFirstContact) {
+                i = 0;
+                this.hadFirstContact = true;
+            }
         }, 180);
 
     }

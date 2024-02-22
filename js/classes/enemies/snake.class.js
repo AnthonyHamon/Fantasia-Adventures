@@ -37,7 +37,7 @@ class Snake extends movableObject {
         left: 38
     }
 
-    constructor(x, y) {
+    constructor() {
         super().loadImage(this.IMAGES_WALKING_SNAKE[0]);
         this.loadImages(this.IMAGES_WALKING_SNAKE);
         this.loadImages(this.IMAGES_ATTACKING_SNAKE);
@@ -45,11 +45,11 @@ class Snake extends movableObject {
         this.loadImages(this.IMAGES_DEATH);
         this.x = 400 + Math.random() * 1590;
         this.speed = 0.15 + Math.random() * 0.5;
+        this.letEnemyMove();
         this.animate();
     };
 
-    animate() {
-
+    letEnemyMove(){
         setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
@@ -62,7 +62,9 @@ class Snake extends movableObject {
                 this.moveLeft();
             }
         }, 1000 / 60);
+    }
 
+    animate() {
         setInterval(() => {
             if (this.isDead() && this.deathAnimationStarted) {
                 this.playAnimation(this.IMAGES_DEATH);
@@ -71,16 +73,12 @@ class Snake extends movableObject {
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else {
+            }else if(this.isColliding(this.world.character)){
+                this.playAnimation(this.IMAGES_ATTACKING_SNAKE)
+            }else {
                 this.playAnimation(this.IMAGES_WALKING_SNAKE);
             }
-        }, 200);
-
-        // setInterval(() => {
-        //     if(this.isDead()){
-        //         let index = this.world.level.enemies.indexOf(this);
-        //         this.world.level.enemies.splice(index, 1)
-        //     }
-        // }, 200);
+        }, 180);
     }
+
 }
