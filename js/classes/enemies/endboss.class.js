@@ -25,14 +25,14 @@ class Endboss extends movableObject {
     width = 250;
     height = 300;
     x = (960 * 3) - this.width;
-    y = 240;
+    y = 278;
     speed = 0;
     
     offset = {
         top: 120,
-        right: 128,
+        right: 118,
         bottom: 54,
-        left: 36
+        left: 64
     }
 
     constructor() {

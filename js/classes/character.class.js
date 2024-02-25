@@ -78,7 +78,7 @@ class Character extends movableObject {
     ]
 
     world;
-    isOnPlatform;
+    isOnPlatform = false;
     isAlreadyAFK = false;
     isClimbing = false;
     maxEnergy = 80;
@@ -87,7 +87,8 @@ class Character extends movableObject {
     speed = 3;
     x = 2200; // -240
     x = -240
-    y = 200;
+    // y = 200;
+    y = 346;
     height = 256;
     width = 256;
 
@@ -108,6 +109,7 @@ class Character extends movableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_CLIMBING);
+        this.checkCharacterEvents();
         this.moveCharacter();
         this.checkCharacterStats();
         this.animate();
@@ -117,35 +119,33 @@ class Character extends movableObject {
         this.applyGravity();
     };
 
+    checkCharacterEvents() {
+        setInterval(() => {
+            this.checkPlatformsCollision();
+            this.checkCollection();
+        }, 1000 / 60);
+    }
 
     moveCharacter() {
         setInterval(() => {
             this.world.level.walking_sound_grass.pause();
-            if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump()) {
+            if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump()) 
                 this.world.START = false;
                 this.isAlreadyAFK = false;
-            } if (this.canMoveRight()) {
-                this.moveRight();
-                // this.world.level.walking_sound_grass.play();
-            } if (this.canMoveLeft()) {
-                this.moveLeft();
-                // this.world.level.walking_sound_grass.play();
-            } if (this.attacks()) {
-                this.updateCharacterEnergy(0.4);
-            } if (this.canClimbUp()) {
-                this.climbUp();
-            } if (this.canClimbDown()) {
-                this.climbDown()
-            } if (!this.isAlreadyAFK) {
+            if (this.canMoveRight()) this.moveRight(); //  this.world.level.walking_sound_grass.play();
+            if (this.canMoveLeft()) this.moveLeft(); // this.world.level.walking_sound_grass.play();
+            if (this.attacks()) this.updateCharacterEnergy(0.4);
+            if (this.canClimbUp()) this.climbUp();
+            if (this.canClimbDown()) this.climbDown()
+            if (!this.isAlreadyAFK)
                 this.isAlreadyAFK = true;
                 this.stay();
-            } if (this.canJump()) {
+            if (this.canJump()) {
                 this.updateCharacterEnergy(30);
                 this.jump();
             }
         }, 1000 / 60);
     }
-
 
     animate() {
         setInterval(() => {
@@ -198,6 +198,14 @@ class Character extends movableObject {
         }, 1000 / 60);
     }
 
+    checkCollection() {
+        this.world.level.collectableObjects.forEach((object) => {
+            if (this.isColliding(object)) {
+                this.collect(object);
+            }
+        });
+    }
+
     moveCamera() {
         setInterval(() => {
 
@@ -235,11 +243,11 @@ class Character extends movableObject {
                 this.world.setMagicBar();
                 let tornado = new Tornado(this.x + 95, this.y + 65, this.otherDirection);
                 this.world.level.longRangeAttacks.push(tornado);
-                for (let index = 0; index < this.world.level.longRangeAttacks.length; index++) {
+                this.world.level.longRangeAttacks.forEach(index =>{
                     setTimeout(() => {
                         this.world.level.longRangeAttacks.splice(index, 1);
                     }, 1700);
-                };
+                })
             }
         }, 150);
     }
@@ -298,14 +306,38 @@ class Character extends movableObject {
         }
     }
 
+    checkPlatformsCollision() {
+        this.world.level.platforms.forEach(platform => {
+            if(this.comesFromTop(platform)){
+            // if(this.comesFromTop(platform) || this.isAbovePlatform(platform)){
+                console.log('comefromtopofplatform', this.comesFromTop(platform), 'or isAbovePlatform', this.isAbovePlatform(platform))
+                this.landOnPlatform(platform)
+            }
+            // else if(!this.isAbovePlatform(platform)){
+            //     this.isOnPlatform = false;
+            // }
+        });
+    }
+
+    isAbovePlatform(platform){
+        return this.y + this.height - this.offset.bottom <= platform.y + platform.offset.top 
+        && (this.x + this.width - this.offset.right) >= (platform.x + platform.offset.left) &&
+        (this.x + this.width - this.offset.right) <= (platform.x + platform.width - platform.offset.right) || 
+        this.x + this.offsetleft > platform.x + platform.offset.left && 
+        this.x + width - this. offset.right < platform.x + platform.width - platform.offset
+    }
+
+    landOnPlatform(platform){
+        console.log('character is on a platform')
+        this.isOnPlatform = true;
+        this.y = platform.y + platform.offset.top - this.height + this.offset.bottom;
+    }
+
+
     comesFromTop(obj) {
-        const thisBottom = this.y + this.height - this.offset.bottom;
-        const ObjectTop = obj.y + obj.offset.top;
         if (
-            this.isColliding(obj) &&
-            this.isAboveGround(obj) &&
             this.speedY < 0 &&
-            thisBottom >= ObjectTop
+            this.isColliding(obj)
         ) {
             return true;
         } else {
@@ -313,11 +345,46 @@ class Character extends movableObject {
         }
     }
 
+     // comesFromTop(obj) {
+    //     if (
+    //         this.speedY < 0 &&
+    //         this.isColliding(obj)
+    //         // this.isColliding(obj, obj instanceof Snake  || obj instanceof Spider)
+    //     ) {
+    //         console.log('comeFromTop of', obj instanceof Snake, obj)
+    //         return true;
+    //     } else if(
+    //         this.speedY < 0 &&
+    //         this.isAbovePlatform(obj)){
+    //         // this.isAbovePlatform(obj, obj instanceof Platforms)){
+    //         return true;
+    //     }else {
+    //         return false;
+    //     }
+    // }
 
-    isOnPlatformTop(obj) {
-        return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
-            (this.x + this.offset.left) >= (obj.x + obj.width - obj.offset.right)
-    }
+
+
+    // comesFromTop(obj) {
+    //     const thisBottom = this.y + this.height - this.offset.bottom;                // trying to improve function to stay on platform
+    //     const ObjectTop = obj.y + obj.offset.top;
+    //     if (
+    //         this.isColliding(obj) &&
+    //         this.isAboveGround() &&
+    //         this.speedY < 0 &&
+    //         thisBottom >= ObjectTop
+    //     ) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+
+    // isOnPlatformTop(obj) {
+    //     return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
+    //         (this.x + this.offset.left) >= (obj.x + obj.width - obj.offset.right)
+    // }
 
     // collideFromSide(mo) {
     //     return (mo.x + mo.offset.left, mo.y + mo.offset.top, mo.width - (mo.offset.right + mo.offset.left), mo.height - (mo.offset.top + mo.offset.bottom))

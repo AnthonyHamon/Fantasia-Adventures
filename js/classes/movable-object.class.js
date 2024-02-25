@@ -6,6 +6,7 @@ class movableObject extends DrawableObjects {
     otherDirection = false;
     deathAnimationStarted = false;
     deathAnimationEnded = false;
+    ground = 346;
     speed = 0.20;
     speedY = 0;
     speedX = 0;
@@ -24,7 +25,7 @@ class movableObject extends DrawableObjects {
     isInactiv() {
         let timePassed = new Date().getTime() - this.lastMove;
         timePassed = timePassed / 1000;
-        if (timePassed > 5) {
+        if (timePassed > 5000000) {
             return true;
         } else {
             return false;
@@ -51,10 +52,13 @@ class movableObject extends DrawableObjects {
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() && !this.isClimbing && !this.isOnPlatform || this.speedY > 0) {
+                console.log('applyGravity true')
+                console.log('is on platform', this.isOnPlatform)
                 this.y -= this.speedY;
                 this.speedY -= this.gravityAcceleration;
             } else {
-                this.speedY = 0;
+                console.log('applyGravity false')
+                this.speedY = -0;
             }
         }, 1000 / 60);
     }
@@ -62,8 +66,8 @@ class movableObject extends DrawableObjects {
     isAboveGround() {
         if (this instanceof ThrowableObjects) {
             return true;
-        } else if (!this.isDead() && !this.isOnPlatform) {
-            return this.y <= 312;
+        } else if (!this.isDead()) {
+            return this.y <= this.ground;
         } else {
             return false;
         }

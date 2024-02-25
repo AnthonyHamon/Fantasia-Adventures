@@ -41,7 +41,7 @@ class Ent extends movableObject {
     ]
 
     x = 1500;
-    y = 308;
+    y = 346;
     width = 256;
     height = 256;
     speed = 0;

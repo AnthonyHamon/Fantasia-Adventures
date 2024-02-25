@@ -26,7 +26,7 @@ class Snake extends movableObject {
     ];
 
     life = 4;
-    y = 404;
+    y = 448;
     height = 128;
     width = 128;
 

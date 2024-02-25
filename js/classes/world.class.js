@@ -29,7 +29,6 @@ class World {
         this.setBackground();
         this.setClouds();
         this.setStairway();
-        this.checkCharacterEvents();
         this.checkMagicalAttackCollision();
         this.checkEnemiesDeath();
         this.setLifeBar();
@@ -85,51 +84,36 @@ class World {
         });
     }
 
-    checkCharacterEvents() {
-        setInterval(() => {
-            // this.checkEnemiesCollisions();
-            this.checkPlatformsCollision();
-            this.checkCollection();
-            // this.throwObjects();
-        }, 1000 / 60);
-    }
-
     checkEnemiesDeath() {
         setInterval(() => {
             this.removeEnemyAfterDeath();
         }, 150);
     }
 
-    checkCollection() {
-        this.level.collectableObjects.forEach((object) => {
-            if (this.character.isColliding(object)) {
-                this.character.collect(object);
-            }
-        });
-    }
+    // trying to improve function to stay on platform
 
+    // checkPlatformsCollision() {
+    //     this.level.platforms.forEach(platform => {
+    //         // if(!this.character.isColliding(platform)){
+    //         //     this.character.obstacle = false;            // need help to resolve this, obstacle switch between true and false because of isColliding. 
+    //         // }
 
-    checkPlatformsCollision() {
-        this.level.platforms.forEach(platform => {
-            // if(!this.character.isColliding(platform)){
-            //     this.character.obstacle = false;            // need help to resolve this, obstacle switch between true and false because of isColliding. 
-            // }
-            
-            if (this.character.comesFromTop(platform)) {
-                this.character.y = platform.y + platform.offset.top - this.character.height + this.character.offset.bottom;
-            }
-            if (this.character.isColliding(platform) && !this.character.isOnPlatformTop(platform)) {
-                this.character.isOnPlatform = true;
-            }
-            // if(this.character.collideFromSide(platform)){
-            //     console.log('coliding')
-            //     this.character.obstacle = true;             // need help to resolve this, obstacle switch between true and false because of isColliding. 
-            // }
-            if (this.character.isOnPlatformTop(platform)) {
-                this.character.isOnPlatform = false;
-            }
-        });
-    }
+    //         if (this.character.comesFromTop(platform)) {
+    //             this.character.isOnPlatform = true;
+    //             this.character.y = platform.y + platform.offset.top - this.character.height + this.character.offset.bottom;
+    //         }
+    //         // if (this.character.isColliding(platform) && !this.character.isOnPlatformTop(platform)) {
+    //         //     this.character.isOnPlatform = true;
+    //         // }
+    //         // if(this.character.collideFromSide(platform)){
+    //         //     console.log('coliding')
+    //         //     this.character.obstacle = true;             // need help to resolve this, obstacle switch between true and false because of isColliding. 
+    //         // }
+    //         if (this.character.isOnPlatformTop(platform)) {
+    //             this.character.isOnPlatform = false;
+    //         }
+    //     });
+    // }
 
     checkMagicalAttackCollision() {
         setInterval(() => {
@@ -187,8 +171,12 @@ class World {
         if (obj.otherDirection) {
             this.flipImageBack(obj);
         }
+
+            // this.drawColisionFrame(obj);
+            // this.drawOffsetColisionFrame(obj);
+        
         if((obj instanceof Platforms)){
-            this.drawColisionFrame(obj);
+            this.drawColisionFrame(obj); 
             this.drawOffsetColisionFrame(obj);
         }
         
