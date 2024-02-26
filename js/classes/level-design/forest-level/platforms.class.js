@@ -7,7 +7,7 @@ class Platforms extends DrawableObjects{
     offset = {
         top: 10,
         right: 0,
-        bottom: 18,
+        bottom: 48,
         left: 0
     }
     

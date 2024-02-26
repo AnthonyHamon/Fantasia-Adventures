@@ -129,9 +129,9 @@ class Character extends movableObject {
     moveCharacter() {
         setInterval(() => {
             this.world.level.walking_sound_grass.pause();
-            if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump()) 
+            if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump())
                 this.world.START = false;
-                this.isAlreadyAFK = false;
+            this.isAlreadyAFK = false;
             if (this.canMoveRight()) this.moveRight(); //  this.world.level.walking_sound_grass.play();
             if (this.canMoveLeft()) this.moveLeft(); // this.world.level.walking_sound_grass.play();
             if (this.attacks()) this.updateCharacterEnergy(0.4);
@@ -139,7 +139,7 @@ class Character extends movableObject {
             if (this.canClimbDown()) this.climbDown()
             if (!this.isAlreadyAFK)
                 this.isAlreadyAFK = true;
-                this.stay();
+            this.stay();
             if (this.canJump()) {
                 this.updateCharacterEnergy(30);
                 this.jump();
@@ -156,7 +156,7 @@ class Character extends movableObject {
                 this.playAnimation(this.IMAGES_IDLE)
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround() && !this.isOnPlatform && !this.isDead()) {
+            } else if (this.isAboveGround() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.attacks()) {
                 this.playAnimation(this.IMAGES_ATTACKING);
@@ -181,7 +181,7 @@ class Character extends movableObject {
     }
 
     canJump() {
-        return !this.isDead() && this.world.keyboard.UP && !this.isAboveGround() && this.maxEnergy > 15;
+        return !this.isDead() && this.world.keyboard.UP && (!this.isAboveGround()) && this.maxEnergy > 15;
     }
 
     canClimbUp() {
@@ -243,7 +243,7 @@ class Character extends movableObject {
                 this.world.setMagicBar();
                 let tornado = new Tornado(this.x + 95, this.y + 65, this.otherDirection);
                 this.world.level.longRangeAttacks.push(tornado);
-                this.world.level.longRangeAttacks.forEach(index =>{
+                this.world.level.longRangeAttacks.forEach(index => {
                     setTimeout(() => {
                         this.world.level.longRangeAttacks.splice(index, 1);
                     }, 1700);
@@ -306,37 +306,9 @@ class Character extends movableObject {
         }
     }
 
-    checkPlatformsCollision() {
-        this.world.level.platforms.forEach(platform => {
-            if(this.comesFromTop(platform)){
-            // if(this.comesFromTop(platform) || this.isAbovePlatform(platform)){
-                console.log('comefromtopofplatform', this.comesFromTop(platform), 'or isAbovePlatform', this.isAbovePlatform(platform))
-                this.landOnPlatform(platform)
-            }
-            // else if(!this.isAbovePlatform(platform)){
-            //     this.isOnPlatform = false;
-            // }
-        });
-    }
-
-    isAbovePlatform(platform){
-        return this.y + this.height - this.offset.bottom <= platform.y + platform.offset.top 
-        && (this.x + this.width - this.offset.right) >= (platform.x + platform.offset.left) &&
-        (this.x + this.width - this.offset.right) <= (platform.x + platform.width - platform.offset.right) || 
-        this.x + this.offsetleft > platform.x + platform.offset.left && 
-        this.x + width - this. offset.right < platform.x + platform.width - platform.offset
-    }
-
-    landOnPlatform(platform){
-        console.log('character is on a platform')
-        this.isOnPlatform = true;
-        this.y = platform.y + platform.offset.top - this.height + this.offset.bottom;
-    }
-
-
     comesFromTop(obj) {
         if (
-            this.speedY < 0 &&
+            this.speedY > 0 &&
             this.isColliding(obj)
         ) {
             return true;
@@ -345,59 +317,26 @@ class Character extends movableObject {
         }
     }
 
-     // comesFromTop(obj) {
-    //     if (
-    //         this.speedY < 0 &&
-    //         this.isColliding(obj)
-    //         // this.isColliding(obj, obj instanceof Snake  || obj instanceof Spider)
-    //     ) {
-    //         console.log('comeFromTop of', obj instanceof Snake, obj)
-    //         return true;
-    //     } else if(
-    //         this.speedY < 0 &&
-    //         this.isAbovePlatform(obj)){
-    //         // this.isAbovePlatform(obj, obj instanceof Platforms)){
-    //         return true;
-    //     }else {
-    //         return false;
-    //     }
-    // }
+    checkPlatformsCollision() {
+        this.world.level.platforms.forEach(platform => {
+            if (this.isAbovePlatform(platform)) {
+                if (this.speedY > 0) {
+                    this.speedY = 0;
+                    this.y = ((platform.y + platform.offset.top) - (this.height - this.offset.bottom));
+                    this.isOnPlatform = true;
+                }
+            }
+        })
+    }
 
-
-
-    // comesFromTop(obj) {
-    //     const thisBottom = this.y + this.height - this.offset.bottom;                // trying to improve function to stay on platform
-    //     const ObjectTop = obj.y + obj.offset.top;
-    //     if (
-    //         this.isColliding(obj) &&
-    //         this.isAboveGround() &&
-    //         this.speedY < 0 &&
-    //         thisBottom >= ObjectTop
-    //     ) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-
-    // isOnPlatformTop(obj) {
-    //     return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
-    //         (this.x + this.offset.left) >= (obj.x + obj.width - obj.offset.right)
-    // }
-
-    // collideFromSide(mo) {
-    //     return (mo.x + mo.offset.left, mo.y + mo.offset.top, mo.width - (mo.offset.right + mo.offset.left), mo.height - (mo.offset.top + mo.offset.bottom))
-    // }
-    
-    // collideFromSide(obj) {
-    //     return this.y + this.offset.top <= (obj.y + obj.height - obj.offset.bottom) &&
-    //         (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) &&
-    //         (this.x + this.width - this.offset.right >= obj.x) ||
-    //         (this.x + this.offset.left) <= obj.x
-    // }
-
-
+    isAbovePlatform(obj) {
+        return (
+            this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
+            this.y + this.height - this.offset.bottom <= obj.y + obj.height - obj.offset.bottom &&
+            this.x + this.offset.left <= obj.x + obj.width &&
+            this.x + this.width - this.offset.right >= obj.x
+        )
+    }
 
     isAttacking(enemy) {
         if (this.isColliding(enemy) &&

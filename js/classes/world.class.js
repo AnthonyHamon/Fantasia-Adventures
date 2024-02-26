@@ -176,7 +176,7 @@ class World {
             // this.drawOffsetColisionFrame(obj);
         
         if((obj instanceof Platforms)){
-            this.drawColisionFrame(obj); 
+            this.drawColisionFrame(obj);
             this.drawOffsetColisionFrame(obj);
         }
         
@@ -226,7 +226,7 @@ class World {
 
 
     addSnakes() {
-        for (let j = 0; j < 11; j++) {
+        for (let j = 0; j < 0; j++) {
             const snake = new Snake();
             this.level.enemies.push(snake);
         }

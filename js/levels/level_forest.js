@@ -50,7 +50,7 @@ const forestLevel = new Level(
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0022_tile.png', 206, 368),
 
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 336, 304),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 400, 240, 30),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 400, 240, 30, 30),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0019_tile.png', 400, 304),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0018_tile.png', 400, 368, 0, 30),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 464, 304),
@@ -78,8 +78,8 @@ const forestLevel = new Level(
 
     [
         new Tree('img/level_set/forest/Objects/128/object_0001_tree2.png', -128, 400),
-        new WoodBox('img/level_set/forest/Objects/32/object_0009_lootbox.png', 336, 452),
-        new DirectionPanel('img/level_set/forest/Objects/32/object_0002_pointer_forward.png', 700, 458),
+        new WoodBox('img/level_set/forest/Objects/32/object_0009_lootbox.png', 336, 492),
+        new DirectionPanel('img/level_set/forest/Objects/32/object_0002_pointer_forward.png', 700, 498),
         new BigTree('img/level_set/forest/Objects/256/tree.png', 632, 322),
         new Tree('img/level_set/forest/Objects/128/object_0002_tree3.png', 1716, 426),
         new BigTree('img/level_set/forest/Objects/256/tree.png', 1920, 26),

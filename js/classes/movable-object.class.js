@@ -51,30 +51,41 @@ class movableObject extends DrawableObjects {
 
     applyGravity() {
         setInterval(() => {
-            if (this.isAboveGround() && !this.isClimbing && !this.isOnPlatform || this.speedY > 0) {
-                console.log('applyGravity true')
-                console.log('is on platform', this.isOnPlatform)
-                this.y -= this.speedY;
-                this.speedY -= this.gravityAcceleration;
+            if (this.isAboveGround() || this.speedY < 0) {
+                this.y += this.speedY;
+                this.speedY += this.gravityAcceleration;
             } else {
-                console.log('applyGravity false')
-                this.speedY = -0;
+                this.speedY = 0;
             }
         }, 1000 / 60);
     }
 
+    // applyGravity() {
+    //     setInterval(() => {
+    //         if (this.isAboveGround() && !this.isClimbing && !this.isOnPlatform || this.speedY > 0) {
+    //             console.log('applyGravity true')
+    //             console.log('is on platform', this.isOnPlatform)
+    //             this.y -= this.speedY;
+    //             this.speedY -= this.gravityAcceleration;
+    //         } else {
+    //             console.log('applyGravity false')
+    //             this.speedY = 0;
+    //         }
+    //     }, 1000 / 60);
+    // }
+
     isAboveGround() {
         if (this instanceof ThrowableObjects) {
             return true;
-        } else if (!this.isDead()) {
+        } else if (!this.isOnPlatform && !this.isDead()) {
             return this.y <= this.ground;
-        } else {
+        } else{
             return false;
         }
     }
 
     jump() {
-        return this.speedY = 11;
+        return this.speedY = -12;
     }
 
     isColliding(obj) {
@@ -85,11 +96,6 @@ class movableObject extends DrawableObjects {
         // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
-    // collides(obj) {
-    //     return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left ||
-    //         (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) // change to right because seems to be logical , change to bottom if problems
-    //     // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-    // }
 
 
     hit(damage) {
