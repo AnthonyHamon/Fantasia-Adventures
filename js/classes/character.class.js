@@ -78,6 +78,7 @@ class Character extends movableObject {
     ]
 
     world;
+    hasAlreadyJumped = false;
     isOnPlatform = false;
     isAlreadyAFK = false;
     isClimbing = false;
@@ -87,8 +88,8 @@ class Character extends movableObject {
     speed = 3;
     x = 2200; // -240
     x = -240
-    // y = 200;
-    y = 346;
+    y = 134;
+    // y = 346;
     height = 256;
     width = 256;
 
@@ -121,6 +122,7 @@ class Character extends movableObject {
 
     checkCharacterEvents() {
         setInterval(() => {
+            this.checkGroundCollision();
             this.checkPlatformsCollision();
             this.checkCollection();
         }, 1000 / 60);
@@ -140,9 +142,15 @@ class Character extends movableObject {
             if (!this.isAlreadyAFK)
                 this.isAlreadyAFK = true;
             this.stay();
-            if (this.canJump()) {
+            if (this.canJump() && !this.hasAlreadyJumped) {
                 this.updateCharacterEnergy(30);
                 this.jump();
+                this.hasAlreadyJumped = true;
+            }
+            if(this.canDoubleJump() && this.hasAlreadyJumped){
+                this.updateCharacterEnergy(30);
+                this.jump();
+                console.log('character double jump')
             }
         }, 1000 / 60);
     }
@@ -156,7 +164,7 @@ class Character extends movableObject {
                 this.playAnimation(this.IMAGES_IDLE)
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround() && !this.isDead()) {
+            } else if (!this.isDead() && this.speedY !== 0 && this.speedY !== 0.4) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.attacks()) {
                 this.playAnimation(this.IMAGES_ATTACKING);
@@ -181,7 +189,11 @@ class Character extends movableObject {
     }
 
     canJump() {
-        return !this.isDead() && this.world.keyboard.UP && (!this.isAboveGround()) && this.maxEnergy > 15;
+        return !this.isDead() && this.world.keyboard.UP && (this.speedY === 0 || this.speedY === 0.4) && this.maxEnergy > 15;
+    }
+
+    canDoubleJump(){
+        return !this.isDead() && this.world.keyboard.UP && (this.speedY < -5) && this.maxEnergy > 15
     }
 
     canClimbUp() {
@@ -317,26 +329,36 @@ class Character extends movableObject {
         }
     }
 
-    checkPlatformsCollision() {
-        this.world.level.platforms.forEach(platform => {
-            if (this.isAbovePlatform(platform)) {
-                if (this.speedY > 0) {
-                    this.speedY = 0;
-                    this.y = ((platform.y + platform.offset.top) - (this.height - this.offset.bottom));
-                    this.isOnPlatform = true;
-                }
-            }
+    checkGroundCollision() {
+        this.world.level.ground.forEach(ground => {
+            this.tryToLandOn(ground);
         })
     }
 
-    isAbovePlatform(obj) {
+    checkPlatformsCollision() {
+        this.world.level.platforms.forEach(platform => {
+            this.tryToLandOn(platform);
+        })
+    }
+
+    tryToLandOn(object) {
+        if (this.isAboveGroundOf(object)) {
+            if (this.speedY > 0) {
+                this.y = ((object.y + object.offset.top) - (this.height - this.offset.bottom) + 0.1);
+                this.speedY = 0;
+                this.hasAlreadyJumped = false;
+            }
+        }
+    }
+
+    isAboveGroundOf(obj) {
         return (
             this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
             this.y + this.height - this.offset.bottom <= obj.y + obj.height - obj.offset.bottom &&
             this.x + this.offset.left <= obj.x + obj.width &&
-            this.x + this.width - this.offset.right >= obj.x
-        )
+            this.x + this.width - this.offset.right >= obj.x)
     }
+
 
     isAttacking(enemy) {
         if (this.isColliding(enemy) &&

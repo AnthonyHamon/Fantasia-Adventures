@@ -10,7 +10,7 @@ class movableObject extends DrawableObjects {
     speed = 0.20;
     speedY = 0;
     speedX = 0;
-    gravityAcceleration = 0.5;
+    gravityAcceleration = 0.4;
     life = 100;
     lastMove = 0;
     lastHit = 0;
@@ -51,14 +51,23 @@ class movableObject extends DrawableObjects {
 
     applyGravity() {
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY < 0) {
-                this.y += this.speedY;
-                this.speedY += this.gravityAcceleration;
-            } else {
-                this.speedY = 0;
-            }
+            this.y += this.speedY;
+            this.speedY += this.gravityAcceleration;
         }, 1000 / 60);
     }
+
+
+    // applyGravity() {
+    //     setInterval(() => {
+    //         if(this.speedY < 0){
+    //             this.y += this.speedY;
+    //             this.speedY += this.gravityAcceleration;
+    //         }else {
+    //             this.speedY = 0;
+    //         }
+    //     }, 1000 / 60);
+    // }
+
 
     // applyGravity() {
     //     setInterval(() => {
@@ -74,18 +83,18 @@ class movableObject extends DrawableObjects {
     //     }, 1000 / 60);
     // }
 
-    isAboveGround() {
-        if (this instanceof ThrowableObjects) {
-            return true;
-        } else if (!this.isOnPlatform && !this.isDead()) {
-            return this.y <= this.ground;
-        } else{
-            return false;
-        }
-    }
+    // isAboveGround() {
+    //     if (this instanceof ThrowableObjects) {
+    //         return true;
+    //     } else if (!this.isOnPlatform && !this.isDead()) {
+    //         return this.y <= this.ground;
+    //     } else{
+    //         return false;
+    //     }
+    // }
 
     jump() {
-        return this.speedY = -12;
+        return this.speedY = -8;
     }
 
     isColliding(obj) {
