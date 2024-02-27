@@ -94,7 +94,7 @@ class movableObject extends DrawableObjects {
     // }
 
     jump() {
-        return this.speedY = -8;
+        return this.speedY = -8;// -11; // -8
     }
 
     isColliding(obj) {
@@ -126,7 +126,7 @@ class movableObject extends DrawableObjects {
         return this.life == 0;
     }
 
-    startDeathAnimation(){
+    startDeathAnimation() {
         this.currentImage = 0;
         this.speed = 0;
         this.deathAnimationStarted = true;

@@ -68,7 +68,7 @@ const forestLevel = new Level(
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0036_tile.png', 2432, 120, 30, 21),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0035_tile.png', 2496, 120, 30, 21),
 
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0034_tile.png', 2594, 100, 30),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0034_tile.png', 2594, 100, 30, 21),
 
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 2752, 80),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 2816, 80),

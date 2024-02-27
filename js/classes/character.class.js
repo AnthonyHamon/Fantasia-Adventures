@@ -20,6 +20,21 @@ class Character extends movableObject {
         'img/character/Rogue/Jump/jump7.png',
     ];
 
+    IMAGES_DOUBLE_JUMP = [
+        'img/character/Rogue/High_Jump/high_jump1.png',
+        'img/character/Rogue/High_Jump/high_jump2.png',
+        'img/character/Rogue/High_Jump/high_jump3.png',
+        'img/character/Rogue/High_Jump/high_jump4.png',
+        'img/character/Rogue/High_Jump/high_jump5.png',
+        'img/character/Rogue/High_Jump/high_jump6.png',
+        'img/character/Rogue/High_Jump/high_jump7.png',
+        'img/character/Rogue/High_Jump/high_jump8.png',
+        'img/character/Rogue/High_Jump/high_jump9.png',
+        'img/character/Rogue/High_Jump/high_jump10.png',
+        'img/character/Rogue/High_Jump/high_jump11.png',
+        'img/character/Rogue/High_Jump/high_jump12.png',
+    ]
+
     IMAGES_ATTACKING = [
         'img/character/Rogue/Attack/Attack1.png',
         'img/character/Rogue/Attack/Attack2.png',
@@ -104,6 +119,7 @@ class Character extends movableObject {
     constructor() {
         super();
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_DOUBLE_JUMP);
         this.loadImages(this.IMAGES_ATTACKING);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_HURT);
@@ -142,15 +158,16 @@ class Character extends movableObject {
             if (!this.isAlreadyAFK)
                 this.isAlreadyAFK = true;
             this.stay();
-            if (this.canJump() && !this.hasAlreadyJumped) {
+            if (this.canJump()) {
+                this.updateCharacterEnergy(15);
+                this.jump();
+                setTimeout(() => {
+                    this.hasAlreadyJumped = true;
+                }, 200);
+            } else if (this.canDoubleJump()) {
                 this.updateCharacterEnergy(30);
                 this.jump();
-                this.hasAlreadyJumped = true;
-            }
-            if(this.canDoubleJump() && this.hasAlreadyJumped){
-                this.updateCharacterEnergy(30);
-                this.jump();
-                console.log('character double jump')
+                this.hasAlreadyJumped = false;
             }
         }, 1000 / 60);
     }
@@ -166,6 +183,8 @@ class Character extends movableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (!this.isDead() && this.speedY !== 0 && this.speedY !== 0.4) {
                 this.playAnimation(this.IMAGES_JUMPING);
+            // } else if(this.hasAlreadyJumped){
+            //     this.playAnimation(this.IMAGES_DOUBLE_JUMP);
             } else if (this.attacks()) {
                 this.playAnimation(this.IMAGES_ATTACKING);
             } else if (this.isClimbing) {
@@ -192,8 +211,8 @@ class Character extends movableObject {
         return !this.isDead() && this.world.keyboard.UP && (this.speedY === 0 || this.speedY === 0.4) && this.maxEnergy > 15;
     }
 
-    canDoubleJump(){
-        return !this.isDead() && this.world.keyboard.UP && (this.speedY < -5) && this.maxEnergy > 15
+    canDoubleJump() {
+        return !this.isDead() && this.hasAlreadyJumped && this.world.keyboard.UP && this.maxEnergy > 15;
     }
 
     canClimbUp() {
@@ -355,8 +374,8 @@ class Character extends movableObject {
         return (
             this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
             this.y + this.height - this.offset.bottom <= obj.y + obj.height - obj.offset.bottom &&
-            this.x + this.offset.left <= obj.x + obj.width &&
-            this.x + this.width - this.offset.right >= obj.x)
+            this.x + this.offset.left + 8 <= obj.x + obj.width &&
+            this.x + this.width - this.offset.right - 8 >= obj.x)
     }
 
 
