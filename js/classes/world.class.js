@@ -63,6 +63,8 @@ class World {
         this.addObjectToMap(this.level.enemies, this.character);
         this.addObjectToMap(this.level.longRangeAttacks);
         this.addObjectToMap(this.level.throwableObjects);
+        this.drawCollisionBlock(this.level.blockCollision);
+
 
         this.ctx.translate(this.camera_x, 0)
         // ------ space for fixed objects
@@ -172,8 +174,8 @@ class World {
             this.flipImageBack(obj);
         }
 
-            this.drawColisionFrame(obj);
-            this.drawOffsetColisionFrame(obj);
+            // this.drawColisionFrame(obj);
+            // this.drawOffsetColisionFrame(obj);
         
         // if((obj instanceof Platforms)){
         //     this.drawColisionFrame(obj);
@@ -207,8 +209,19 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        this.drawColisionFrame(mo);
+        // this.drawColisionFrame(mo);
         this.drawOffsetColisionFrame(mo);
+    }
+
+    drawCollisionBlock(obj){
+        this.ctx.beginPath();
+        this.ctx.lineWidth = '3';
+        this.ctx.strokeStyle = 'black';
+        this.ctx.fillStyle = 'black';
+        obj.forEach(block =>{
+            this.ctx.rect(block.x, block.y, block.width, block.height);
+        })
+        this.ctx.stroke();
     }
 
     flipImage(mo) {

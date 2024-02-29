@@ -17,6 +17,10 @@ const forestLevel = new Level(
     ],
 
     [
+        new BlockCollision(408, 280, 48, 18),
+    ],
+
+    [
         // Ground
 
     ],

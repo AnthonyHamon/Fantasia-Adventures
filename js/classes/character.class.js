@@ -111,7 +111,7 @@ class Character extends movableObject {
 
     offset = {
         top: 124,
-        right: 124,
+        right: 128,
         bottom: 80,
         left: 80
     }
@@ -140,6 +140,7 @@ class Character extends movableObject {
         setInterval(() => {
             this.checkGroundCollision();
             this.checkPlatformsCollision();
+            this.checkObstacleCollision();
             this.checkCollection();
         }, 1000 / 60);
     }
@@ -150,8 +151,8 @@ class Character extends movableObject {
             if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump())
                 this.world.START = false;
             this.isAlreadyAFK = false;
-            if (this.canMoveRight()) this.moveRight(); //  this.world.level.walking_sound_grass.play();
-            if (this.canMoveLeft()) this.moveLeft(); // this.world.level.walking_sound_grass.play();
+            if (this.canMoveRight()) this.moveRight(3); //  this.world.level.walking_sound_grass.play();
+            if (this.canMoveLeft()) this.moveLeft(-3); // this.world.level.walking_sound_grass.play();
             if (this.attacks()) this.updateCharacterEnergy(0.4);
             if (this.canClimbUp()) this.climbUp();
             if (this.canClimbDown()) this.climbDown()
@@ -183,8 +184,8 @@ class Character extends movableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (!this.isDead() && this.speedY !== 0 && this.speedY !== 0.4) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            // } else if(this.hasAlreadyJumped){
-            //     this.playAnimation(this.IMAGES_DOUBLE_JUMP);
+                // } else if(this.hasAlreadyJumped){
+                //     this.playAnimation(this.IMAGES_DOUBLE_JUMP);
             } else if (this.attacks()) {
                 this.playAnimation(this.IMAGES_ATTACKING);
             } else if (this.isClimbing) {
@@ -204,7 +205,7 @@ class Character extends movableObject {
     }
 
     canMoveLeft() {
-        return !this.isDead() && this.world.keyboard.LEFT && this.x > -240 && this.x < 1810 || this.world.keyboard.LEFT && this.x >= 1890 && !this.obstacle;
+        return !this.isDead() && this.world.keyboard.LEFT && this.x > -240;
     }
 
     canJump() {
@@ -244,9 +245,13 @@ class Character extends movableObject {
                 this.world.camera_x = this.x - 200;
             }
 
-            if (this.world.camera_x == this.world.canvas.width * 2) {
-                this.world.camera_x = this.world.canvas.width * 2;
+            if (this.x <= this.world.canvas.width *2 ) {    // player can go back from 1 floor platforms
+                this.world.camera_x = this.x - 200;
             }
+
+            // if (this.world.camera_x == this.world.canvas.width * 2) {
+            //     this.world.camera_x = this.world.canvas.width * 2;
+            // }
         }, 1000 / 60);
     }
 
@@ -363,7 +368,7 @@ class Character extends movableObject {
     tryToLandOn(object) {
         if (this.isAboveGroundOf(object)) {
             if (this.speedY > 0) {
-                this.y = ((object.y + object.offset.top) - (this.height - this.offset.bottom) + 0.1);
+                this.y = ((object.y + object.offset.top) - (this.height - this.offset.bottom));
                 this.speedY = 0;
                 this.hasAlreadyJumped = false;
             }
@@ -376,6 +381,46 @@ class Character extends movableObject {
             this.y + this.height - this.offset.bottom <= obj.y + obj.height - obj.offset.bottom &&
             this.x + this.offset.left + 8 <= obj.x + obj.width &&
             this.x + this.width - this.offset.right - 8 >= obj.x)
+    }
+
+    obstacleCollision(obj) {
+        return (
+            this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
+            this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom &&
+            this.x + this.offset.left <= obj.x + obj.width &&
+            this.x + this.width - this.offset.right >= obj.x
+        )
+    }
+
+
+    checkObstacleCollision() {
+        this.world.level.wall.forEach(block => {
+            this.stopGoingThrough(block);
+        });
+        this.world.level.blockCollision.forEach(block => {
+            this.stopGoingThrough(block);
+        });
+    }
+
+    stopGoingThrough(block) {
+        if (this.obstacleCollision(block)) {
+            console.log('character is Colliding and character speed is', this.speed)
+            if (this.speed > 0) {
+                this.speed = 0;
+                this.x = block.x - this.offset.right
+            }
+            if (this.speed < 0) {
+                this.speed = 0;
+                this.x = block.x + block.width - this.offset.left
+            }
+        }
+
+        
+        
+        
+        // else {
+        //     this.speed = 3;
+        // }
     }
 
 
