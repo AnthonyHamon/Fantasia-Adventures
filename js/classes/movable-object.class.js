@@ -39,9 +39,13 @@ class movableObject extends DrawableObjects {
     }
 
     moveLeft(speedX) {
-        if (speedX) this.speed = speedX;
+        if (speedX){ this.speed = speedX;
         this.x += this.speed;
         this.otherDirection = true;
+        } else if (!speedX){
+            this.x -= this.speed;
+            this.otherDirection = true;
+        }
     }
 
     playAnimation(images) {

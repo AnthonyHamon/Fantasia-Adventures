@@ -152,7 +152,7 @@ class Character extends movableObject {
                 this.world.START = false;
             this.isAlreadyAFK = false;
             if (this.canMoveRight()) this.moveRight(3); //  this.world.level.walking_sound_grass.play();
-            if (this.canMoveLeft()) this.moveLeft(-3); // this.world.level.walking_sound_grass.play();
+            else if (this.canMoveLeft()) this.moveLeft(-3); // this.world.level.walking_sound_grass.play();
             if (this.attacks()) this.updateCharacterEnergy(0.4);
             if (this.canClimbUp()) this.climbUp();
             if (this.canClimbDown()) this.climbDown()

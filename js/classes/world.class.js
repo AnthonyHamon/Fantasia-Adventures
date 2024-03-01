@@ -51,6 +51,7 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0)
 
+        this.drawCollisionBlock(this.level.blockCollision);
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.ground);
@@ -63,7 +64,6 @@ class World {
         this.addObjectToMap(this.level.enemies, this.character);
         this.addObjectToMap(this.level.longRangeAttacks);
         this.addObjectToMap(this.level.throwableObjects);
-        this.drawCollisionBlock(this.level.blockCollision);
 
 
         this.ctx.translate(this.camera_x, 0)
@@ -210,7 +210,7 @@ class World {
             this.flipImageBack(mo);
         }
         // this.drawColisionFrame(mo);
-        this.drawOffsetColisionFrame(mo);
+        // this.drawOffsetColisionFrame(mo);
     }
 
     drawCollisionBlock(obj){
