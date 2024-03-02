@@ -65,7 +65,6 @@ class Ent extends movableObject {
 
     animate() {
         let i = 0;
-
         setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
@@ -77,6 +76,11 @@ class Ent extends movableObject {
             } else if (!this.reachedStartPoint()) {
                 this.moveLeft();
             }
+            if(this.hadFirstContact){
+                this.resetEnemyLifeBar();
+                this.setEnemyLifeBar(); 
+            }
+
         }, 1000 / 60);
 
         setInterval(() => {

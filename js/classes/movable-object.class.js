@@ -16,7 +16,7 @@ class movableObject extends DrawableObjects {
     lastHit = 0;
     startPoint = -130;
     endPoint = 1790;
-
+    enemyLifeBar = [];
 
     stay() {
         this.lastMove = new Date().getTime();
@@ -25,7 +25,7 @@ class movableObject extends DrawableObjects {
     isInactiv() {
         let timePassed = new Date().getTime() - this.lastMove;
         timePassed = timePassed / 1000;
-        if (timePassed > 5000000) {
+        if (timePassed > 5) { // 5
             return true;
         } else {
             return false;
@@ -61,6 +61,32 @@ class movableObject extends DrawableObjects {
             this.speedY += this.gravityAcceleration;
         }, 1000 / 60);
     }
+
+    setEnemyLifeBar() {
+        let x = this.x + this.offset.left;
+        let y = this.y + this.offset.top - 20;
+        let percentage = this.life / 10;
+        if (percentage > 0) {
+            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, y, 4, 8);
+            this.enemyLifeBar.push(HPCorner);
+            for (let index = 1; index < percentage; index++) {
+                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, y, 10, 8);
+                this.enemyLifeBar.push(HP);
+                x = x + 10;
+            }
+        }
+        if (percentage = percentage * 10) {
+            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, y, 4, 8);
+            this.enemyLifeBar.push(HPEndCorner);
+        }
+    }
+
+    resetEnemyLifeBar(){
+        this.enemyLifeBar.splice(0)
+    }
+
+
+
 
 
     // applyGravity() {
@@ -122,13 +148,24 @@ class movableObject extends DrawableObjects {
 
 
 
-    hit(damage) {
-        this.life -= damage;
-        if (this.life < 0) {
-            this.life = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
+    hit() {
+        if(this instanceof Character) this.life -= 4 // 4
+        if(this instanceof Snake) this.life -= 2
+        if(this instanceof Ent) this.life -= 5
+        if(this instanceof Bear) this.life -= 5
+        if(this instanceof Spider) this.life -= 10
+        if(this instanceof Endboss) this.life -= 0
+        if (this.life < 0) this.life = 0;
+        else this.lastHit = new Date().getTime();
+    }
+
+    magicalHit(){
+        if(this instanceof Ent) this.life -= 7
+        if(this instanceof Bear) this.life -= 7
+        if(this instanceof Spider) this.life -= 3
+        if(this instanceof Endboss) this.life -= 10
+        if (this.life < 0) this.life = 0;
+        else this.lastHit = new Date().getTime();
     }
 
     isHurt() {

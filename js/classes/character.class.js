@@ -101,9 +101,10 @@ class Character extends movableObject {
     maxMagicalEnergy = 80;
     maxCoin = 0;
     speed = 3;
-    x = 2200; // -240
-    x = -240
+    x = 2100; // -240
+    // x = -240
     y = 134;
+    y = 50;
     // y = 346;
     height = 256;
     width = 256;
@@ -149,16 +150,14 @@ class Character extends movableObject {
         setInterval(() => {
             this.world.level.walking_sound_grass.pause();
             if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump())
-                this.world.START = false;
-            this.isAlreadyAFK = false;
-            if (this.canMoveRight()) this.moveRight(3); //  this.world.level.walking_sound_grass.play();
-            else if (this.canMoveLeft()) this.moveLeft(-3); // this.world.level.walking_sound_grass.play();
+                this.world.START = false, this.isAlreadyAFK = false;
+            if (this.canMoveRight()) this.moveRight(3) //  this.world.level.walking_sound_grass.play();
+            else if (this.canMoveLeft()) this.moveLeft(-3) // this.world.level.walking_sound_grass.play(); 
             if (this.attacks()) this.updateCharacterEnergy(0.4);
             if (this.canClimbUp()) this.climbUp();
-            if (this.canClimbDown()) this.climbDown()
-            if (!this.isAlreadyAFK)
-                this.isAlreadyAFK = true;
-            this.stay();
+            if (this.canClimbDown()) this.climbDown();
+            if (!this.isAlreadyAFK) this.isAlreadyAFK = true, this.stay();
+           
             if (this.canJump()) {
                 this.updateCharacterEnergy(15);
                 this.jump();
@@ -209,11 +208,11 @@ class Character extends movableObject {
     }
 
     canJump() {
-        return !this.isDead() && this.world.keyboard.UP && (this.speedY === 0 || this.speedY === 0.4) && this.maxEnergy > 15;
+        return !this.isDead() && this.world.keyboard.UP && !this.isClimbing && (this.speedY === 0 || this.speedY === 0.4) && this.maxEnergy > 15;
     }
 
     canDoubleJump() {
-        return !this.isDead() && this.hasAlreadyJumped && this.world.keyboard.UP && this.maxEnergy > 15;
+        return !this.isDead() && this.hasAlreadyJumped && !this.isClimbing && this.world.keyboard.UP && this.maxEnergy > 15;
     }
 
     canClimbUp() {
@@ -221,7 +220,7 @@ class Character extends movableObject {
     }
 
     canClimbDown() {
-        return !this.isDead() && this.world.keyboard.S && this.y < 312;
+        return !this.isDead() && this.world.keyboard.S && this.y < 346;
     }
 
     checkCharacterStats() {
@@ -245,7 +244,7 @@ class Character extends movableObject {
                 this.world.camera_x = this.x - 200;
             }
 
-            if (this.x <= this.world.canvas.width *2 ) {    // player can go back from 1 floor platforms
+            if (this.x <= this.world.canvas.width * 2 - 100) {    // player can go back from 1 floor platforms
                 this.world.camera_x = this.x - 200;
             }
 
@@ -259,15 +258,15 @@ class Character extends movableObject {
     climbDown() {
         setInterval(() => {
             this.world.level.stairway.forEach(step => {
-                if (this.isColliding(step)) {
+                if (this.isAboveGroundOf(step)) {
                     this.isClimbing = true;
                     this.y += 0.2;
                 }
-                if (!this.isColliding(step)) {
+                if (!this.isAboveGroundOf(step)) {
                     this.isClimbing = false;
                 }
             });
-        }, 150);
+        }, 1000 / 60);
     }
 
 
@@ -289,9 +288,7 @@ class Character extends movableObject {
     }
 
     attacks() {
-        if (!this.isDead() && this.world.keyboard.F && this.maxEnergy > 5) {
-            return true;
-        }
+        if (!this.isDead() && this.world.keyboard.F && this.maxEnergy > 5) return true;
     }
 
     updateCharacterLife(lifePoint) {
@@ -301,7 +298,7 @@ class Character extends movableObject {
             this.life += lifePoint;
         }
         this.world.resetLifeBar();
-        this.world.setLifeBar();
+        this.world.setCharacterLifeBar();
     }
 
     updateCharacterEnergy(lostEnergy) {
@@ -404,7 +401,6 @@ class Character extends movableObject {
 
     stopGoingThrough(block) {
         if (this.obstacleCollision(block)) {
-            console.log('character is Colliding and character speed is', this.speed)
             if (this.speed > 0) {
                 this.speed = 0;
                 this.x = block.x - this.offset.right
@@ -414,13 +410,6 @@ class Character extends movableObject {
                 this.x = block.x + block.width - this.offset.left
             }
         }
-
-        
-        
-        
-        // else {
-        //     this.speed = 3;
-        // }
     }
 
 
@@ -437,13 +426,13 @@ class Character extends movableObject {
     checkEnemiesCollisions() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
-                if (this.comesFromTop(enemy) && (enemy instanceof Snake || enemy instanceof Spider) && this.maxEnergy > 0) {
+                if (this.comesFromTop(enemy) && this.maxEnergy > 0) {
                     this.jump();
                     this.maxEnergy -= 30;
-                    enemy.hit(2);
+                    enemy.hit();
                 }
                 if (this.isAttacking(enemy) && !this.isHurt() && enemy instanceof Snake) {
-                    enemy.hit(2);
+                    enemy.hit();
                 }
             });
         }, 1000 / 60);
@@ -452,9 +441,9 @@ class Character extends movableObject {
         setInterval(() => {
             this.world.level.enemies.forEach(enemy => {
                 if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
-                    this.hit(0); // 4
+                    this.hit();
                     this.world.resetLifeBar();
-                    this.world.setLifeBar();
+                    this.world.setCharacterLifeBar();
                 }
             })
         }, 100);

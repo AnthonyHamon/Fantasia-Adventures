@@ -31,7 +31,7 @@ class World {
         this.setStairway();
         this.checkMagicalAttackCollision();
         this.checkEnemiesDeath();
-        this.setLifeBar();
+        this.setCharacterLifeBar();
         this.setEnergyBar();
         this.setMagicBar();
         this.setCoinBar();
@@ -45,13 +45,21 @@ class World {
         })
     }
 
+    // setWorld() {
+    //     this.character.world = this;
+    //     this.level.forEach(row => {
+    //         row.forEach(object =>{
+    //             object.world = this;
+    //         });
+    //     })
+    // }
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(-this.camera_x, 0)
 
-        this.drawCollisionBlock(this.level.blockCollision);
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.ground);
@@ -61,9 +69,13 @@ class World {
         this.addObjectToMap(this.level.decorations);
         this.addObjectToMap(this.level.collectableObjects);
         this.addObjectToMap(this.level.stairway);
-        this.addObjectToMap(this.level.enemies, this.character);
+        this.addObjectToMap(this.level.enemies);
+        this.drawEnemiesLifeBar(this.level.enemies);
         this.addObjectToMap(this.level.longRangeAttacks);
         this.addObjectToMap(this.level.throwableObjects);
+
+        // this.drawCollisionBlock(this.level.blockCollision);
+
 
 
         this.ctx.translate(this.camera_x, 0)
@@ -92,37 +104,13 @@ class World {
         }, 150);
     }
 
-    // trying to improve function to stay on platform
-
-    // checkPlatformsCollision() {
-    //     this.level.platforms.forEach(platform => {
-    //         // if(!this.character.isColliding(platform)){
-    //         //     this.character.obstacle = false;            // need help to resolve this, obstacle switch between true and false because of isColliding. 
-    //         // }
-
-    //         if (this.character.comesFromTop(platform)) {
-    //             this.character.isOnPlatform = true;
-    //             this.character.y = platform.y + platform.offset.top - this.character.height + this.character.offset.bottom;
-    //         }
-    //         // if (this.character.isColliding(platform) && !this.character.isOnPlatformTop(platform)) {
-    //         //     this.character.isOnPlatform = true;
-    //         // }
-    //         // if(this.character.collideFromSide(platform)){
-    //         //     console.log('coliding')
-    //         //     this.character.obstacle = true;             // need help to resolve this, obstacle switch between true and false because of isColliding. 
-    //         // }
-    //         if (this.character.isOnPlatformTop(platform)) {
-    //             this.character.isOnPlatform = false;
-    //         }
-    //     });
-    // }
 
     checkMagicalAttackCollision() {
         setInterval(() => {
             this.level.longRangeAttacks.forEach(attack => {
                 this.level.enemies.forEach(enemy => {
                     if (attack.isColliding(enemy) && !(enemy instanceof Snake)) {
-                        enemy.hit(2.5);
+                        enemy.magicalHit();
                     }
                 })
             })
@@ -174,15 +162,23 @@ class World {
             this.flipImageBack(obj);
         }
 
-            // this.drawColisionFrame(obj);
-            // this.drawOffsetColisionFrame(obj);
-        
+        // this.drawColisionFrame(obj);
+        // this.drawOffsetColisionFrame(obj);
+
         // if((obj instanceof Platforms)){
         //     this.drawColisionFrame(obj);
         //     this.drawOffsetColisionFrame(obj);
         // }
-        
+    }
 
+
+    drawEnemiesLifeBar(enemies) {
+        if (!(enemies instanceof Snake)) {
+            // debugger
+            enemies.forEach(enemy => {
+                this.addObjectToMap(enemy.enemyLifeBar)
+            });
+        }
     }
 
     drawColisionFrame(mo) {
@@ -213,12 +209,12 @@ class World {
         // this.drawOffsetColisionFrame(mo);
     }
 
-    drawCollisionBlock(obj){
+    drawCollisionBlock(obj) {
         this.ctx.beginPath();
         this.ctx.lineWidth = '3';
         this.ctx.strokeStyle = 'black';
         this.ctx.fillStyle = 'black';
-        obj.forEach(block =>{
+        obj.forEach(block => {
             this.ctx.rect(block.x, block.y, block.width, block.height);
         })
         this.ctx.stroke();
@@ -259,7 +255,7 @@ class World {
     }
 
     setFirstFloor() {
-        let x = 1920;
+        let x = 1984;
         let numberOfImages = Math.round((this.level.level_end_x - x) / 64);
         for (let index = 0; index < numberOfImages; index++) {
             const floor = new Platforms('img/level_set/forest/Tiles/Ground_grass_0024_tile.png', x, 220);
@@ -295,29 +291,29 @@ class World {
         let y = 228;
         let firstStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0012_stairway_corner.png', y);
         this.level.stairway.push(firstStairwayTile);
-        for (let index = 0; index < 7; index++) {
+        for (let index = 0; index < 8; index++) {
             let stairwayFiller = new Stairway('img/level_set/forest/Objects/32/object_0010_stairway_filler.png', y);
             this.level.stairway.push(stairwayFiller);
             y = y + 32;
         }
-        let lastStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0011_stairway_corner2.png', 452);
+        let lastStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0011_stairway_corner2.png', 484);
         this.level.stairway.push(lastStairwayTile);
     }
 
-    setLifeBar() {
+    setCharacterLifeBar() {
         let x = 80;
         let percentage = this.character.life;
         if (percentage > 0) {
-            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, 4);
+            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, 8, 4, 12);
             this.lifeBar.push(HPCorner);
             for (let index = 1; index < percentage; index++) {
-                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, 2);
+                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, 8, 2, 12);
                 this.lifeBar.push(HP);
                 x = x + 1.1;
             }
         }
         if (percentage = percentage * 4) {
-            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, 4);
+            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, 8, 4, 12);
             this.lifeBar.push(HPEndCorner);
         }
     }

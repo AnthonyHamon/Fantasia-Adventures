@@ -78,6 +78,11 @@ class Bear extends movableObject {
             } else if (!this.reachedStartPoint()) {
                 this.moveLeft();
             }
+            if(this.hadFirstContact){
+                this.resetEnemyLifeBar();
+                this.setEnemyLifeBar(); 
+            }
+            
         }, 1000 / 60);
 
         setInterval(() => {

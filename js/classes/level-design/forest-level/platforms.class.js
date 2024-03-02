@@ -11,15 +11,25 @@ class Platforms extends DrawableObjects{
         left: 0
     }
     
-    constructor(imagePath, x, y, offsetTop, offsetBottom){
+    constructor(imagePath, x, y, offsetTop, offsetBottom, offsetLeft, offsetRight){
         super().loadImage(imagePath);
         this.x = x;
         this.y = y;
+        this.setSpecialOffsets(offsetTop, offsetBottom, offsetLeft, offsetRight);
+    }
+
+    setSpecialOffsets(offsetTop, offsetBottom, offsetLeft, offsetRight){
         if(offsetTop){
             this.offset.top = offsetTop;
         }
         if(offsetBottom){
             this.offset.bottom = offsetBottom;
+        }
+        if(offsetLeft){
+            this.offset.left = offsetLeft;
+        }
+        if(offsetRight){
+            this.offset.right = offsetRight;
         }
     }
 

@@ -68,6 +68,8 @@ class Spider extends movableObject {
             } else if (!this.reachedStartPoint()) {
                 this.moveLeft();
             }
+            this.resetEnemyLifeBar();
+            this.setEnemyLifeBar();
         }, 1000 / 60);
 
     }
