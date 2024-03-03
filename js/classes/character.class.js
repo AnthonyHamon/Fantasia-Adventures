@@ -400,7 +400,7 @@ class Character extends movableObject {
                 this.speedY = 0;
                 this.hasAlreadyJumped = false;
             }
-            if (platform instanceof Platforms) this.isOnPlatform = true;
+            if (platform instanceof Platforms) this.isOnPlatform = true, this.isOnTheGround = false
             else this.isOnPlatform = false;
         }
     }
@@ -412,7 +412,8 @@ class Character extends movableObject {
                 this.speedY = 0;
                 this.hasAlreadyJumped = false;
             }
-            if (ground instanceof Ground) this.isOnTheGround = true;
+            if (ground instanceof Ground) this.isOnTheGround = true, this.isOnPlatform = false;
+            else this.isOnTheGround = false;
         }
     }
 
@@ -497,17 +498,6 @@ class Character extends movableObject {
                 }
             });
         }, 1000 / 60);
-
-
-        setInterval(() => {
-            this.world.level.enemies.forEach(enemy => {
-                if (this.isColliding(enemy) && !this.comesFromTop(enemy) && !this.isAttacking(enemy) && !this.isDead()) {
-                    this.hit();
-                    this.world.resetLifeBar();
-                    this.world.setCharacterLifeBar();
-                }
-            })
-        }, 100);
     }
 
 

@@ -60,6 +60,7 @@ class Bear extends movableObject {
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
+        this.checkCharacterCollision();
     }
 
     animate() {

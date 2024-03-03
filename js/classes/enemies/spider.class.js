@@ -53,6 +53,7 @@ class Spider extends movableObject {
         this.loadImages(this.IMAGES_DEATH);
         this.letEnemyMove();
         this.animate();
+        this.checkCharacterCollision();
     }
 
     letEnemyMove() {

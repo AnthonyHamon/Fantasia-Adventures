@@ -39,6 +39,7 @@ class Endboss extends movableObject {
         // super().loadImage(this.IMAGESWALKINGBOSS[0]);
         super().loadImages(this.IMAGESANGRYBOSS);
         this.animate();
+        this.checkCharacterCollision();
     }
 
     animate() {

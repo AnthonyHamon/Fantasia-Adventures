@@ -39,10 +39,11 @@ class movableObject extends DrawableObjects {
     }
 
     moveLeft(speedX) {
-        if (speedX){ this.speed = speedX;
-        this.x += this.speed;
-        this.otherDirection = true;
-        } else if (!speedX){
+        if (speedX) {
+            this.speed = speedX;
+            this.x += this.speed;
+            this.otherDirection = true;
+        } else if (!speedX) {
             this.x -= this.speed;
             this.otherDirection = true;
         }
@@ -81,7 +82,7 @@ class movableObject extends DrawableObjects {
         }
     }
 
-    resetEnemyLifeBar(){
+    resetEnemyLifeBar() {
         this.enemyLifeBar.splice(0)
     }
 
@@ -149,21 +150,39 @@ class movableObject extends DrawableObjects {
 
 
     hit() {
-        if(this instanceof Character) this.life -= 0 // 4
-        if(this instanceof Snake) this.life -= 2
-        if(this instanceof Ent) this.life -= 5
-        if(this instanceof Bear) this.life -= 5
-        if(this instanceof Spider) this.life -= 10
-        if(this instanceof Endboss) this.life -= 0
-        if (this.life < 0) this.life = 0;
-        else this.lastHit = new Date().getTime();
+        if (this instanceof Snake) this.life -= 2;
+        if (this instanceof Ent) this.life -= 5;
+        if (this instanceof Bear) this.life -= 5;
+        if (this instanceof Spider) this.life -= 10;
+        if (this instanceof Endboss) this.life -= 0;
+        
     }
 
-    magicalHit(){
-        if(this instanceof Ent) this.life -= 7
-        if(this instanceof Bear) this.life -= 7
-        if(this instanceof Spider) this.life -= 3
-        if(this instanceof Endboss) this.life -= 10
+    attack(){
+        if (this instanceof Snake) this.world.character.life -= 1
+        if (this instanceof Ent) this.world.character.life -= 5
+        if (this instanceof Bear) this.world.character.life -= 6
+        if (this instanceof Spider) this.world.character.life -= 4
+        if (this instanceof Endboss) this.world.character.life -= 0
+        if (this.world.character.life < 0) this.world.character.life = 0;
+        else this.world.character.lastHit = new Date().getTime();
+    }
+
+    checkCharacterCollision() {
+        setInterval(() => {
+            if (this.world && this.isColliding(this.world.character)) {
+                this.attack();
+                this.world.resetLifeBar();
+                this.world.setCharacterLifeBar();
+            }
+        }, 100);
+    }
+
+    magicalHit() {
+        if (this instanceof Ent) this.life -= 7
+        if (this instanceof Bear) this.life -= 7
+        if (this instanceof Spider) this.life -= 3
+        if (this instanceof Endboss) this.life -= 10
         if (this.life < 0) this.life = 0;
         else this.lastHit = new Date().getTime();
     }
