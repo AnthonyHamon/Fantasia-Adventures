@@ -106,7 +106,7 @@ class Bear extends movableObject {
             i++;
 
             setTimeout(() => {
-                if (this.world.character.x > 1500 && !this.hadFirstContact) {
+                if (this.world && this.world.character.x > 1500 && !this.hadFirstContact) {
                     i = 0;
                     this.hadFirstContact = true;
                 }

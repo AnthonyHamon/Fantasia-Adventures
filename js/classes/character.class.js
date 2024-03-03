@@ -176,7 +176,6 @@ class Character extends movableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEATH);
-                this.y = 316;
             } else if (this.isInactiv() && this.isAlreadyAFK && !this.isHurt() || this.world.START) {
                 this.playAnimation(this.IMAGES_IDLE)
             } else if (this.isHurt()) {
@@ -417,21 +416,7 @@ class Character extends movableObject {
         }
     }
 
-    // tryToLandOn(object) {
-    //     if (this.isAboveGroundOf(object)) {
-    //         if (this.speedY > 0) {
-    //             this.y = ((object.y + object.offset.top) - (this.height - this.offset.bottom));
-    //             this.speedY = 0;
-    //             this.hasAlreadyJumped = false;
-    //         }
-    //         if (object instanceof Platforms) this.isOnPlatform = true;
-    //         else this.isOnPlatform = false;
-    //         if (object instanceof Ground) this.isOnTheGround = true;
-    //         if (this.isClimbing) {
-    //             if (this.isOnPlatform || this.isOnTheGround) this.isClimbing = false;
-    //         }
-    //     }
-    // }
+   
 
 
     isAboveGroundOf(obj) {
@@ -488,7 +473,8 @@ class Character extends movableObject {
     checkEnemiesCollisions() {
         setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
-                if (this.comesFromTop(enemy) && this.maxEnergy > 0) {
+                if (this.comesFromTop(enemy) && this.canJump() && this.maxEnergy > 0) {
+                    console.log('is jumping')
                     this.jump();
                     this.maxEnergy -= 30;
                     enemy.hit();
@@ -499,6 +485,5 @@ class Character extends movableObject {
             });
         }, 1000 / 60);
     }
-
 
 }

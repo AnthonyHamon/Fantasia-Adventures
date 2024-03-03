@@ -166,3 +166,24 @@
         this.isOnPlatform = true;
         this.y = platform.y + platform.offset.top - this.height + this.offset.bottom;
     }
+
+
+
+
+    // function to land on ground or platform before implementing method to climb down
+
+     // tryToLandOn(object) {
+    //     if (this.isAboveGroundOf(object)) {
+    //         if (this.speedY > 0) {
+    //             this.y = ((object.y + object.offset.top) - (this.height - this.offset.bottom));
+    //             this.speedY = 0;
+    //             this.hasAlreadyJumped = false;
+    //         }
+    //         if (object instanceof Platforms) this.isOnPlatform = true;
+    //         else this.isOnPlatform = false;
+    //         if (object instanceof Ground) this.isOnTheGround = true;
+    //         if (this.isClimbing) {
+    //             if (this.isOnPlatform || this.isOnTheGround) this.isClimbing = false;
+    //         }
+    //     }
+    // }

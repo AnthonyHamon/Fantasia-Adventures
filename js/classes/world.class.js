@@ -45,15 +45,6 @@ class World {
         })
     }
 
-    // setWorld() {
-    //     this.character.world = this;
-    //     this.level.forEach(row => {
-    //         row.forEach(object =>{
-    //             object.world = this;
-    //         });
-    //     })
-    // }
-
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

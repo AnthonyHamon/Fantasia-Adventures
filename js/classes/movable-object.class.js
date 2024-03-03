@@ -1,5 +1,4 @@
 class movableObject extends DrawableObjects {
-    obstacle = false;
     hadFirstContact = false;
     reachedStart = false;
     reachedEnd = false;
@@ -63,21 +62,23 @@ class movableObject extends DrawableObjects {
         }, 1000 / 60);
     }
 
-    setEnemyLifeBar() {
+    setEnemyLifeBar(boss) {
         let x = this.x + this.offset.left;
         let y = this.y + this.offset.top - 20;
+        let height = 8
+        if(boss) height = 10;
         let percentage = this.life / 10;
         if (percentage > 0) {
-            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, y, 4, 8);
+            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, y, 4, height);
             this.enemyLifeBar.push(HPCorner);
             for (let index = 1; index < percentage; index++) {
-                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, y, 10, 8);
+                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, y, 10, height);
                 this.enemyLifeBar.push(HP);
                 x = x + 10;
             }
         }
         if (percentage = percentage * 10) {
-            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, y, 4, 8);
+            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, y, 4, height);
             this.enemyLifeBar.push(HPEndCorner);
         }
     }
@@ -147,23 +148,22 @@ class movableObject extends DrawableObjects {
         )
     }
 
-
-
     hit() {
         if (this instanceof Snake) this.life -= 2;
         if (this instanceof Ent) this.life -= 5;
         if (this instanceof Bear) this.life -= 5;
         if (this instanceof Spider) this.life -= 10;
         if (this instanceof Endboss) this.life -= 0;
-        
+        if (this.life < 0) this.life = 0;
+        else this.lastHit = new Date().getTime();  
     }
 
     attack(){
-        if (this instanceof Snake) this.world.character.life -= 1
-        if (this instanceof Ent) this.world.character.life -= 5
-        if (this instanceof Bear) this.world.character.life -= 6
-        if (this instanceof Spider) this.world.character.life -= 4
-        if (this instanceof Endboss) this.world.character.life -= 0
+        if (this instanceof Snake) this.world.character.life -= 1.5;
+        if (this instanceof Ent) this.world.character.life -= 5;
+        if (this instanceof Bear) this.world.character.life -= 6;
+        if (this instanceof Spider) this.world.character.life -= 4;
+        if (this instanceof Endboss) this.world.character.life -= 0;
         if (this.world.character.life < 0) this.world.character.life = 0;
         else this.world.character.lastHit = new Date().getTime();
     }
@@ -171,6 +171,7 @@ class movableObject extends DrawableObjects {
     checkCharacterCollision() {
         setInterval(() => {
             if (this.world && this.isColliding(this.world.character)) {
+                // console.log('character is colliding', this)
                 this.attack();
                 this.world.resetLifeBar();
                 this.world.setCharacterLifeBar();

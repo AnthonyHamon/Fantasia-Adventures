@@ -46,11 +46,8 @@ class Endboss extends movableObject {
 
         setInterval(() => {
             this.moveLeft();
-
-            if(this.hadFirstContact){
                 this.resetEnemyLifeBar();
-                this.setEnemyLifeBar(); 
-            }
+                this.setEnemyLifeBar('boss'); 
         }, 1000 / 60);
     
         setInterval(() => {
