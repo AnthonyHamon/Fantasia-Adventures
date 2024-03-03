@@ -86,7 +86,6 @@ class Character extends movableObject {
     ];
 
     IMAGES_CLIMBING = [
-        'img/character/Rogue/Climb/climb1.png',
         'img/character/Rogue/Climb/climb2.png',
         'img/character/Rogue/Climb/climb3.png',
         'img/character/Rogue/Climb/climb4.png',
@@ -94,6 +93,7 @@ class Character extends movableObject {
 
     world;
     hasAlreadyJumped = false;
+    isOnTheGround = false;
     isOnPlatform = false;
     isAlreadyAFK = false;
     isClimbing = false;
@@ -157,7 +157,7 @@ class Character extends movableObject {
             if (this.canClimbUp()) this.climbUp();
             if (this.canClimbDown()) this.climbDown();
             if (!this.isAlreadyAFK) this.isAlreadyAFK = true, this.stay();
-           
+
             if (this.canJump()) {
                 this.updateCharacterEnergy(15);
                 this.jump();
@@ -255,19 +255,42 @@ class Character extends movableObject {
     }
 
 
+    // climbDown() {
+    //     this.world.level.stairway.forEach(step => {
+    //         if (this.isColliding(step)) {
+    //             this.isClimbing = true;
+    //             this.speedY = 0;
+    //             this.y += 5;
+    //         }
+    //         // if (!this.isColliding(step)) {
+    //         //     this.isClimbing = false;
+    //         //     this.speedY = 8;
+
+    //         // }
+    //     });
+    // }
+
+
     climbDown() {
-        setInterval(() => {
-            this.world.level.stairway.forEach(step => {
-                if (this.isAboveGroundOf(step)) {
-                    this.isClimbing = true;
-                    this.y += 0.2;
-                }
-                if (!this.isAboveGroundOf(step)) {
-                    this.isClimbing = false;
-                }
-            });
-        }, 1000 / 60);
+        this.world.level.stairway.forEach(step => {
+            if (this.isColliding(step)) {
+                this.isClimbing = true;
+                this.y += 1, this.x = 2200, this.isOnPlatform = false;
+                if (this.speedY >= 0) this.speedY = 0
+            }
+        })
+
     }
+
+    // climbDown() {
+    //     this.world.level.stairway.forEach(step => {
+    //         if (!this.isClimbing) {
+    //             if(this.isColliding(step) && this.isOnPlatform) this.isClimbing = true, this.y += 14, 
+    //             this.isOnPlatform = false, this.speedY = 0;
+    //             if(this.isColliding(step) && this.isOnTheGround) this.isClimbing = false;
+    //         }
+    //     });
+    // }
 
 
     magicAttack() {
@@ -363,21 +386,59 @@ class Character extends movableObject {
     }
 
     tryToLandOn(object) {
-        if (this.isAboveGroundOf(object)) {
+        this.landOnPlatform(object);
+        this.landOnTheGround(object);
+        if (this.isClimbing) {
+            if (this.isOnPlatform || this.isOnTheGround) this.isClimbing = false;
+        }
+    }
+
+    landOnPlatform(platform) {
+        if (platform instanceof Platforms && this.isAboveGroundOf(platform) && !this.isClimbing) {
             if (this.speedY > 0) {
-                this.y = ((object.y + object.offset.top) - (this.height - this.offset.bottom));
+                this.y = ((platform.y + platform.offset.top) - (this.height - this.offset.bottom));
                 this.speedY = 0;
                 this.hasAlreadyJumped = false;
             }
+            if (platform instanceof Platforms) this.isOnPlatform = true;
+            else this.isOnPlatform = false;
         }
     }
+
+    landOnTheGround(ground) {
+        if (ground instanceof Ground && this.isAboveGroundOf(ground)) {
+            if (this.speedY > 0) {
+                this.y = ((ground.y + ground.offset.top) - (this.height - this.offset.bottom));
+                this.speedY = 0;
+                this.hasAlreadyJumped = false;
+            }
+            if (ground instanceof Ground) this.isOnTheGround = true;
+        }
+    }
+
+    // tryToLandOn(object) {
+    //     if (this.isAboveGroundOf(object)) {
+    //         if (this.speedY > 0) {
+    //             this.y = ((object.y + object.offset.top) - (this.height - this.offset.bottom));
+    //             this.speedY = 0;
+    //             this.hasAlreadyJumped = false;
+    //         }
+    //         if (object instanceof Platforms) this.isOnPlatform = true;
+    //         else this.isOnPlatform = false;
+    //         if (object instanceof Ground) this.isOnTheGround = true;
+    //         if (this.isClimbing) {
+    //             if (this.isOnPlatform || this.isOnTheGround) this.isClimbing = false;
+    //         }
+    //     }
+    // }
+
 
     isAboveGroundOf(obj) {
         return (
             this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
             this.y + this.height - this.offset.bottom <= obj.y + obj.height - obj.offset.bottom &&
-            this.x + this.offset.left + 8 <= obj.x + obj.width &&
-            this.x + this.width - this.offset.right - 8 >= obj.x)
+            this.x + this.offset.left <= obj.x + obj.width - obj.offset.right &&
+            this.x + this.width - this.offset.right >= obj.x + obj.offset.left)
     }
 
     obstacleCollision(obj) {

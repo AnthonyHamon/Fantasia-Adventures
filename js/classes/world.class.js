@@ -74,7 +74,7 @@ class World {
         this.addObjectToMap(this.level.longRangeAttacks);
         this.addObjectToMap(this.level.throwableObjects);
 
-        // this.drawCollisionBlock(this.level.blockCollision);
+        // this.drawCollisionBlock(this.level.blockCollision); // only drawn to adjust position
 
 
 
@@ -165,10 +165,10 @@ class World {
         // this.drawColisionFrame(obj);
         // this.drawOffsetColisionFrame(obj);
 
-        // if((obj instanceof Platforms)){
-        //     this.drawColisionFrame(obj);
-        //     this.drawOffsetColisionFrame(obj);
-        // }
+        if((obj instanceof Platforms)){
+            // this.drawColisionFrame(obj);
+            this.drawOffsetColisionFrame(obj);
+        }
     }
 
 
@@ -206,7 +206,7 @@ class World {
             this.flipImageBack(mo);
         }
         // this.drawColisionFrame(mo);
-        // this.drawOffsetColisionFrame(mo);
+        this.drawOffsetColisionFrame(mo);
     }
 
     drawCollisionBlock(obj) {
