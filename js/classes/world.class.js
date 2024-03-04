@@ -29,6 +29,7 @@ class World {
         this.setBackground();
         this.setClouds();
         this.setStairway();
+        this.checkEnemiesCollisions();
         this.checkMagicalAttackCollision();
         this.checkEnemiesDeath();
         this.setCharacterLifeBar();
@@ -95,6 +96,43 @@ class World {
         }, 150);
     }
 
+    checkCharacterCollision() {
+        setInterval(() => {
+            if (this.world && this.isColliding(this.world.character)) {
+                console.log('character is colliding', this)
+                this.attack();
+                this.world.resetLifeBar();
+                this.world.setCharacterLifeBar();
+            }
+        }, 100);
+    }
+
+
+    checkEnemiesCollisions() {
+        setInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.comesFromTop(enemy) && this.character.speedY!== 0.4 && this.character.maxEnergy > 0) {
+                    this.character.jump();
+                    this.character.maxEnergy -= 30;
+                    enemy.hit(enemy.receivedDamages);
+                }
+                if (this.character.isAttacking(enemy) && !this.character.isHurt() && enemy instanceof Snake) {
+                    enemy.hit();
+                }
+            });
+        }, 1000 / 60);
+
+
+        setInterval(() => {
+            this.level.enemies.forEach(enemy => {
+                if (this.character.isColliding(enemy) && !this.character.isAttacking(enemy) && !this.character.isDead()) {
+                    this.character.hit(enemy.inflictDamages);
+                    this.resetLifeBar();
+                    this.setCharacterLifeBar();
+                }
+            })
+        }, 100);
+    }
 
     checkMagicalAttackCollision() {
         setInterval(() => {
@@ -158,7 +196,7 @@ class World {
 
         if((obj instanceof Platforms)){
             // this.drawColisionFrame(obj);
-            this.drawOffsetColisionFrame(obj);
+            // this.drawOffsetColisionFrame(obj);
         }
     }
 

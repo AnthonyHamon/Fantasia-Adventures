@@ -27,6 +27,9 @@ class Endboss extends movableObject {
     x = (960 * 3) - this.width;
     y = 278;
     speed = 0;
+    inflictDamages = 0;
+    receivedDamages = 0;
+
     
     offset = {
         top: 120,
@@ -39,7 +42,6 @@ class Endboss extends movableObject {
         // super().loadImage(this.IMAGESWALKINGBOSS[0]);
         super().loadImages(this.IMAGESANGRYBOSS);
         this.animate();
-        this.checkCharacterCollision();
     }
 
     animate() {

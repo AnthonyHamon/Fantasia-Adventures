@@ -46,6 +46,9 @@ class Ent extends movableObject {
     height = 256;
     speed = 0;
     endPoint = 1790;
+    inflictDamages = 5;
+    receivedDamages = 5;
+
 
     offset = {
         top: 78,
@@ -61,7 +64,6 @@ class Ent extends movableObject {
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
-        this.checkCharacterCollision();
     }
 
     animate() {
@@ -85,28 +87,31 @@ class Ent extends movableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead() && this.deathAnimationStarted) {
-                this.playAnimation(this.IMAGES_DEATH);
-                if (this.currentImage == this.IMAGES_DEATH.length - 1) {
-                    this.deathAnimationEnded = true;
+            if(this.world){
+                if (this.isDead() && this.deathAnimationStarted) {
+                    this.playAnimation(this.IMAGES_DEATH);
+                    if (this.currentImage == this.IMAGES_DEATH.length - 1) {
+                        this.deathAnimationEnded = true;
+                    }
+                } else if (this.isHurt()) {
+                    this.speed = 0;
+                    this.playAnimation(this.IMAGES_HURT)
+                } else if (i < 4) {
+                    this.playAnimation(this.IMAGES_WAITING_ENT);
+                } else if (this.hadFirstContact && !this.isColliding(this.world.character)) {
+                    this.speed = 1;
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (this.isColliding(this.world.character)) {
+                    this.playAnimation(this.IMAGES_ATTACKING)
                 }
-            } else if (this.isHurt()) {
-                this.speed = 0;
-                this.playAnimation(this.IMAGES_HURT)
-            } else if (i < 4) {
-                this.playAnimation(this.IMAGES_WAITING_ENT);
-            } else if (this.hadFirstContact && !this.isColliding(this.world.character)) {
-                this.speed = 1;
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (this.isColliding(this.world.character)) {
-                this.playAnimation(this.IMAGES_ATTACKING)
+                i++;
+    
+                if (this.world && this.world.character.x > 900 && !this.hadFirstContact) {
+                    i = 0;
+                    this.hadFirstContact = true;
+                }
             }
-            i++;
-
-            if (this.world && this.world.character.x > 900 && !this.hadFirstContact) {
-                i = 0;
-                this.hadFirstContact = true;
-            }
+            
         }, 180);
 
     }

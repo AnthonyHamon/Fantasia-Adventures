@@ -29,6 +29,9 @@ class Snake extends movableObject {
     y = 444;
     height = 128;
     width = 128;
+    inflictDamages = 1.5;
+    receivedDamages = 2;
+
 
     offset = {
         top: 48,
@@ -47,7 +50,6 @@ class Snake extends movableObject {
         this.speed = 0.15 + Math.random() * 0.5;
         this.letEnemyMove();
         this.animate();
-        this.checkCharacterCollision();
     };
 
     letEnemyMove(){

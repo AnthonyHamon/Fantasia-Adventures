@@ -35,9 +35,11 @@ class Spider extends movableObject {
     height = 128;
     width = 128;
     speed = 1;
-
     startPoint = 2360;
     endPoint = 2540;
+    inflictDamages = 4;
+    receivedDamages = 10;
+
 
     offset = {
         top: 36,
@@ -53,7 +55,6 @@ class Spider extends movableObject {
         this.loadImages(this.IMAGES_DEATH);
         this.letEnemyMove();
         this.animate();
-        this.checkCharacterCollision();
     }
 
     letEnemyMove() {

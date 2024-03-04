@@ -132,7 +132,6 @@ class Character extends movableObject {
         this.checkCharacterStats();
         this.animate();
         this.moveCamera();
-        this.checkEnemiesCollisions();
         this.magicAttack();
         this.applyGravity();
     };
@@ -459,7 +458,6 @@ class Character extends movableObject {
         }
     }
 
-
     isAttacking(enemy) {
         if (this.isColliding(enemy) &&
             this.world.keyboard.F &&
@@ -469,21 +467,4 @@ class Character extends movableObject {
             return false;
         }
     }
-
-    checkEnemiesCollisions() {
-        setInterval(() => {
-            this.world.level.enemies.forEach((enemy) => {
-                if (this.comesFromTop(enemy) && this.canJump() && this.maxEnergy > 0) {
-                    console.log('is jumping')
-                    this.jump();
-                    this.maxEnergy -= 30;
-                    enemy.hit();
-                }
-                if (this.isAttacking(enemy) && !this.isHurt() && enemy instanceof Snake) {
-                    enemy.hit();
-                }
-            });
-        }, 1000 / 60);
-    }
-
 }

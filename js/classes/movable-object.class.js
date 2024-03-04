@@ -88,45 +88,6 @@ class movableObject extends DrawableObjects {
     }
 
 
-
-
-
-    // applyGravity() {
-    //     setInterval(() => {
-    //         if(this.speedY < 0){
-    //             this.y += this.speedY;
-    //             this.speedY += this.gravityAcceleration;
-    //         }else {
-    //             this.speedY = 0;
-    //         }
-    //     }, 1000 / 60);
-    // }
-
-
-    // applyGravity() {
-    //     setInterval(() => {
-    //         if (this.isAboveGround() && !this.isClimbing && !this.isOnPlatform || this.speedY > 0) {
-    //             console.log('applyGravity true')
-    //             console.log('is on platform', this.isOnPlatform)
-    //             this.y -= this.speedY;
-    //             this.speedY -= this.gravityAcceleration;
-    //         } else {
-    //             console.log('applyGravity false')
-    //             this.speedY = 0;
-    //         }
-    //     }, 1000 / 60);
-    // }
-
-    // isAboveGround() {
-    //     if (this instanceof ThrowableObjects) {
-    //         return true;
-    //     } else if (!this.isOnPlatform && !this.isDead()) {
-    //         return this.y <= this.ground;
-    //     } else{
-    //         return false;
-    //     }
-    // }
-
     jump() {
         return this.speedY = -8;// -11; // -8
     }
@@ -148,35 +109,10 @@ class movableObject extends DrawableObjects {
         )
     }
 
-    hit() {
-        if (this instanceof Snake) this.life -= 2;
-        if (this instanceof Ent) this.life -= 5;
-        if (this instanceof Bear) this.life -= 5;
-        if (this instanceof Spider) this.life -= 10;
-        if (this instanceof Endboss) this.life -= 0;
-        if (this.life < 0) this.life = 0;
-        else this.lastHit = new Date().getTime();  
-    }
-
-    attack(){
-        if (this instanceof Snake) this.world.character.life -= 1.5;
-        if (this instanceof Ent) this.world.character.life -= 5;
-        if (this instanceof Bear) this.world.character.life -= 6;
-        if (this instanceof Spider) this.world.character.life -= 4;
-        if (this instanceof Endboss) this.world.character.life -= 0;
-        if (this.world.character.life < 0) this.world.character.life = 0;
-        else this.world.character.lastHit = new Date().getTime();
-    }
-
-    checkCharacterCollision() {
-        setInterval(() => {
-            if (this.world && this.isColliding(this.world.character)) {
-                // console.log('character is colliding', this)
-                this.attack();
-                this.world.resetLifeBar();
-                this.world.setCharacterLifeBar();
-            }
-        }, 100);
+    hit(damages) {
+        this.life -= damages;
+        if (this.life < 0) this.life = 0;           
+        else this.lastHit = new Date().getTime();          
     }
 
     magicalHit() {
