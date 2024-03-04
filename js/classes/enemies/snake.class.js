@@ -30,7 +30,9 @@ class Snake extends movableObject {
     height = 128;
     width = 128;
     inflictDamages = 1.5;
-    receivedDamages = 2;
+    receivedPhysicalDamages = 2;
+    receivedMagicalDamages = 0;
+
 
 
     offset = {

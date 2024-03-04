@@ -47,7 +47,9 @@ class Ent extends movableObject {
     speed = 0;
     endPoint = 1790;
     inflictDamages = 5;
-    receivedDamages = 5;
+    receivedPhysicalDamages = 5;
+    receivedMagicalDamages = 7;
+
 
 
     offset = {
@@ -79,15 +81,13 @@ class Ent extends movableObject {
             } else if (!this.reachedStartPoint()) {
                 this.moveLeft();
             }
-            if(this.hadFirstContact){
-                this.resetEnemyLifeBar();
-                this.setEnemyLifeBar(); 
-            }
+            this.resetEnemyLifeBar();
+            this.setEnemyLifeBar();
 
         }, 1000 / 60);
 
         setInterval(() => {
-            if(this.world){
+            if (this.world) {
                 if (this.isDead() && this.deathAnimationStarted) {
                     this.playAnimation(this.IMAGES_DEATH);
                     if (this.currentImage == this.IMAGES_DEATH.length - 1) {
@@ -105,13 +105,13 @@ class Ent extends movableObject {
                     this.playAnimation(this.IMAGES_ATTACKING)
                 }
                 i++;
-    
+
                 if (this.world && this.world.character.x > 900 && !this.hadFirstContact) {
                     i = 0;
                     this.hadFirstContact = true;
                 }
             }
-            
+
         }, 180);
 
     }

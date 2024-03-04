@@ -115,14 +115,6 @@ class movableObject extends DrawableObjects {
         else this.lastHit = new Date().getTime();          
     }
 
-    magicalHit() {
-        if (this instanceof Ent) this.life -= 7
-        if (this instanceof Bear) this.life -= 7
-        if (this instanceof Spider) this.life -= 3
-        if (this instanceof Endboss) this.life -= 10
-        if (this.life < 0) this.life = 0;
-        else this.lastHit = new Date().getTime();
-    }
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;

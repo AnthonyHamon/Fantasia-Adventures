@@ -38,7 +38,9 @@ class Spider extends movableObject {
     startPoint = 2360;
     endPoint = 2540;
     inflictDamages = 4;
-    receivedDamages = 10;
+    receivedPhysicalDamages = 10;
+    receivedMagicalDamages = 5;
+
 
 
     offset = {

@@ -96,25 +96,13 @@ class World {
         }, 150);
     }
 
-    checkCharacterCollision() {
-        setInterval(() => {
-            if (this.world && this.isColliding(this.world.character)) {
-                console.log('character is colliding', this)
-                this.attack();
-                this.world.resetLifeBar();
-                this.world.setCharacterLifeBar();
-            }
-        }, 100);
-    }
-
-
     checkEnemiesCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.comesFromTop(enemy) && this.character.speedY!== 0.4 && this.character.maxEnergy > 0) {
                     this.character.jump();
                     this.character.maxEnergy -= 30;
-                    enemy.hit(enemy.receivedDamages);
+                    enemy.hit(enemy.receivedPhysicalDamages);
                 }
                 if (this.character.isAttacking(enemy) && !this.character.isHurt() && enemy instanceof Snake) {
                     enemy.hit();
@@ -139,7 +127,9 @@ class World {
             this.level.longRangeAttacks.forEach(attack => {
                 this.level.enemies.forEach(enemy => {
                     if (attack.isColliding(enemy) && !(enemy instanceof Snake)) {
-                        enemy.magicalHit();
+                        enemy.setEnemyLifeBar(boss);
+                        enemy.resetEnemyLifeBar();
+                        enemy.hit(enemy.receivedMagicalDamages);
                     }
                 })
             })

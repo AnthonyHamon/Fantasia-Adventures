@@ -28,7 +28,8 @@ class Endboss extends movableObject {
     y = 278;
     speed = 0;
     inflictDamages = 0;
-    receivedDamages = 0;
+    receivedPhysicalDamages = 0;
+    receivedMagicalDamages = 10;
 
     
     offset = {

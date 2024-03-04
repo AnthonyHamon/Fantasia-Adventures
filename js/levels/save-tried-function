@@ -168,6 +168,18 @@
     }
 
 
+      // checkCharacterCollision() {
+    //     setInterval(() => {
+    //         if (this.world && this.isColliding(this.world.character)) {
+    //             console.log('character is colliding', this)
+    //             this.attack();
+    //             this.world.resetLifeBar();
+    //             this.world.setCharacterLifeBar();
+    //         }
+    //     }, 100);
+    // }
+
+
 
 
     // function to land on ground or platform before implementing method to climb down
