@@ -17,7 +17,7 @@ const forestLevel = new Level(
     ],
 
     [
-        new BlockCollision(408, 280, 48, 18),
+        new BlockCollision(538, 280, 48, 18),
         new BlockCollision(1792, 240, 48, 256),
     ],
 
@@ -56,11 +56,11 @@ const forestLevel = new Level(
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', -192, 300),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', -128, 300),
 
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0022_tile.png', 206, 368),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0022_tile.png', 336, 368),
 
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 336, 304),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 400, 240, 30, 21, 10, 8),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 464, 304),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 466, 304),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0017_tile.png', 530, 240, 30, 21, 10, 8),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 592, 304),
 
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0020_tile.png', 1256, 368),
         new Platforms('img/level_set/forest/Tiles/Ground_grass_0016_tile.png', 1320, 368),
@@ -98,30 +98,33 @@ const forestLevel = new Level(
         new Tree('img/level_set/forest/Objects/128/object_0002_tree3.png', 2732, 130),
         new Tree('img/level_set/forest/Objects/256/tree.png', 2764, 126),
         new Tree('img/level_set/forest/Objects/128/object_0003_bush1.png', 2800, 138),
-        new WoodBox('img/level_set/forest/Objects/32/object_0009_lootbox.png', 416, 236),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0019_tile.png', 400, 304),
-        new Platforms('img/level_set/forest/Tiles/Ground_grass_0018_tile.png', 400, 368),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0019_tile.png', 528, 304),
+        new Platforms('img/level_set/forest/Tiles/Ground_grass_0018_tile.png', 528, 368),
     ],
 
     [
-        new Coin(220, 330),
+        new Coin(350, 330),
+        new Coin(480, 268),
+        new Coin(610, 268),
         new Coin(984, 268),
+        new Coin(1305, 330),
+        new Coin(1534, 228),
         new Coin(2608, 80),
+        new Coin(2608, 440),
 
-        new Heart(480, 268),
-        new Heart(500, 400), // just for test, must be removed
+        new Heart(546, 216),
         new Heart(1698, 428),
         new Heart(1698, 288),
-        new Heart(2800, 40),
-        new Heart(2292, 180),
+        new Heart(2840, 40),
+        new Heart(2292, 440),
 
-        new EnergyPotions(),
-        new EnergyPotions(),
-        new EnergyPotions(),
-        new EnergyPotions(),
-        new EnergyPotions(),
-        new EnergyPotions(),
-        new EnergyPotions(),
+        new EnergyPotions(840, 400),
+        new EnergyPotions(1440, 350),
+        new EnergyPotions(1980, 500),
+        new EnergyPotions(2040, 300),
+        new EnergyPotions(2292, 180),
+        new EnergyPotions(2840, 300),
+        new EnergyPotions(2760, 40)
     ],
 
     [

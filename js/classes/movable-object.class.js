@@ -66,7 +66,7 @@ class movableObject extends DrawableObjects {
         let x = this.x + this.offset.left;
         let y = this.y + this.offset.top - 20;
         let height = 8
-        if(boss) height = 10;
+        if(boss) height = 10, x = this.x + 20, y = this.y + this.offset.top - 40
         let percentage = this.life / 10;
         if (percentage > 0) {
             let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, y, 4, height);

@@ -59,8 +59,8 @@ class World {
         this.addObjectToMap(this.level.wall);
         this.addObjectToMap(this.level.platforms);
         this.addObjectToMap(this.level.decorations);
-        this.addObjectToMap(this.level.collectableObjects);
         this.addObjectToMap(this.level.stairway);
+        this.addObjectToMap(this.level.collectableObjects);
         this.addObjectToMap(this.level.enemies);
         this.drawEnemiesLifeBar(this.level.enemies);
         this.addObjectToMap(this.level.longRangeAttacks);
@@ -105,7 +105,7 @@ class World {
                     enemy.hit(enemy.receivedPhysicalDamages);
                 }
                 if (this.character.isAttacking(enemy) && !this.character.isHurt() && enemy instanceof Snake) {
-                    enemy.hit();
+                    enemy.hit(enemy.receivedPhysicalDamages);
                 }
             });
         }, 1000 / 60);
@@ -127,8 +127,6 @@ class World {
             this.level.longRangeAttacks.forEach(attack => {
                 this.level.enemies.forEach(enemy => {
                     if (attack.isColliding(enemy) && !(enemy instanceof Snake)) {
-                        enemy.setEnemyLifeBar(boss);
-                        enemy.resetEnemyLifeBar();
                         enemy.hit(enemy.receivedMagicalDamages);
                     }
                 })
@@ -224,7 +222,7 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        // this.drawColisionFrame(mo);
+        this.drawColisionFrame(mo);
         this.drawOffsetColisionFrame(mo);
     }
 

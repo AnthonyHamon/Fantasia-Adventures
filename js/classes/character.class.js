@@ -101,11 +101,8 @@ class Character extends movableObject {
     maxMagicalEnergy = 80;
     maxCoin = 0;
     speed = 3;
-    // x = 2100; // -240
     x = -240
     y = 134;
-    // y = 50;
-    // y = 346;
     height = 256;
     width = 256;
 

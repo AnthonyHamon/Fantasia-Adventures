@@ -29,7 +29,7 @@ class Snake extends movableObject {
     y = 444;
     height = 128;
     width = 128;
-    inflictDamages = 1.5;
+    inflictDamages = 2;
     receivedPhysicalDamages = 2;
     receivedMagicalDamages = 0;
 
@@ -48,7 +48,7 @@ class Snake extends movableObject {
         this.loadImages(this.IMAGES_ATTACKING_SNAKE);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEATH);
-        this.x = 400 + Math.random() * 1590;
+        this.x = 200 + Math.random() * 1450;
         this.speed = 0.15 + Math.random() * 0.5;
         this.letEnemyMove();
         this.animate();

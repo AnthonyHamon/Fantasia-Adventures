@@ -5,8 +5,10 @@ class EnergyPotions extends DrawableObjects {
     x = 250 + Math.random() * 1800;
     y = 290 + Math.random() * 86;
 
-    constructor() {
+    constructor(x, y) {
         super().loadImage('img/Items/collectable-items/Bottles/1_0006_Bottle7.png');
+        this.x = x;
+        this.y = y;
     }
 
     animate() {
