@@ -5,14 +5,13 @@ class World {
     camera_x = 200;
 
 
-    character = new Character();
+    character = new Rogue();
     characterInformations = new CharacterInformations();
     levels = [];
     lifeBar = [];
     energyBar = [];
     magicBar = [];
     coinBar = [];
-    characterAvatar = new CharacterAvatar(this.character.CHARACTERAVATAR);
     START = false;
 
 
@@ -41,7 +40,8 @@ class World {
         this.setWorld();
     }
 
-    setWorld() {
+    setWorld(character) {
+        if(character) this.character = character;
         this.character.world = this;
         this.level.enemies.forEach(enemy => {
             enemy.world = this;
@@ -75,7 +75,7 @@ class World {
         this.ctx.translate(this.camera_x, 0)
         // ------ space for fixed objects
         this.addTomap(this.characterInformations);
-        this.addTomap(this.characterAvatar);
+        this.addTomap(this.character.characterAvatar);
         this.addObjectToMap(this.lifeBar);
         this.addObjectToMap(this.energyBar);
         this.addObjectToMap(this.magicBar);

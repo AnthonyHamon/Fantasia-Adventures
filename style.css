@@ -184,7 +184,7 @@ canvas {
     height: 95%;
 }
 
-.character_informations button{
+.character_informations button {
     min-width: unset;
     min-height: unset;
 }
@@ -216,7 +216,7 @@ canvas {
     justify-content: center;
 }
 
-.j_content_center{
+.j_content_center {
     justify-content: center;
 }
 
@@ -253,4 +253,8 @@ canvas {
 .level_selection img {
     padding: 12px 0 0 12px;
     cursor: pointer;
+}
+
+.d-none {
+    display: none;
 }

@@ -1,21 +1,40 @@
 let canvas;
 let world;
+let currentCharacter;
+let characterInformations;
 let keyboard = new Keyboard();
 
 function init() {
-    renderGameMenu();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 
     console.log('My character is', world.character);
 }
 
-function renderGameMenu() {
-    document.getElementById('gameMenuCtn').innerHTML = returnGameMenuHTML();
+function renderGameMenu(avatar) {
+    let defaultAvatar = "img/UI/character-icon/ninja.png";
+    let gameMenu = document.getElementById('gameMenuCtn');
+    if (currentCharacter) gameMenu.innerHTML = returnGameMenuHTML(avatar)
+    else gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
 }
 
 function renderCharacterSelection(){
     document.getElementById('gameMenu').innerHTML = returnCharacterSelection();
+}
+
+function renderCharacterInformation(avatar, name, preview){
+    document.getElementById('character-info').innerHTML = returnCharacterInformation(avatar, name, preview);
+}
+
+function selectCharacter(type){
+    // world = null;
+    if(type === 'rogue') currentCharacter = new Rogue();
+    if(type === 'knight') currentCharacter = new Knight();
+    if(type === 'mage') currentCharacter = new Mage();
+    world.setWorld(currentCharacter);
+    renderGameMenu(currentCharacter.CHARACTERAVATAR);
+    // world = new World(canvas, keyboard, currentCharacter);
+
 }
 
 function renderLevelSelection() {
@@ -29,6 +48,11 @@ function renderLevelSelection() {
         // else levels.innerHTML += returnClosedLevels(level); // right one, second line must be deletet when finished
         levels.innerHTML += returnClosedLevels(level);
     }
+}
+
+function startGame(){
+    let startMenu = document.getElementById('gameMenuCtn');
+    startMenu.classList.toggle('d-none');
 }
 
 window.addEventListener('keydown', (e) => {
