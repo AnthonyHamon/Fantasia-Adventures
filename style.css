@@ -1,41 +1,256 @@
 /* cherry-bomb-one-regular - latin */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Cherry Bomb One';
     font-style: normal;
     font-weight: 400;
-    src: url('./font/cherry-bomb-one-v8-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
+    src: url('./font/cherry-bomb-one-v8-latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
 
-body{
+* {
+    font-family: 'Cherry Bomb One';
+}
+
+body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    gap: 24px;
     margin: 0;
     background-image: url('./img/UI/fantasy-platformer-game-ui/PNG/01main/bg.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-header{
+header {
     position: absolute;
     top: 0;
     font-size: 36px;
     font-family: 'Cherry Bomb One';
 }
 
-header h1{
+header h1 {
     margin: 0;
     margin-top: 24px;
     text-shadow: 1px 1px rgba(255, 255, 255, 0.8);
     user-select: none;
 }
 
-canvas{
+canvas {
     background-color: black;
-    box-shadow: 2px 2px 10px 2px rgba(0,0,0, 0.8);
+    box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.8);
     border-radius: 10px;
+}
+
+.game_menu_ctn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#backward-button {
+    width: 36px;
+    height: 36px;
+    padding-right: 36px;
+    cursor: pointer;
+
+}
+
+.start_menu {
+    background-image: url('img/menu/Background.png');
+    background-size: cover;
+    height: 576px;
+    width: 960px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.start_menu_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+
+}
+
+.start_menu h2 {
+    user-select: none;
+    font-size: 48px;
+    margin: 0;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.8);
+    padding-bottom: 18px;
+}
+
+.start_menu button {
+    min-width: 300px;
+    min-height: 36px;
+    font-size: 36px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: black;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.8);
+    transition: all 250ms ease-in;
+}
+
+.start_menu button:hover {
+    transform: scale(1.1);
+}
+
+
+#character-selection-button {
+    width: max-content;
+    position: relative;
+}
+
+#current-character {
+    cursor: pointer;
+    position: absolute;
+    left: 8px;
+    top: 7.5px;
+}
+
+.character_selection_ctn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.character_selection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.character_thumbnail_img {
+    cursor: pointer;
+    position: relative;
+    width: max-content;
+    height: max-content;
+}
+
+.character_thumbnail_img:hover {
+    transform: scale(1.1);
+}
+
+.character_selection_img_frame {
+    width: 67px;
+    height: 67px;
+}
+
+.character-selection-avatar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 2px;
+    border-radius: 50%;
+}
+
+.character_info_ctn {
+    position: relative;
+    width: max-content;
+    height: max-content;
+}
+
+.character_informations {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 95%;
+}
+
+.character_informations button{
+    min-width: unset;
+    min-height: unset;
+}
+
+#selected-character-name {
+    text-align: center;
+    font-size: 28px;
+    user-select: none;
+}
+
+.padding_top_24 {
+    padding-top: 24px;
+}
+
+.m_top_24 {
+    margin-top: 24px;
+}
+
+.b_radius_50 {
+    border-radius: 50%;
+}
+
+.flex {
+    display: flex;
+}
+
+.column_center_x {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.j_content_center{
+    justify-content: center;
+}
+
+.character_preview_ctn {
+    display: flex;
+    flex-direction: column;
+    margin-left: 28px;
+}
+
+.character_preview {
+    margin-left: 6px;
+    margin-top: -24px;
+}
+
+.character_shadow {
+    margin-top: -34px;
+    width: 100px;
+}
+
+.button_ctn {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.level_selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    width: 640px;
+    height: 384px;
+}
+
+.level_selection img {
+    padding: 12px 0 0 12px;
+    cursor: pointer;
 }

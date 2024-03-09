@@ -7,6 +7,7 @@ class World {
 
     character = new Character();
     characterInformations = new CharacterInformations();
+    levels = [];
     lifeBar = [];
     energyBar = [];
     magicBar = [];
@@ -23,6 +24,7 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
+        this.levels.push(this.level);
         this.addSnakes();
         this.setGround();
         this.setFirstFloor();
@@ -222,8 +224,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        this.drawColisionFrame(mo);
-        this.drawOffsetColisionFrame(mo);
+        // this.drawColisionFrame(mo);
+        // this.drawOffsetColisionFrame(mo);
     }
 
     drawCollisionBlock(obj) {
@@ -252,7 +254,7 @@ class World {
 
 
     addSnakes() {
-        for (let j = 0; j < 11; j++) {
+        for (let j = 0; j < 18; j++) {
             const snake = new Snake();
             this.level.enemies.push(snake);
         }
