@@ -2,16 +2,16 @@ function returnGameMenuHTML(avatar) {
     return `
     <div id="gameMenu" class="start_menu">
         <div onclick="renderCharacterSelection()" id="character-selection-button">
-            <img src="img/menu/square_border_big_full.png" >
+            <img src="img/UI/menu/square_border_big_full.png" >
             <img id="current-character" src="${avatar}">
         </div>
         <div class="start_menu_content">
             <h2>Fantasia Adventures</h2>
             <div> 
-                <img src="./img/menu/characters.png" alt="">
+                <img src="./img/UI/menu/characters.png" alt="">
             </div>
             <div class="button_ctn">
-                <button>Options</button>
+                <button onclick="renderWonScreen()">Options</button>
                 <button onclick="startGame()">Start Game</button>
                 <button onclick="renderLevelSelection()">Levels</button>
             </div> 
@@ -26,23 +26,23 @@ function returnGameOptions() {
 function returnCharacterSelection() {
     return `
     <div class="navbar">
-        <img onclick="renderGameMenu()" id="backward-button" src="./img/menu/backward_button.png">
+        <img onclick="renderGameMenu()" id="backward-button" src="./img/UI/menu/backward_button.png">
     </div>
     <section>
         <h2>Select Your Character</h2>
         <div id="characters" class="character_selection_ctn">
-            <div class="character_selection">
-                <div onclick="renderCharacterInformation('img/menu/con9-bg.png', 'rogue', 'img/character/Rogue/rogue.png')" class="character_thumbnail_img">
-                    <img class="character_selection_img_frame" src="img/menu/char_sell.png">
-                    <img class="character-selection-avatar" src="img/menu/con9.png">
+            <div class="character_selection gap_12">
+                <div onclick="renderCharacterInformation('img/UI/character-icons/ninja.png', 'rogue', 'img/character/Rogue/rogue.png')" class="character_thumbnail_img">
+                    <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">
+                    <img class="character-selection-avatar" src="img/UI/character-icons/con9.png">
                 </div>
-                <div onclick="renderCharacterInformation('img/menu/con8-bg.png', 'mage', 'img/character/Mage/mage.png')" class="character_thumbnail_img">
-                    <img class="character_selection_img_frame" src="img/menu/char_sell.png">
-                    <img class="character-selection-avatar" src="img/menu/con8.png">
+                <div onclick="renderCharacterInformation('img/UI/character-icons/mage.png', 'mage', 'img/character/Mage/mage.png')" class="character_thumbnail_img">
+                    <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">
+                    <img class="character-selection-avatar" src="img/UI/character-icons/con8.png">
                 </div>
-                <div onclick="renderCharacterInformation('img/menu/con7-bg.png', 'knight', 'img/character/Knight/knight.png')" class="character_thumbnail_img">
-                    <img class="character_selection_img_frame" src="img/menu/char_sell.png">
-                    <img class="character-selection-avatar" src="img/menu/con7.png">
+                <div onclick="renderCharacterInformation('img/UI/character-icons/knight.png', 'knight', 'img/character/Knight/knight.png')" class="character_thumbnail_img">
+                    <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">
+                    <img class="character-selection-avatar" src="img/UI/character-icons/con7.png">
                 </div>
             </div>
             <div id="character-info" class="character_info_ctn"></div>
@@ -53,7 +53,7 @@ function returnCharacterSelection() {
 
 function returnCharacterInformation(avatar, name, preview){
     return `
-    <img src="img/menu/char_bg.png">
+    <img src="img/UI/menu/char_bg.png">
         <div class="character_informations">
             <div>
                 <div class="flex j_content_center padding_top_24">
@@ -64,7 +64,7 @@ function returnCharacterInformation(avatar, name, preview){
                     <span id="selected-character-name">${name}</span>
                     <div class="character_preview_ctn">
                         <img class="character_preview" src="${preview}">
-                        <img class="character_shadow" src="img/menu/shadow.png">
+                        <img class="character_shadow" src="img/UI/menu/shadow.png">
                     </div>    
                 </div>
             </div>
@@ -80,7 +80,7 @@ function returnCharacterInformation(avatar, name, preview){
 function returnLevelSelection() {
     return `
     <div class="navbar">
-        <img onclick="renderGameMenu()" id="backward-button" src="./img/menu/backward_button.png">
+        <img onclick="renderGameMenu()" id="backward-button" src="./img/UI/menu/backward_button.png">
     </div>
     <section>
         <h2>Select Your Level</h2>
@@ -92,7 +92,7 @@ function returnLevelSelection() {
 function returnClosedLevels() {
     return `
     <div>
-        <img src="./img/menu/full_door_blocked.png">
+        <img src="./img/UI/level_selection/full_door_blocked.png">
     </div>    
     `
 }
@@ -100,7 +100,94 @@ function returnClosedLevels() {
 function returnFirstLevels() {
     return `
     <div class="level_ctn">
-        <img src="./img/menu/door.png">
+        <img src="./img/UI/level_selection/door.png">
+    </div>
+    `
+}
+
+function returnWonScreen(){
+    return `
+        <div class="game_finished_ctn won_bg">
+            <div class="p-relative">
+                <img src="img/UI/victory/knight+tape.png">
+                <span class="p-absolute victory_text">Victory!</span>
+            </div>
+            <div class="flex gap_12">
+                <img src="img/UI/victory/big_star_yellow.png">
+                <img src="img/UI/victory/big_star_yellow.png">
+                <img src="img/UI/victory/big_star.png">
+            </div>
+            <div class="p-relative">
+                <img src="img/UI/defeat/begie_border2.png">
+                <div class="level_statistics">
+                    <div class="statistic_ctn">
+                        <img src="img/UI/defeat/star_small.png">
+                        <span>Score:</span>
+                        <span>1000</span>
+                    </div>
+                    <div class="statistic_ctn">
+                        <img src="img/UI/defeat/clock_yellow.png">
+                        <span>Time:</span>
+                        <span>5:08</span>
+                    </div>
+                    <div class="statistic_ctn">
+                        <img src="img/UI/defeat/coin.png">
+                        <span>Money:</span>
+                        <span>80</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex column_center_x">
+                <div class="p-relative pointer">
+                    <img src="img/UI/defeat/button_yellow.png">
+                    <span onclick="renderGameMenu()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
+                </div>
+                <div class="p-relative pointer">
+                    <img src="img/UI/defeat/button_yellow.png">
+                    <span class="height_90_percent p-absolute flex j_content_center align_item_center">Restart</span>
+                </div>
+            </div>
+        </div>
+    `
+}
+
+function returnDefeatScreen(){
+    return `
+    <div class="game_finished_ctn defeat_bg">
+        <div>
+            <img src="img/UI/defeat/knight_loose.png">
+        </div>
+        <span id="defeat">Defeat...</span>
+        <div class="p-relative">
+            <img src="img/UI/defeat/begie_border2.png">
+            <div class="level_statistics">
+                <div class="statistic_ctn">
+                    <img src="img/UI/defeat/star_small.png">
+                    <span>Score:</span>
+                    <span>1000</span>
+                </div>
+                <div class="statistic_ctn">
+                    <img src="img/UI/defeat/clock_yellow.png">
+                    <span>Time:</span>
+                    <span>5:08</span>
+                </div>
+                <div class="statistic_ctn">
+                    <img src="img/UI/defeat/coin.png">
+                    <span>Money:</span>
+                    <span>80</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex column_center_x">
+            <div class="p-relative pointer">
+                <img src="img/UI/defeat/button_yellow.png">
+                <span onclick="renderGameMenu()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
+            </div>
+            <div class="p-relative pointer">
+                <img src="img/UI/defeat/button.png">
+                <span class="height_90_percent p-absolute flex j_content_center align_item_center">Restart</span>
+            </div>
+        </div>
     </div>
     `
 }

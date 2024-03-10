@@ -12,7 +12,7 @@ function init() {
 }
 
 function renderGameMenu(avatar) {
-    let defaultAvatar = "img/UI/character-icon/ninja.png";
+    let defaultAvatar = "img/UI/character-icons/ninja.png";
     let gameMenu = document.getElementById('gameMenuCtn');
     if (currentCharacter) gameMenu.innerHTML = returnGameMenuHTML(avatar)
     else gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
@@ -54,6 +54,8 @@ function startGame(){
     let startMenu = document.getElementById('gameMenuCtn');
     startMenu.classList.toggle('d-none');
 }
+
+
 
 window.addEventListener('keydown', (e) => {
     if (e.key == 'd') {

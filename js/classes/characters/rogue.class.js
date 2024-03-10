@@ -1,5 +1,5 @@
 class Rogue extends Character {
-    CHARACTERAVATAR = 'img/UI/character-icon/ninja.png';
+    CHARACTERAVATAR = 'img/UI/character-icons/ninja.png';
 
     IMAGES_WALKING = [
         'img/character/Rogue/Walk/walk1.png',

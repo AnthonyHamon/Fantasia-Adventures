@@ -25,6 +25,10 @@ body {
     background-size: cover;
 }
 
+.pointer{
+    cursor: pointer;
+}
+
 header {
     position: absolute;
     top: 0;
@@ -71,7 +75,7 @@ canvas {
 }
 
 .start_menu {
-    background-image: url('img/menu/Background.png');
+    background-image: url('img/UI/menu/Background.png');
     background-size: cover;
     height: 576px;
     width: 960px;
@@ -137,7 +141,6 @@ canvas {
 .character_selection {
     display: flex;
     flex-direction: column;
-    gap: 12px;
 }
 
 .character_thumbnail_img {
@@ -203,8 +206,16 @@ canvas {
     margin-top: 24px;
 }
 
+.gap_12{
+    gap: 12px;
+}
+
 .b_radius_50 {
     border-radius: 50%;
+}
+
+.height_90_percent{
+    height: 90%;
 }
 
 .flex {
@@ -218,6 +229,10 @@ canvas {
 
 .j_content_center {
     justify-content: center;
+}
+
+.align_item_center{
+    align-items: center;
 }
 
 .character_preview_ctn {
@@ -254,6 +269,70 @@ canvas {
     padding: 12px 0 0 12px;
     cursor: pointer;
 }
+
+.won_bg{
+    background-image: url('img/UI/defeat/Background-won.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.defeat_bg{
+    background-image: url('img/UI/defeat/Background.png');
+}
+
+.game_finished_ctn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    border-radius: 10px;
+    gap: 18px;
+}
+
+#defeat{
+    font-size: 24px;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.p-relative{
+    position: relative;
+}
+
+.p-absolute{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.level_statistics{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.statistic_ctn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.victory_text{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+
+
 
 .d-none {
     display: none;

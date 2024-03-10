@@ -1,5 +1,5 @@
 class Mage extends Character{
-    CHARACTERAVATAR = 'img/UI/character-icon/mage.png';
+    CHARACTERAVATAR = 'img/UI/character-icons/mage.png';
 
     IMAGES_WALKING = [
         'img/character/Mage/Walk/walk1.png',

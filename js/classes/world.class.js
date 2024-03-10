@@ -32,6 +32,7 @@ class World {
         this.setStairway();
         this.checkEnemiesCollisions();
         this.checkMagicalAttackCollision();
+        this.checkCharactersDeath();
         this.checkEnemiesDeath();
         this.setCharacterLifeBar();
         this.setEnergyBar();
@@ -92,6 +93,39 @@ class World {
         });
     }
 
+    checkCharactersDeath(){
+        setInterval(() => {
+            this.removeCharacterAfterDeath();
+        }, 150);
+    }
+
+    removeCharacterAfterDeath(){
+        if (this.character.isDead() && !this.character.deathAnimationStarted) {
+            this.character.startDeathAnimation();
+        }
+        if (this.character.deathAnimationEnded) {
+            // this.character = null;
+            // this.character.splice(0, 1);
+            this.renderDefeatScreen();
+            this.character.deathAnimationEnded = false;
+            return
+        }
+    }
+
+    renderWonScreen(){
+        let gameMenuCtn = document.getElementById('gameMenuCtn');
+        gameMenuCtn.classList.toggle('d-none');
+        let gameMainScreen = document.getElementById('gameMenu');
+        gameMainScreen.innerHTML = returnWonScreen();
+    }
+
+    renderDefeatScreen(){
+        let gameMenuCtn = document.getElementById('gameMenuCtn');
+        gameMenuCtn.classList.remove('d-none');
+        let gameMainScreen = document.getElementById('gameMenu');
+        gameMainScreen.innerHTML = returnDefeatScreen();
+    }
+
     checkEnemiesDeath() {
         setInterval(() => {
             this.removeEnemyAfterDeath();
@@ -101,7 +135,7 @@ class World {
     checkEnemiesCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.character.comesFromTop(enemy) && this.character.speedY!== 0.4 && this.character.maxEnergy > 0) {
+                if (this.character.comesFromTop(enemy) && this.character.speedY!== 0.4 && this.character.maxEnergy > 0 && !enemy.isDead()) {
                     this.character.jump();
                     this.character.maxEnergy -= 30;
                     enemy.hit(enemy.receivedPhysicalDamages);
@@ -143,6 +177,9 @@ class World {
             }
             if (enemy.deathAnimationEnded) {
                 this.level.enemies.splice(index, 1);
+                if(enemy instanceof Endboss){
+                    this.renderWonScreen();
+                }
             }
         })
     }

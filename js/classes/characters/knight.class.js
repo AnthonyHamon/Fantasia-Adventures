@@ -1,5 +1,5 @@
 class Knight extends Character{
-    CHARACTERAVATAR = 'img/UI/character-icon/knight.png';
+    CHARACTERAVATAR = 'img/UI/character-icons/knight.png';
 
     IMAGES_WALKING = [
         'img/character/Knight/Walk/walk1.png',

@@ -13,6 +13,7 @@ class Character extends movableObject {
     y = 134;
     height = 256;
     width = 256;
+    
 
 
     offset = {
@@ -59,8 +60,11 @@ class Character extends movableObject {
 
     animate() {
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.isDead() && this.deathAnimationStarted) {
                 this.playAnimation(this.IMAGES_DEATH);
+                if (this.currentImage == this.IMAGES_DEATH.length - 1) {
+                    this.deathAnimationEnded = true;
+                }
             } else if (this.isInactiv() && this.isAlreadyAFK && !this.isHurt() || this.world.START) {
                 this.playAnimation(this.IMAGES_IDLE)
             } else if (this.isHurt()) {
