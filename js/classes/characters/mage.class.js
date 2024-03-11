@@ -88,6 +88,7 @@ class Mage extends Character{
     ]
 
     world;
+    avatar = 'img/UI/character-icons/mage.png';
     hasAlreadyJumped = false;
     isOnTheGround = false;
     isOnPlatform = false;

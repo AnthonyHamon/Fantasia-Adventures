@@ -84,6 +84,7 @@ class Knight extends Character{
     ];
 
     world;
+    avatar = 'img/UI/character-icons/knight.png';
     hasAlreadyJumped = false;
     isOnTheGround = false;
     isOnPlatform = false;

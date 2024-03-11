@@ -11,7 +11,7 @@ function returnGameMenuHTML(avatar) {
                 <img src="./img/UI/menu/characters.png" alt="">
             </div>
             <div class="button_ctn">
-                <button onclick="renderWonScreen()">Options</button>
+                <button onclick="">Options</button>
                 <button onclick="startGame()">Start Game</button>
                 <button onclick="renderLevelSelection()">Levels</button>
             </div> 
@@ -26,7 +26,7 @@ function returnGameOptions() {
 function returnCharacterSelection() {
     return `
     <div class="navbar">
-        <img onclick="renderGameMenu('${world.character.CHARACTERAVATAR}')" id="backward-button" src="./img/UI/menu/backward_button.png">
+        <img onclick="renderGameMenu()" id="backward-button" src="./img/UI/menu/backward_button.png">
     </div>
     <section>
         <h2>Select Your Character</h2>
@@ -42,7 +42,7 @@ function returnCharacterSelection() {
 
 function returnCharacterButton(){
     let html = '';
-    world.allCharactersInformations.forEach(character => {
+    allCharactersInformations.forEach(character => {
         html += `
         <div onclick="renderCharacterInformation('${character.name}', '${character.avatar}', '${character.characterPreview}')" class="character_thumbnail_img">
             <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">

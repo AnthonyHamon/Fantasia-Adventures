@@ -3,11 +3,10 @@ class World {
     keyboard;
     ctx;
     camera_x = 200;
-    allCharactersInformations = [new RogueInformations(), new MageInformations(), new KnightInformations()];
 
 
 
-    character = new Rogue();
+    character;
     characterInformations = new CharacterInformations();
     levels = [];
     lifeBar = [];
@@ -20,9 +19,10 @@ class World {
     level = forestLevel;
 
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, currentCharacter) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
+        this.character = currentCharacter;
         this.keyboard = keyboard;
         this.draw();
         this.levels.push(this.level);

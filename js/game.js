@@ -2,18 +2,19 @@ let canvas;
 let world;
 let characterInformations;
 let keyboard = new Keyboard();
+let currentCharacter;
+let allCharactersInformations = [new RogueInformations(), new MageInformations(), new KnightInformations()];
+
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-
-    console.log('My character is', world.character);
+    renderGameMenu();
 }
 
-function renderGameMenu(avatar) {
+function renderGameMenu() {
     let defaultAvatar = "img/UI/character-icons/ninja.png";
     let gameMenu = document.getElementById('gameMenuCtn');
-    if (world) gameMenu.innerHTML = returnGameMenuHTML(avatar)
+    if (world) gameMenu.innerHTML = returnGameMenuHTML(world.character.avatar);
     else gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
 }
 
@@ -27,11 +28,12 @@ function renderCharacterInformation(name, avatar, characterPreview){
 
 function selectCharacter(type){
     // world = null;
-    if(type === 'Rogue') world.character = new Rogue();
-    if(type === 'Knight') world.character = new Knight();
-    if(type === 'Mage') world.character = new Mage();
-    world.setWorld(world.character);
-    renderGameMenu(world.character.CHARACTERAVATAR);
+    if(type === 'Rogue') currentCharacter = new Rogue();
+    if(type === 'Knight') currentCharacter = new Knight();
+    if(type === 'Mage') currentCharacter = new Mage();
+    world = new World(canvas, keyboard, currentCharacter);
+    world.setWorld(currentCharacter);
+    renderGameMenu();
     // world = new World(canvas, keyboard, currentCharacter);
 
 }
