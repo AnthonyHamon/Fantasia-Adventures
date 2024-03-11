@@ -42,6 +42,7 @@ class Endboss extends movableObject {
     inflictDamages = 10;
     receivedPhysicalDamages = 2;
     receivedMagicalDamages = 5;
+    killPoint = 1000;
 
 
     offset = {

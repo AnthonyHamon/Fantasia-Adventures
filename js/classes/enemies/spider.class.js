@@ -40,6 +40,8 @@ class Spider extends movableObject {
     inflictDamages = 4;
     receivedPhysicalDamages = 10;
     receivedMagicalDamages = 5;
+    killPoint = 30;
+
 
 
 

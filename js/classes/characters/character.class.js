@@ -13,6 +13,9 @@ class Character extends movableObject {
     y = 134;
     height = 256;
     width = 256;
+    collectedCoins = 0;
+    enemyKillPoint = 0;
+    timePassed = 0;
     
 
 
@@ -130,6 +133,7 @@ class Character extends movableObject {
 
             if (this.world.camera_x < this.world.canvas.width * 2) {    // camera goes with player from beginning
                 this.world.camera_x = this.x - 200;
+                // console.log(this)
             }
 
             if (this.x <= this.world.canvas.width * 2 - 100) {    // player can go back from 1 floor platforms
@@ -237,6 +241,7 @@ class Character extends movableObject {
             this.updateCharacterLife(20);
         }
         if (object instanceof Coin) {
+            this.collectedCoins += 100;
             this.maxCoin += 10;
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetCoinBar();

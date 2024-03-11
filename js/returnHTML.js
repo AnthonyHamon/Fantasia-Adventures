@@ -26,24 +26,13 @@ function returnGameOptions() {
 function returnCharacterSelection() {
     return `
     <div class="navbar">
-        <img onclick="renderGameMenu()" id="backward-button" src="./img/UI/menu/backward_button.png">
+        <img onclick="renderGameMenu('${world.character.CHARACTERAVATAR}')" id="backward-button" src="./img/UI/menu/backward_button.png">
     </div>
     <section>
         <h2>Select Your Character</h2>
         <div id="characters" class="character_selection_ctn">
-            <div class="character_selection gap_12">
-                <div onclick="renderCharacterInformation('img/UI/character-icons/ninja.png', 'rogue', 'img/character/Rogue/rogue.png')" class="character_thumbnail_img">
-                    <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">
-                    <img class="character-selection-avatar" src="img/UI/character-icons/con9.png">
-                </div>
-                <div onclick="renderCharacterInformation('img/UI/character-icons/mage.png', 'mage', 'img/character/Mage/mage.png')" class="character_thumbnail_img">
-                    <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">
-                    <img class="character-selection-avatar" src="img/UI/character-icons/con8.png">
-                </div>
-                <div onclick="renderCharacterInformation('img/UI/character-icons/knight.png', 'knight', 'img/character/Knight/knight.png')" class="character_thumbnail_img">
-                    <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">
-                    <img class="character-selection-avatar" src="img/UI/character-icons/con7.png">
-                </div>
+            <div id="character-button" class="character_selection gap_12">
+                ${returnCharacterButton()}
             </div>
             <div id="character-info" class="character_info_ctn"></div>
         </div>
@@ -51,7 +40,20 @@ function returnCharacterSelection() {
     `
 }
 
-function returnCharacterInformation(avatar, name, preview){
+function returnCharacterButton(){
+    let html = '';
+    world.allCharactersInformations.forEach(character => {
+        html += `
+        <div onclick="renderCharacterInformation('${character.name}', '${character.avatar}', '${character.characterPreview}')" class="character_thumbnail_img">
+            <img class="character_selection_img_frame" src="img/UI/menu/char_sell.png">
+            <img class="character-selection-avatar" src="${character.avatar}">
+        </div>
+        `
+    });
+    return html;
+}
+
+function returnCharacterInformation(name, avatar, characterPreview){
     return `
     <img src="img/UI/menu/char_bg.png">
         <div class="character_informations">
@@ -63,7 +65,7 @@ function returnCharacterInformation(avatar, name, preview){
                 <div class="flex column_center_x m_top_24">
                     <span id="selected-character-name">${name}</span>
                     <div class="character_preview_ctn">
-                        <img class="character_preview" src="${preview}">
+                        <img class="character_preview" src="${characterPreview}">
                         <img class="character_shadow" src="img/UI/menu/shadow.png">
                     </div>    
                 </div>
@@ -80,7 +82,7 @@ function returnCharacterInformation(avatar, name, preview){
 function returnLevelSelection() {
     return `
     <div class="navbar">
-        <img onclick="renderGameMenu()" id="backward-button" src="./img/UI/menu/backward_button.png">
+        <img onclick="renderGameMenu('${world.character.CHARACTERAVATAR}')" id="backward-button" src="./img/UI/menu/backward_button.png">
     </div>
     <section>
         <h2>Select Your Level</h2>
@@ -123,7 +125,7 @@ function returnWonScreen(){
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/star_small.png">
                         <span>Score:</span>
-                        <span>1000</span>
+                        <span>${world.character.enemyKillPoint}</span>
                     </div>
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/clock_yellow.png">
@@ -133,14 +135,14 @@ function returnWonScreen(){
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/coin.png">
                         <span>Money:</span>
-                        <span>80</span>
+                        <span>${world.character.collectedCoins}</span>
                     </div>
                 </div>
             </div>
             <div class="flex column_center_x">
                 <div class="p-relative pointer">
                     <img src="img/UI/defeat/button_yellow.png">
-                    <span onclick="renderGameMenu()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
+                    <span onclick="renderGameMenu('${world.character.CHARACTERAVATAR}')" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
                 </div>
                 <div class="p-relative pointer">
                     <img src="img/UI/defeat/button_yellow.png">
@@ -164,7 +166,7 @@ function returnDefeatScreen(){
                 <div class="statistic_ctn">
                     <img src="img/UI/defeat/star_small.png">
                     <span>Score:</span>
-                    <span>1000</span>
+                        <span>${world.character.enemyKillPoint}</span>
                 </div>
                 <div class="statistic_ctn">
                     <img src="img/UI/defeat/clock_yellow.png">
@@ -174,14 +176,14 @@ function returnDefeatScreen(){
                 <div class="statistic_ctn">
                     <img src="img/UI/defeat/coin.png">
                     <span>Money:</span>
-                    <span>80</span>
+                        <span>${world.character.collectedCoins}</span>
                 </div>
             </div>
         </div>
         <div class="flex column_center_x">
             <div class="p-relative pointer">
                 <img src="img/UI/defeat/button_yellow.png">
-                <span onclick="renderGameMenu()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
+                <span onclick="renderGameMenu('${world.character.CHARACTERAVATAR}')" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
             </div>
             <div class="p-relative pointer">
                 <img src="img/UI/defeat/button.png">

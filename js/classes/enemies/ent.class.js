@@ -49,6 +49,7 @@ class Ent extends movableObject {
     inflictDamages = 5;
     receivedPhysicalDamages = 5;
     receivedMagicalDamages = 7;
+    killPoint = 30;
 
 
 

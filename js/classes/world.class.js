@@ -3,6 +3,8 @@ class World {
     keyboard;
     ctx;
     camera_x = 200;
+    allCharactersInformations = [new RogueInformations(), new MageInformations(), new KnightInformations()];
+
 
 
     character = new Rogue();
@@ -128,6 +130,7 @@ class World {
 
     checkEnemiesDeath() {
         setInterval(() => {
+            this.countEnemyKillPoint();
             this.removeEnemyAfterDeath();
         }, 150);
     }
@@ -168,6 +171,12 @@ class World {
                 })
             })
         }, 150);
+    }
+
+    countEnemyKillPoint(){
+        this.level.enemies.forEach(enemy =>{
+            if(enemy.isDead() && enemy.deathAnimationEnded) this.character.enemyKillPoint += enemy.killPoint;
+        })
     }
 
     removeEnemyAfterDeath() {

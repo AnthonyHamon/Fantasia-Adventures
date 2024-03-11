@@ -43,6 +43,7 @@ class Bear extends movableObject {
     inflictDamages = 6;
     receivedPhysicalDamages = 5;
     receivedMagicalDamages = 7;
+    killPoint = 50;
 
     startPoint = 1800;
     endPoint = 2800;

@@ -32,6 +32,8 @@ class Snake extends movableObject {
     inflictDamages = 2;
     receivedPhysicalDamages = 2;
     receivedMagicalDamages = 0;
+    killPoint = 10;
+
 
 
 
