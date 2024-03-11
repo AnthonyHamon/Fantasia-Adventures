@@ -12,7 +12,7 @@ function init() {
 }
 
 function renderGameMenu() {
-    let defaultAvatar = "img/UI/character-icons/ninja.png";
+    let defaultAvatar = "img/UI/character-icons/character-selection-img.png";
     let gameMenu = document.getElementById('gameMenuCtn');
     if (world) gameMenu.innerHTML = returnGameMenuHTML(world.character.avatar);
     else gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);

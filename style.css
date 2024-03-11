@@ -130,6 +130,8 @@ canvas {
     position: absolute;
     left: 8px;
     top: 7.5px;
+    width: 64px;
+    height: 64px;
 }
 
 .character_selection_ctn {
