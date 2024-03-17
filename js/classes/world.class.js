@@ -3,12 +3,11 @@ class World {
     keyboard;
     ctx;
     camera_x = 200;
-
+    worldReseted = false;
 
 
     character;
     characterInformations = new CharacterInformations();
-    levels = [];
     lifeBar = [];
     energyBar = [];
     magicBar = [];
@@ -16,22 +15,23 @@ class World {
     START = false;
 
 
-    level = forestLevel;
+    level;
 
 
-    constructor(canvas, keyboard, currentCharacter) {
+    constructor(canvas, keyboard, currentCharacter, currentLevel) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.character = currentCharacter;
+        this.level = currentLevel;
         this.keyboard = keyboard;
         this.draw();
-        this.levels.push(this.level);
-        this.addSnakes();
-        this.setGround();
-        this.setFirstFloor();
-        this.setBackground();
-        this.setClouds();
-        this.setStairway();
+        // this.levels.push(this.level);
+        // this.addSnakes();
+        // this.setGround();
+        // this.setFirstFloor();
+        // this.setBackground();
+        // this.setClouds();
+        // this.setStairway();
         this.checkEnemiesCollisions();
         this.checkMagicalAttackCollision();
         this.checkCharactersDeath();
@@ -48,6 +48,9 @@ class World {
         this.character.world = this;
         this.level.enemies.forEach(enemy => {
             enemy.world = this;
+        })
+        this.level.longRangeAttacks.forEach(attack=>{
+            attack.world = this;
         })
     }
 
@@ -93,12 +96,19 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
+
+    //    let self = this;
+    //     requestAnimationFrame(self.draw());
+
+        // requestAnimationFrame(this.draw());
     }
+    
 
     checkCharactersDeath(){
-        setInterval(() => {
+        const charactersdeath = setInterval(() => {
             this.removeCharacterAfterDeath();
         }, 150);
+        allIntervals.push(charactersdeath);
     }
 
     removeCharacterAfterDeath(){
@@ -106,8 +116,6 @@ class World {
             this.character.startDeathAnimation();
         }
         if (this.character.deathAnimationEnded) {
-            // this.character = null;
-            // this.character.splice(0, 1);
             this.renderDefeatScreen();
             this.character.deathAnimationEnded = false;
             return
@@ -129,14 +137,22 @@ class World {
     }
 
     checkEnemiesDeath() {
-        setInterval(() => {
+        const enemiesDeath = setInterval(() => {
             this.countEnemyKillPoint();
             this.removeEnemyAfterDeath();
         }, 150);
+        allIntervals.push(enemiesDeath);
+
     }
 
     checkEnemiesCollisions() {
-        setInterval(() => {
+        this.characterInflictDamages();
+        this.characterReceiveDamages(); 
+    }
+
+    characterInflictDamages(){
+        
+        const characterInflictDamages = setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.comesFromTop(enemy) && this.character.speedY!== 0.4 && this.character.maxEnergy > 0 && !enemy.isDead()) {
                     this.character.jump();
@@ -148,9 +164,11 @@ class World {
                 }
             });
         }, 1000 / 60);
+        allIntervals.push(characterInflictDamages);
+    }
 
-
-        setInterval(() => {
+    characterReceiveDamages(){
+        const characterReceiveDamages = setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy) && !this.character.isAttacking(enemy) && !this.character.isDead()) {
                     this.character.hit(enemy.inflictDamages);
@@ -159,10 +177,12 @@ class World {
                 }
             })
         }, 100);
+        allIntervals.push(characterReceiveDamages);
+
     }
 
     checkMagicalAttackCollision() {
-        setInterval(() => {
+        const magicalAttackCollison = setInterval(() => {
             this.level.longRangeAttacks.forEach(attack => {
                 this.level.enemies.forEach(enemy => {
                     if (attack.isColliding(enemy) && !(enemy instanceof Snake)) {
@@ -171,6 +191,7 @@ class World {
                 })
             })
         }, 150);
+        allIntervals.push(magicalAttackCollison);
     }
 
     countEnemyKillPoint(){
@@ -299,71 +320,71 @@ class World {
     }
 
 
-    addSnakes() {
-        for (let j = 0; j < 18; j++) {
-            const snake = new Snake();
-            this.level.enemies.push(snake);
-        }
-    }
+    // addSnakes() {
+    //     for (let j = 0; j < 18; j++) {
+    //         const snake = new Snake();
+    //         this.level.enemies.push(snake);
+    //     }
+    // }
 
-    setGround() {
-        let x = -64;
-        const firstGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0000_tile.png', -128);
-        this.level.ground.push(firstGroundItem);
-        for (let index = 0; index < (this.level.level_end_x / 64); index++) {
-            const ground = new Ground('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', x);
-            this.level.ground.push(ground);
-            x = x + 64;
-        }
-        const lastGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0002_tile.png', this.level.level_end_x - 64);
-        this.level.ground.push(lastGroundItem);
-    }
+    // setGround() {
+    //     let x = -64;
+    //     const firstGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0000_tile.png', -128);
+    //     this.level.ground.push(firstGroundItem);
+    //     for (let index = 0; index < (this.level.level_end_x / 64); index++) {
+    //         const ground = new Ground('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', x);
+    //         this.level.ground.push(ground);
+    //         x = x + 64;
+    //     }
+    //     const lastGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0002_tile.png', this.level.level_end_x - 64);
+    //     this.level.ground.push(lastGroundItem);
+    // }
 
-    setFirstFloor() {
-        let x = 1984;
-        let numberOfImages = Math.round((this.level.level_end_x - x) / 64);
-        for (let index = 0; index < numberOfImages; index++) {
-            const floor = new Platforms('img/level_set/forest/Tiles/Ground_grass_0024_tile.png', x, 220);
-            this.level.platforms.push(floor);
-            x = x + 64;
-        }
-    }
+    // setFirstFloor() {
+    //     let x = 1984;
+    //     let numberOfImages = Math.round((this.level.level_end_x - x) / 64);
+    //     for (let index = 0; index < numberOfImages; index++) {
+    //         const floor = new Platforms('img/level_set/forest/Tiles/Ground_grass_0024_tile.png', x, 220);
+    //         this.level.platforms.push(floor);
+    //         x = x + 64;
+    //     }
+    // }
 
-    setBackground() {
-        let x = -960;
-        let numberOfImages = Math.round(this.level.level_end_x / this.canvas.width);
-        for (let index = 0; index < numberOfImages + 1; index++) {
-            const sky = new BackgroundObject('img/level_set/forest/Background/Bright/sky.png', x);
-            const bigClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer2.png', x);
-            const middelClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer1.png', x);
-            const mountains = new BackgroundObject('img/level_set/forest/Background/Bright/mountains.png', x);
-            const treeBackground = new BackgroundObject('img/level_set/forest/Background/Bright/trees.png', x);
-            this.level.backgroundObjects.push(sky, bigClouds, middelClouds, mountains, treeBackground);
-            x = x + this.canvas.width;
-        }
-    }
+    // setBackground() {
+    //     let x = -960;
+    //     let numberOfImages = Math.round(this.level.level_end_x / this.canvas.width);
+    //     for (let index = 0; index < numberOfImages + 1; index++) {
+    //         const sky = new BackgroundObject('img/level_set/forest/Background/Bright/sky.png', x);
+    //         const bigClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer2.png', x);
+    //         const middelClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer1.png', x);
+    //         const mountains = new BackgroundObject('img/level_set/forest/Background/Bright/mountains.png', x);
+    //         const treeBackground = new BackgroundObject('img/level_set/forest/Background/Bright/trees.png', x);
+    //         this.level.backgroundObjects.push(sky, bigClouds, middelClouds, mountains, treeBackground);
+    //         x = x + this.canvas.width;
+    //     }
+    // }
 
-    setClouds() {
-        let x = 0;
-        for (let index = 0; index < 10; index++) {
-            const cloud = new Clouds(x);
-            this.level.clouds.push(cloud);
-            x = x + this.canvas.width;
-        }
-    }
+    // setClouds() {
+    //     let x = 0;
+    //     for (let index = 0; index < 10; index++) {
+    //         const cloud = new Clouds(x);
+    //         this.level.clouds.push(cloud);
+    //         x = x + this.canvas.width;
+    //     }
+    // }
 
-    setStairway() {
-        let y = 228;
-        let firstStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0012_stairway_corner.png', y);
-        this.level.stairway.push(firstStairwayTile);
-        for (let index = 0; index < 8; index++) {
-            let stairwayFiller = new Stairway('img/level_set/forest/Objects/32/object_0010_stairway_filler.png', y);
-            this.level.stairway.push(stairwayFiller);
-            y = y + 32;
-        }
-        let lastStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0011_stairway_corner2.png', 484);
-        this.level.stairway.push(lastStairwayTile);
-    }
+    // setStairway() {
+    //     let y = 228;
+    //     let firstStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0012_stairway_corner.png', y);
+    //     this.level.stairway.push(firstStairwayTile);
+    //     for (let index = 0; index < 8; index++) {
+    //         let stairwayFiller = new Stairway('img/level_set/forest/Objects/32/object_0010_stairway_filler.png', y);
+    //         this.level.stairway.push(stairwayFiller);
+    //         y = y + 32;
+    //     }
+    //     let lastStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0011_stairway_corner2.png', 484);
+    //     this.level.stairway.push(lastStairwayTile);
+    // }
 
     setCharacterLifeBar() {
         let x = 80;
@@ -452,4 +473,7 @@ class World {
     resetCoinBar() {
         this.coinBar.splice(0);
     }
+
+
+    
 }

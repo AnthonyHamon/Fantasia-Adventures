@@ -259,3 +259,10 @@
     //         return false;
     //     }
     // }
+
+      
+    // stopAttackAnimation(animation, x) {
+    //     if (this.x >= x + 208) {
+    //         clearInterval(animation);
+    //     }
+    // }

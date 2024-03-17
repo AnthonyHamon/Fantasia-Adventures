@@ -187,8 +187,8 @@ class Character extends movableObject {
 
     magicAttack() {
         setInterval(() => {
-            if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy > 25) {
-                this.maxMagicalEnergy -= 25;
+            if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy >= 20) {
+                this.maxMagicalEnergy -= 20;
                 this.world.resetMagicBar();
                 this.world.setMagicBar();
                 let tornado = new Tornado(this.x + 95, this.y + 65, this.otherDirection);
@@ -248,7 +248,7 @@ class Character extends movableObject {
             this.world.setCoinBar();
         }
         if (object instanceof EnergyPotions && this.maxMagicalEnergy < 70) {
-            this.maxMagicalEnergy += 25;
+            this.maxMagicalEnergy += 20;
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetMagicBar();
             this.world.setMagicBar();
@@ -360,4 +360,9 @@ class Character extends movableObject {
             return false;
         }
     }
+
+   
+
+
+
 }

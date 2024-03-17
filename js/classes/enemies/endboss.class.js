@@ -58,11 +58,11 @@ class Endboss extends movableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEATH);
         this.animate();
+        this.letEnemyMove( );
     }
 
-    animate() {
-
-        setInterval(() => {
+    letEnemyMove(){
+        const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
             } else if (this.reachedEndPoint()) {
@@ -78,11 +78,13 @@ class Endboss extends movableObject {
             this.setEnemyLifeBar('boss');
 
         }, 1000 / 60);
+        allIntervals.push(letEnemyMove);
+    }
 
-
-        setInterval(() => {
+    animate() {
+        const animate = setInterval(() => {
             let i = 0;
-            if (this.world) {
+            if (this.world)
                 if (this.isDead() && this.deathAnimationStarted) {
                     this.playAnimation(this.IMAGES_DEATH);
                     if (this.currentImage == this.IMAGES_DEATH.length - 1) {
@@ -97,12 +99,9 @@ class Endboss extends movableObject {
                 } else if (this.isColliding(this.world.character)) {
                     this.playAnimation(this.IMAGES_ATTACKING_BOSS)
                 }
-
-
                 i++;
-            }
-
         }, 180);
+        allIntervals.push(animate);
     }
 
 }

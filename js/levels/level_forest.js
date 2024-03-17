@@ -1,4 +1,7 @@
-const forestLevel = new Level(
+let forestLevel;
+function initLevel(level){
+    if(level === 'The Forest')
+forestLevel = new Level(
     [
         // Snake,
         new Ent(),
@@ -142,4 +145,77 @@ const forestLevel = new Level(
         // closeAttacks
     ],
 );
+addSnakes(forestLevel);
+setGround(forestLevel);
+setFirstFloor(forestLevel);
+setBackground(forestLevel);
+setClouds(forestLevel);
+setStairway(forestLevel);
+return forestLevel;
+}
 
+function addSnakes(forestLevel) {
+    for (let j = 0; j < 18; j++) {
+        const snake = new Snake();
+        forestLevel.enemies.push(snake);
+    }
+}
+
+function setGround(forestLevel) {
+    let x = -64;
+    const firstGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0000_tile.png', -128);
+    forestLevel.ground.push(firstGroundItem);
+    for (let index = 0; index < (forestLevel.level_end_x / 64); index++) {
+        const ground = new Ground('img/level_set/forest/Tiles/Ground_grass_0001_tile.png', x);
+        forestLevel.ground.push(ground);
+        x = x + 64;
+    }
+    const lastGroundItem = new Ground('img/level_set/forest/Tiles/Ground_grass_0002_tile.png', forestLevel.level_end_x - 64);
+    forestLevel.ground.push(lastGroundItem);
+}
+
+function setFirstFloor(forestLevel) {
+    let x = 1984;
+    let numberOfImages = Math.round((forestLevel.level_end_x - x) / 64);
+    for (let index = 0; index < numberOfImages; index++) {
+        const floor = new Platforms('img/level_set/forest/Tiles/Ground_grass_0024_tile.png', x, 220);
+        forestLevel.platforms.push(floor);
+        x = x + 64;
+    }
+}
+
+function setBackground(forestLevel) {
+    let x = -960;
+    let numberOfImages = Math.round(forestLevel.level_end_x / this.canvas.width);
+    for (let index = 0; index < numberOfImages + 1; index++) {
+        const sky = new BackgroundObject('img/level_set/forest/Background/Bright/sky.png', x);
+        const bigClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer2.png', x);
+        const middelClouds = new BackgroundObject('img/level_set/forest/Background/Bright/clouds_back_layer1.png', x);
+        const mountains = new BackgroundObject('img/level_set/forest/Background/Bright/mountains.png', x);
+        const treeBackground = new BackgroundObject('img/level_set/forest/Background/Bright/trees.png', x);
+        forestLevel.backgroundObjects.push(sky, bigClouds, middelClouds, mountains, treeBackground);
+        x = x + this.canvas.width;
+    }
+}
+
+function setClouds(forestLevel) {
+    let x = 0;
+    for (let index = 0; index < 10; index++) {
+        const cloud = new Clouds(x);
+        forestLevel.clouds.push(cloud);
+        x = x + this.canvas.width;
+    }
+}
+
+function setStairway(forestLevel) {
+    let y = 228;
+    let firstStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0012_stairway_corner.png', y);
+    forestLevel.stairway.push(firstStairwayTile);
+    for (let index = 0; index < 8; index++) {
+        let stairwayFiller = new Stairway('img/level_set/forest/Objects/32/object_0010_stairway_filler.png', y);
+        forestLevel.stairway.push(stairwayFiller);
+        y = y + 32;
+    }
+    let lastStairwayTile = new Stairway('img/level_set/forest/Objects/32/object_0011_stairway_corner2.png', 484);
+    forestLevel.stairway.push(lastStairwayTile);
+}

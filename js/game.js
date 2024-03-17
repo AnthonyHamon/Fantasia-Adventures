@@ -3,7 +3,13 @@ let world;
 let characterInformations;
 let keyboard = new Keyboard();
 let currentCharacter;
+let currentLevel;
+let allIntervals = [];
+let wantToStartGame = false;
+
+
 let allCharactersInformations = [new RogueInformations(), new MageInformations(), new KnightInformations()];
+let everyLevelsInformations = [new ForestLevelInformation()];
 
 
 function init() {
@@ -12,50 +18,99 @@ function init() {
 }
 
 function renderGameMenu() {
+    wantToStartGame = false;
     let defaultAvatar = "img/UI/character-icons/character-selection-img.png";
     let gameMenu = document.getElementById('gameMenuCtn');
-    if (world) gameMenu.innerHTML = returnGameMenuHTML(world.character.avatar);
+    if (currentCharacter) gameMenu.innerHTML = returnGameMenuHTML(currentCharacter.avatar);
     else gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
 }
 
 function renderCharacterSelection(){
     document.getElementById('gameMenu').innerHTML = returnCharacterSelection();
+    let backToLevelSelectionButton = document.getElementById('back-to-level-selection-button');
+    let rendeGameMenuButton = document.getElementById('backward-button');
+    if(wantToStartGame)
+    backToLevelSelectionButton.classList.toggle('d-none'),
+    rendeGameMenuButton.classList.toggle('d-none');
+
 }
 
-function renderCharacterInformation(name, avatar, characterPreview){
-    document.getElementById('character-info').innerHTML = returnCharacterInformation(name, avatar, characterPreview);
+function renderCharacterInformation(name, avatar, characterPreview, walkRightPreview, walkLeftPreview, climbPreview, jumpPreview, magicalAttackPreview, closeAttackPreview){
+    let characterInformations = document.getElementById('character-info');
+    characterInformations.innerHTML = returnCharacterInformation(name, avatar, characterPreview, walkRightPreview, walkLeftPreview, climbPreview, jumpPreview, magicalAttackPreview, closeAttackPreview);
+    let characterselectionButton = document.getElementById('select-character-button');
+    if(wantToStartGame) characterselectionButton.classList.toggle('d-none');
 }
+
 
 function selectCharacter(type){
-    // world = null;
+    if(currentCharacter) world.resetWorld();
     if(type === 'Rogue') currentCharacter = new Rogue();
     if(type === 'Knight') currentCharacter = new Knight();
     if(type === 'Mage') currentCharacter = new Mage();
-    world = new World(canvas, keyboard, currentCharacter);
+    world = new World(canvas, keyboard, currentCharacter, currentLevel);
     world.setWorld(currentCharacter);
-    renderGameMenu();
+    world.START = true;
+    let startMenu = document.getElementById('gameMenuCtn');
+    startMenu.classList.toggle('d-none');
     // world = new World(canvas, keyboard, currentCharacter);
+}
 
+function selectLevel(level){
+    if(currentLevel) world.resetWorld();
+    let selectedLevel = initLevel(level);
+    currentLevel = selectedLevel;
+    renderCharacterSelection();
 }
 
 function renderLevelSelection() {
-
     document.getElementById('gameMenu').innerHTML = returnLevelSelection();
-    let levels = document.getElementById('levels');
-    levels.innerHTML = '';
-    for (let i = 0; i < world.levels.length; i++) {
-        const level = world.levels[i];
-        if(i === 0) levels.innerHTML += returnFirstLevels(level);
-        // else levels.innerHTML += returnClosedLevels(level); // right one, second line must be deletet when finished
-        levels.innerHTML += returnClosedLevels(level);
-    }
+    currentLevel = null;
+}
+
+function renderLevelInformation(levelName, levelBgImage, levelDescription, firstQuestName, firstQuestImage){
+    let levelInformationCtn = document.getElementById('level-informations');
+    levelInformationCtn.classList.toggle('d-none');
+    let backwardButton = document.getElementById('backward-button');
+    backwardButton.classList.toggle('d-none');
+    levelInformationCtn.innerHTML = returnLevelInformations(levelName, levelBgImage, levelDescription, firstQuestName, firstQuestImage);
+    let selectLevelButton = document.getElementById('select-level-btn');
+    if(wantToStartGame) selectLevelButton.classList.toggle('d-none');
+}
+
+function closeLevelInformation(){
+    let levelInformationCtn = document.getElementById('level-informations');
+    let backwardButton = document.getElementById('backward-button');
+    levelInformationCtn.classList.toggle('d-none');
+    backwardButton.classList.toggle('d-none');
+    
 }
 
 function startGame(){
-    let startMenu = document.getElementById('gameMenuCtn');
-    startMenu.classList.toggle('d-none');
+    wantToStartGame = true;
+    renderLevelSelection();
 }
 
+function returnToLevelMenu(){
+    resetWorld();
+    renderLevelSelection();
+}
+
+function resetWorld(){
+    debugger
+    allIntervals.forEach(interval => {
+        clearInterval(interval);
+    });
+    currentLevel = null;
+    currentCharacter = null;
+    // window.cancelAnimationFrame(world.self);
+    world.character.characterAvatar = null;
+    world.character = null;
+    world = null; 
+
+
+    // world.worldReseted = true;
+}
 
 
 window.addEventListener('keydown', (e) => {

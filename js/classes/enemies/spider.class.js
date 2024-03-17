@@ -63,7 +63,7 @@ class Spider extends movableObject {
 
     letEnemyMove() {
 
-        setInterval(() => {
+        const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
             } else if (this.reachedEndPoint()) {
@@ -78,11 +78,12 @@ class Spider extends movableObject {
             this.setEnemyLifeBar();
         }, 1000 / 60);
 
+        allIntervals.push(letEnemyMove);
     }
 
     animate() {
 
-        setInterval(() => {
+        const animate = setInterval(() => {
             if (this.isDead() && this.deathAnimationStarted) {
                 this.playAnimation(this.IMAGES_DEATH);
                 if (this.currentImage == this.IMAGES_DEATH.length - 1) {
@@ -96,5 +97,7 @@ class Spider extends movableObject {
                 this.playAnimation(this.IMAGES_SPIDER_WALKING);
             }
         }, 180);
+
+        allIntervals.push(animate);
     }
 }

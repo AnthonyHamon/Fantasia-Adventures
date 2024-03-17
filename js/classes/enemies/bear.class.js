@@ -64,14 +64,11 @@ class Bear extends movableObject {
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
+        this.letEnemyMove();
     }
 
-    animate() {
-
-        let i = 0;
-
-
-        setInterval(() => {
+    letEnemyMove(){
+        const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
             } else if (this.reachedEndPoint()) {
@@ -88,8 +85,12 @@ class Bear extends movableObject {
             }
             
         }, 1000 / 60);
+        allIntervals.push(letEnemyMove);
+    }
 
-        setInterval(() => {
+    animate() {
+        let i = 0;
+        const animate = setInterval(() => {
             if(this.world){
                 if (this.isDead() && this.deathAnimationStarted) {
                     this.playAnimation(this.IMAGES_DEATH);
@@ -107,20 +108,22 @@ class Bear extends movableObject {
                 }else if(this.isColliding(this.world.character)){
                     this.playAnimation(this.IMAGES_ATTACKING)
                 }
-            
-            
             i++;
 
-            setTimeout(() => {
                 if (this.world.character.x > 1200 && !this.hadFirstContact) {
                     i = 0;
                     this.hadFirstContact = true;
                 }
-            }, 1000);
+            // setTimeout(() => {
+            //     if (this.world.character.x > 1200 && !this.hadFirstContact) {
+            //         i = 0;
+            //         this.hadFirstContact = true;
+            //     }
+            // }, 1000);
         }
 
         }, 180);
 
-
+        allIntervals.push(animate);
     }
 }

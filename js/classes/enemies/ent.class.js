@@ -67,11 +67,11 @@ class Ent extends movableObject {
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
+        this.letEnemyMove();
     }
 
-    animate() {
-        let i = 0;
-        setInterval(() => {
+    letEnemyMove(){
+        const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
             } else if (this.reachedEndPoint()) {
@@ -87,7 +87,12 @@ class Ent extends movableObject {
 
         }, 1000 / 60);
 
-        setInterval(() => {
+        allIntervals.push(letEnemyMove);
+    }
+
+    animate() {
+        let i = 0;
+        const animate = setInterval(() => {
             if (this.world) {
                 if (this.isDead() && this.deathAnimationStarted) {
                     this.playAnimation(this.IMAGES_DEATH);
@@ -112,8 +117,8 @@ class Ent extends movableObject {
                     this.hadFirstContact = true;
                 }
             }
-
         }, 180);
 
+        allIntervals.push(animate);
     }
 }

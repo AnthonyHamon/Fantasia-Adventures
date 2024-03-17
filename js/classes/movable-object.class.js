@@ -24,7 +24,7 @@ class movableObject extends DrawableObjects {
     isInactiv() {
         let timePassed = new Date().getTime() - this.lastMove;
         timePassed = timePassed / 1000;
-        if (timePassed > 5000000000) { // 5
+        if (timePassed > 5) { // 5
             return true;
         } else {
             return false;

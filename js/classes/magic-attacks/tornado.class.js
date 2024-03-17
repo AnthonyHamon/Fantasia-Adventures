@@ -23,44 +23,21 @@ class Tornado extends LongRangeAttack{
     
     constructor(x, y, otherDirection) {
         super().loadImages(this.TORNADO_IMAGES);
-        this.animate(x);
+        this.animate();
         this.useLongRangeAttack(x, otherDirection);
         this.y = y;
         this.x = x;
         this.width = 128;
         this.height = 128;
     }
-    
-    stopAttackAnimation(animation, x) {
-        if (this.x >= x + 208) {
+  
+
+    stopAttackAnimation(animation) {
+        if (this.currentImage == this.TORNADO_IMAGES.length) {
             clearInterval(animation);
         }
     }
 
-    useLongRangeAttack(x, otherDirection) {
-        if(!otherDirection){
-            this.useLongRangeAttackRight(x)
-        }else{
-            this.useLongRangeAttackLeft(x)
-        }
-    }
-
-    useLongRangeAttackRight(x) {
-        let characterPosition = x;
-        let attackRange = setInterval(() => {
-            this.x = x += this.speedX;
-            this.stopAttackAnimation(attackRange, characterPosition);
-        }, 1000 / 60);
-    }
-
-
-    useLongRangeAttackLeft(x) {
-        let characterPosition = x;
-        x = x - 95;
-        let attackRange = setInterval(() => {
-            this.x = x -= this.speedX;
-            this.stopAttackAnimation(attackRange, characterPosition);
-        }, 1000 / 60);
-    }
+    
 }
 

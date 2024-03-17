@@ -66,12 +66,11 @@ canvas {
     justify-content: flex-end;
 }
 
-#backward-button {
+.backward_button {
     width: 36px;
     height: 36px;
     padding-right: 36px;
     cursor: pointer;
-
 }
 
 .start_menu {
@@ -136,8 +135,10 @@ canvas {
 
 .character_selection_ctn {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 80%;
 }
 
 .character_selection {
@@ -172,24 +173,10 @@ canvas {
 
 .character_info_ctn {
     position: relative;
-    width: max-content;
-    height: max-content;
+    height: 100%;
 }
 
-.character_informations {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 95%;
-}
-
-.character_informations button {
+#select-character-button {
     min-width: unset;
     min-height: unset;
 }
@@ -198,18 +185,35 @@ canvas {
     text-align: center;
     font-size: 28px;
     user-select: none;
+    margin-top: -12px;
+}
+
+.font_24{
+    font-size: 24px;
 }
 
 .padding_top_24 {
     padding-top: 24px;
 }
 
+.m_top_12 {
+    margin-top: 12px;
+}
+
 .m_top_24 {
     margin-top: 24px;
 }
 
+.minus_margin_24{
+    margin: -24px;
+}
+
 .gap_12{
     gap: 12px;
+}
+
+.gap_24{
+    gap: 24px;
 }
 
 .b_radius_50 {
@@ -240,17 +244,32 @@ canvas {
 .character_preview_ctn {
     display: flex;
     flex-direction: column;
-    margin-left: 28px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .character_preview {
-    margin-left: 6px;
-    margin-top: -24px;
+    margin-left: 15px;
 }
 
 .character_shadow {
-    margin-top: -34px;
+    margin-top: -25px;
     width: 100px;
+}
+
+.character_shadow img{
+    width: 100px;
+}
+
+.keyboard_preview span{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.keyboard_preview img{
+    width: 34px
 }
 
 .button_ctn {
@@ -259,16 +278,113 @@ canvas {
     width: 100%;
 }
 
+.content_ctn{
+    width: 80%;
+    height: 85%;
+    position: relative;
+}
+
 .level_selection {
     display: flex;
     flex-wrap: wrap;
     gap: 32px;
-    width: 640px;
-    height: 384px;
 }
 
-.level_selection img {
-    padding: 12px 0 0 12px;
+.level_ctn{
+    height: 150px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 5px white;
+    margin-left: 24px;
+}
+
+.level{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.level img{
+    width: fit-content;
+    height: fit-content;
+}
+
+.level span{
+    font-size: 22px;
+}
+
+.level_information{
+    height: 95%;
+    width: 97%;
+    background-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/menu_bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 10px solid transparent;
+    border-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/border.png') 2% stretch ;
+}
+
+.level_description_banner{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: -34px;
+}
+
+.level_description_section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.level_description_ctn{
+    background-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/beige_bg.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    flex-direction: column;
+    width: 87%;
+    height: 87%;
+    position: relative;
+}
+
+.close_button{
+    position: absolute;
+    right: -65px;
+    top: -45px;
+    cursor: pointer;
+}
+
+.level_description{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    gap: 24px;
+}
+
+.level_avatar_ctn{
+    margin-top: -12px;
+    border: 10px solid transparent;
+    border-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/round_border.png') 60 / 10;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    background-position: bottom left;
+}
+
+.select_level_btn{
+    display: flex;
+    margin: -15px -25px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.select_level_btn img {
     cursor: pointer;
 }
 

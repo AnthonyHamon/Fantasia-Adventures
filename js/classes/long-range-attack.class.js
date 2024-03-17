@@ -1,21 +1,46 @@
 class LongRangeAttack extends movableObject {
     speedX = 2;
 
-    useLongRangeAttack(x) {
-        let characterPosition = x;
+    // useLongRangeAttack(x) {
+    //     this.x = x;
+    //     let attackRange = setInterval(() => {
+    //         x += this.speedX;
+    //         this.stopAttackAnimation(attackRange);
+    //     }, 1000 / 60);
+    //     if(this.world) this.world.allIntervals.push({attackRange, "data": 'attack' });
+    // }
+
+    useLongRangeAttack(x, otherDirection) {
+        if(!otherDirection){
+            this.useLongRangeAttackRight(x)
+        }else{
+            this.useLongRangeAttackLeft(x)
+        }
+    }
+
+    useLongRangeAttackRight(x) {
         let attackRange = setInterval(() => {
             this.x = x += this.speedX;
-            this.stopAttackAnimation(attackRange, characterPosition);
+            this.stopAttackAnimation(attackRange);
         }, 1000 / 60);
     }
 
-    animate(x) {
+
+    useLongRangeAttackLeft(x) {
+        x = x - 95;
+        let attackRange = setInterval(() => {
+            this.x = x -= this.speedX;
+            this.stopAttackAnimation(attackRange);
+        }, 1000 / 60);
+    }
+
+    animate() {
         let attackAnimation = setInterval(() => {
             let i = this.currentImage % this.TORNADO_IMAGES.length;
             let path = this.TORNADO_IMAGES[i];
             this.img = this.imageCache[path];
             this.currentImage++;
-            this.stopAttackAnimation(attackAnimation, x);
+            this.stopAttackAnimation(attackAnimation);
         }, 150);
     }
 

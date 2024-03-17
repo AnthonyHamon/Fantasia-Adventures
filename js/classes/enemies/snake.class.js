@@ -56,8 +56,8 @@ class Snake extends movableObject {
         this.animate();
     };
 
-    letEnemyMove(){
-        setInterval(() => {
+    letEnemyMove() {
+        const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
             } else if (this.reachedEndPoint()) {
@@ -69,23 +69,28 @@ class Snake extends movableObject {
                 this.moveLeft();
             }
         }, 1000 / 60);
+
+        allIntervals.push(letEnemyMove);
     }
 
     animate() {
-        setInterval(() => {
-            if (this.isDead() && this.deathAnimationStarted) {
-                this.playAnimation(this.IMAGES_DEATH);
-                if (this.currentImage == this.IMAGES_DEATH.length - 1) {
-                    this.deathAnimationEnded = true;
+        const animate = setInterval(() => {
+            if (this.world)
+                if (this.isDead() && this.deathAnimationStarted) {
+                    this.playAnimation(this.IMAGES_DEATH);
+                    if (this.currentImage == this.IMAGES_DEATH.length - 1) {
+                        this.deathAnimationEnded = true;
+                    }
+                } else if (this.isHurt()) {
+                    this.playAnimation(this.IMAGES_HURT);
+                } else if (this.isColliding(this.world.character)) {
+                    this.playAnimation(this.IMAGES_ATTACKING_SNAKE)
+                } else {
+                    this.playAnimation(this.IMAGES_WALKING_SNAKE);
                 }
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            }else if(this.isColliding(this.world.character)){
-                this.playAnimation(this.IMAGES_ATTACKING_SNAKE)
-            }else {
-                this.playAnimation(this.IMAGES_WALKING_SNAKE);
-            }
         }, 180);
+
+        allIntervals.push(animate);
     }
 
 }
