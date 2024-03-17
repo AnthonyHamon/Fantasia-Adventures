@@ -12,11 +12,12 @@ class EnergyPotions extends DrawableObjects {
     }
 
     animate() {
-        setInterval(() => {
+        const animate = setInterval(() => {
             let i = this.currentImage % this.IMAGES_BOTTLES.length;
             let path = this.IMAGES_BOTTLES[i];
             this.img = this.imageCache[path];
             this.currentImage++;
         }, 250);
+        allIntervals.push(animate);
     }
 }

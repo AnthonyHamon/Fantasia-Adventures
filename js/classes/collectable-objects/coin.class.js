@@ -25,11 +25,12 @@ class Coin extends DrawableObjects {
     }
 
     animate() {
-        setInterval(() => {
+        const animate = setInterval(() => {
             let i = this.currentImage % this.ANIMATEDCOINIMAGES.length;
             let path = this.ANIMATEDCOINIMAGES[i];
             this.img = this.imageCache[path];
             this.currentImage++;
         }, 180);
+        allIntervals.push(animate);
     }
 }

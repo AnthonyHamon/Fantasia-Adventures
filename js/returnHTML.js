@@ -12,7 +12,7 @@ function returnGameMenuHTML(avatar) {
             </div>
             <div class="button_ctn">
                 <button onclick="">Options</button>
-                <button onclick="startGame()">Start Game</button>
+                <button onclick="gameStartLevelSelection()">Start Game</button>
                 <button onclick="renderLevelSelection()">Levels</button>
             </div> 
         </div>    
@@ -195,11 +195,11 @@ function returnWonScreen() {
             <div class="flex column_center_x">
                 <div class="p-relative pointer">
                     <img src="img/UI/defeat/button_yellow.png">
-                    <span onclick="returnToLevelMenu()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
+                    <span onclick="returnToLevelMenuAfterEndgame()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
                 </div>
                 <div class="p-relative pointer">
                     <img src="img/UI/defeat/button_yellow.png">
-                    <span class="height_90_percent p-absolute flex j_content_center align_item_center">Restart</span>
+                    <span onclick="restartGame()" class="height_90_percent p-absolute flex j_content_center align_item_center">Restart</span>
                 </div>
             </div>
         </div>

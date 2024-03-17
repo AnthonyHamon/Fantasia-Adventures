@@ -11,8 +11,9 @@ class Clouds extends movableObject {
     };
 
     animate() {
-        setInterval(()=>{
+        const animate = setInterval(()=>{
             this.moveLeft();
         }, 1000 / 60)
+        allIntervals.push(animate);
     }
 }

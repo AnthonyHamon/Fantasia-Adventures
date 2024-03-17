@@ -26,11 +26,12 @@ class Heart extends DrawableObjects{
     }
 
     animate() {
-        setInterval(() => {
+        const animate = setInterval(() => {
             let i = this.currentImage % this.ANIMATEDHEARTIMAGES.length;
             let path = this.ANIMATEDHEARTIMAGES[i];
             this.img = this.imageCache[path];
             this.currentImage++;
         }, 180);
+        allIntervals.push(animate);
     }
 }

@@ -27,16 +27,17 @@ class Character extends movableObject {
     }
 
     checkCharacterEvents() {
-        setInterval(() => {
+        const checkCharacterEvents = setInterval(() => {
             this.checkGroundCollision();
             this.checkPlatformsCollision();
             this.checkObstacleCollision();
             this.checkCollection();
         }, 1000 / 60);
+        allIntervals.push(checkCharacterEvents);
     }
 
     moveCharacter() {
-        setInterval(() => {
+        const moveCharacter = setInterval(() => {
             this.world.level.walking_sound_grass.pause();
             if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump())
                 this.world.START = false, this.isAlreadyAFK = false;
@@ -59,10 +60,11 @@ class Character extends movableObject {
                 this.hasAlreadyJumped = false;
             }
         }, 1000 / 60);
+        allIntervals.push(moveCharacter);
     }
 
     animate() {
-        setInterval(() => {
+        const animate = setInterval(() => {
             if (this.isDead() && this.deathAnimationStarted) {
                 this.playAnimation(this.IMAGES_DEATH);
                 if (this.currentImage == this.IMAGES_DEATH.length - 1) {
@@ -88,6 +90,7 @@ class Character extends movableObject {
                 }
             }
         }, 150);
+        allIntervals.push(animate);
     }
 
     canMoveRight() {
@@ -115,9 +118,11 @@ class Character extends movableObject {
     }
 
     checkCharacterStats() {
-        setInterval(() => {
+        const checkCharacterStats = setInterval(() => {
             this.restoreJumpEnergy();
         }, 1000 / 60);
+        allIntervals.push(checkCharacterStats);
+
     }
 
     checkCollection() {
@@ -129,7 +134,7 @@ class Character extends movableObject {
     }
 
     moveCamera() {
-        setInterval(() => {
+        const moveCamera = setInterval(() => {
 
             if (this.world.camera_x < this.world.canvas.width * 2) {    // camera goes with player from beginning
                 this.world.camera_x = this.x - 200;
@@ -144,6 +149,7 @@ class Character extends movableObject {
             //     this.world.camera_x = this.world.canvas.width * 2;
             // }
         }, 1000 / 60);
+        allIntervals.push(moveCamera);
     }
 
 
@@ -186,7 +192,7 @@ class Character extends movableObject {
 
 
     magicAttack() {
-        setInterval(() => {
+        const magicAttack = setInterval(() => {
             if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy >= 20) {
                 this.maxMagicalEnergy -= 20;
                 this.world.resetMagicBar();
@@ -200,6 +206,7 @@ class Character extends movableObject {
                 })
             }
         }, 150);
+        allIntervals.push(magicAttack);
     }
 
     attacks() {

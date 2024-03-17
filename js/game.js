@@ -44,28 +44,21 @@ function renderCharacterInformation(name, avatar, characterPreview, walkRightPre
 
 
 function selectCharacter(type){
-    if(currentCharacter) world.resetWorld();
     if(type === 'Rogue') currentCharacter = new Rogue();
     if(type === 'Knight') currentCharacter = new Knight();
     if(type === 'Mage') currentCharacter = new Mage();
-    world = new World(canvas, keyboard, currentCharacter, currentLevel);
-    world.setWorld(currentCharacter);
-    world.START = true;
-    let startMenu = document.getElementById('gameMenuCtn');
-    startMenu.classList.toggle('d-none');
-    // world = new World(canvas, keyboard, currentCharacter);
+    startGame();
 }
 
 function selectLevel(level){
-    if(currentLevel) world.resetWorld();
-    let selectedLevel = initLevel(level);
-    currentLevel = selectedLevel;
+    currentLevel = initLevel(level);
     renderCharacterSelection();
 }
 
 function renderLevelSelection() {
     document.getElementById('gameMenu').innerHTML = returnLevelSelection();
     currentLevel = null;
+    currentCharacter = null;
 }
 
 function renderLevelInformation(levelName, levelBgImage, levelDescription, firstQuestName, firstQuestImage){
@@ -87,29 +80,40 @@ function closeLevelInformation(){
 }
 
 function startGame(){
+    world = new World(canvas, keyboard, currentCharacter, currentLevel);
+    world.setWorld(currentCharacter);
+    world.START = true;
+    let startMenu = document.getElementById('gameMenuCtn');
+    startMenu.classList.toggle('d-none');
+}
+
+function gameStartLevelSelection(){
     wantToStartGame = true;
     renderLevelSelection();
 }
 
-function returnToLevelMenu(){
+function restartGame(){
+    clearAllInterval();
+    world = null;
+    startGame();
+}
+
+function returnToLevelMenuAfterEndgame(){
     resetWorld();
     renderLevelSelection();
 }
 
-function resetWorld(){
-    debugger
+function clearAllInterval(){
     allIntervals.forEach(interval => {
         clearInterval(interval);
     });
+}
+
+function resetWorld(){
+    clearAllInterval();
     currentLevel = null;
     currentCharacter = null;
-    // window.cancelAnimationFrame(world.self);
-    world.character.characterAvatar = null;
-    world.character = null;
-    world = null; 
-
-
-    // world.worldReseted = true;
+    world = null;
 }
 
 

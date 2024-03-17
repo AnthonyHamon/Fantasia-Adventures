@@ -3,7 +3,6 @@ class World {
     keyboard;
     ctx;
     camera_x = 200;
-    worldReseted = false;
 
 
     character;
@@ -101,7 +100,13 @@ class World {
     //     requestAnimationFrame(self.draw());
 
         // requestAnimationFrame(this.draw());
+
+        // this.animationID = requestAnimationFrame(this.draw());
     }
+
+    // startAnimation(){
+    //     this.animationID = requestAnimationFrame(this.draw)
+    // }
     
 
     checkCharactersDeath(){

@@ -56,10 +56,11 @@ class movableObject extends DrawableObjects {
     }
 
     applyGravity() {
-        setInterval(() => {
+        const applyGravity = setInterval(() => {
             this.y += this.speedY;
             this.speedY += this.gravityAcceleration;
         }, 1000 / 60);
+        allIntervals.push(applyGravity);
     }
 
     setEnemyLifeBar(boss) {
