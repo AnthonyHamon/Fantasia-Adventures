@@ -183,7 +183,7 @@ function returnWonScreen() {
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/clock_yellow.png">
                         <span>Time:</span>
-                        <span>${world.character.calcLevelDuration()}</span>
+                        <span>${world.calcLevelDuration()}</span>
                     </div>
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/coin.png">
@@ -236,11 +236,11 @@ function returnDefeatScreen() {
         <div class="flex column_center_x">
             <div class="p-relative pointer">
                 <img src="img/UI/defeat/button_yellow.png">
-                <span onclick="renderGameMenu()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
+                <span onclick="returnToLevelMenuAfterEndgame()" class="height_90_percent p-absolute flex j_content_center align_item_center">Continue</span>
             </div>
             <div class="p-relative pointer">
                 <img src="img/UI/defeat/button.png">
-                <span class="height_90_percent p-absolute flex j_content_center align_item_center">Restart</span>
+                <span onclick="restartGame()" class="height_90_percent p-absolute flex j_content_center align_item_center">Restart</span>
             </div>
         </div>
     </div>

@@ -12,6 +12,7 @@ class World {
     magicBar = [];
     coinBar = [];
     START = false;
+    levelDuration = Date.now();
 
 
     level;
@@ -95,18 +96,9 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
-
-    //    let self = this;
-    //     requestAnimationFrame(self.draw());
-
-        // requestAnimationFrame(this.draw());
-
-        // this.animationID = requestAnimationFrame(this.draw());
     }
 
-    // startAnimation(){
-    //     this.animationID = requestAnimationFrame(this.draw)
-    // }
+    
     
 
     checkCharactersDeath(){
@@ -139,6 +131,16 @@ class World {
         gameMenuCtn.classList.remove('d-none');
         let gameMainScreen = document.getElementById('gameMenu');
         gameMainScreen.innerHTML = returnDefeatScreen();
+    }
+
+    calcLevelDuration(){
+        let timeAtEndOfLevel = Date.now();
+        let levelTimePassed = timeAtEndOfLevel - this.levelDuration;
+        let fullSeconds = Math.round(levelTimePassed / 1000);
+        let seconds = fullSeconds % 60;
+        let formatedSeconds = seconds < 10 ? `0${seconds}` : seconds; 
+        let minutes = Math.floor(fullSeconds / 60);
+        return `${minutes} : ${formatedSeconds}`;
     }
 
     checkEnemiesDeath() {
@@ -175,7 +177,7 @@ class World {
     characterReceiveDamages(){
         const characterReceiveDamages = setInterval(() => {
             this.level.enemies.forEach(enemy => {
-                if (this.character.isColliding(enemy) && !this.character.isAttacking(enemy) && !this.character.isDead()) {
+                if (this.character.isColliding(enemy) && this.character.comesFromTop(enemy) && !this.character.isAttacking(enemy) && !enemy.isDead()) {
                     this.character.hit(enemy.inflictDamages);
                     this.resetLifeBar();
                     this.setCharacterLifeBar();
@@ -183,7 +185,6 @@ class World {
             })
         }, 100);
         allIntervals.push(characterReceiveDamages);
-
     }
 
     checkMagicalAttackCollision() {

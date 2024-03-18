@@ -16,7 +16,6 @@ class Character extends movableObject {
     collectedCoins = 0;
     enemyKillPoint = 0;
     timePassed = 0;
-    levelDuration = Date.now();
     
 
 
@@ -342,16 +341,6 @@ class Character extends movableObject {
             return false;
         }
     }
-
-    calcLevelDuration(){
-        let timeAtEndOfLevel = Date.now();
-        let levelTimePassed = timeAtEndOfLevel - this.levelDuration;
-        let seconds = Math.round(levelTimePassed / 1000);
-        let minutes = Math.round(seconds / 60);
-        return `${minutes} : ${seconds}`
-    }
-   
-
 
 
 }

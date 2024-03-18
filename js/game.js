@@ -21,8 +21,7 @@ function renderGameMenu() {
     wantToStartGame = false;
     let defaultAvatar = "img/UI/character-icons/character-selection-img.png";
     let gameMenu = document.getElementById('gameMenuCtn');
-    if (currentCharacter) gameMenu.innerHTML = returnGameMenuHTML(currentCharacter.avatar);
-    else gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
+    gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
 }
 
 function renderCharacterSelection(){
