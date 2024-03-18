@@ -16,6 +16,7 @@ class Character extends movableObject {
     collectedCoins = 0;
     enemyKillPoint = 0;
     timePassed = 0;
+    levelDuration = Date.now();
     
 
 
@@ -153,21 +154,7 @@ class Character extends movableObject {
     }
 
 
-    // climbDown() {
-    //     this.world.level.stairway.forEach(step => {
-    //         if (this.isColliding(step)) {
-    //             this.isClimbing = true;
-    //             this.speedY = 0;
-    //             this.y += 5;
-    //         }
-    //         // if (!this.isColliding(step)) {
-    //         //     this.isClimbing = false;
-    //         //     this.speedY = 8;
-
-    //         // }
-    //     });
-    // }
-
+   
 
     climbDown() {
         this.world.level.stairway.forEach(step => {
@@ -179,17 +166,6 @@ class Character extends movableObject {
         })
 
     }
-
-    // climbDown() {
-    //     this.world.level.stairway.forEach(step => {
-    //         if (!this.isClimbing) {
-    //             if(this.isColliding(step) && this.isOnPlatform) this.isClimbing = true, this.y += 14, 
-    //             this.isOnPlatform = false, this.speedY = 0;
-    //             if(this.isColliding(step) && this.isOnTheGround) this.isClimbing = false;
-    //         }
-    //     });
-    // }
-
 
     magicAttack() {
         const magicAttack = setInterval(() => {
@@ -274,7 +250,6 @@ class Character extends movableObject {
     }
 
     checkGroundCollision() {
-        // console.log(this.world)
         this.world.level.ground.forEach(ground => {
             this.tryToLandOn(ground);
         })
@@ -368,6 +343,13 @@ class Character extends movableObject {
         }
     }
 
+    calcLevelDuration(){
+        let timeAtEndOfLevel = Date.now();
+        let levelTimePassed = timeAtEndOfLevel - this.levelDuration;
+        let seconds = Math.round(levelTimePassed / 1000);
+        let minutes = Math.round(seconds / 60);
+        return `${minutes} : ${seconds}`
+    }
    
 
 

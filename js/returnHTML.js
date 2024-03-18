@@ -81,7 +81,7 @@ function returnCharacterInformation(name, avatar, characterPreview, walkRightPre
                         <div class="keyboard_preview flex column_center_x gap_12">
                             <span>A & D = <img src="${walkLeftPreview}"> & <img src="${walkRightPreview}"></span>
                             <span>W = <img src="${jumpPreview}"></span>
-                            <span>S = <img src="${climbPreview}"></span>
+                            <span>S = <img src="${climbPreview}"> (climb down)</span>
                             <span>E & F = <img src="${magicalAttackPreview}"> & <img src="${closeAttackPreview}"></span>
                         </div>
                     </div>  
@@ -183,7 +183,7 @@ function returnWonScreen() {
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/clock_yellow.png">
                         <span>Time:</span>
-                        <span>5:08</span>
+                        <span>${world.character.calcLevelDuration()}</span>
                     </div>
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/coin.png">
