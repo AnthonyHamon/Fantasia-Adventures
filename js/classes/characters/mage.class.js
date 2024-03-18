@@ -123,12 +123,6 @@ class Mage extends Character{
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_CLIMBING);
-        this.checkCharacterEvents();
-        this.moveCharacter();
-        this.checkCharacterStats();
-        this.animate();
-        this.moveCamera();
-        this.magicAttack();
-        this.applyGravity();
+        this.updateCharacter();
     }
 }

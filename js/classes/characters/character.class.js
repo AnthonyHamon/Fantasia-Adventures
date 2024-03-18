@@ -16,6 +16,7 @@ class Character extends movableObject {
     collectedCoins = 0;
     enemyKillPoint = 0;
     timePassed = 0;
+    isJumping = false;
     
 
 
@@ -24,6 +25,17 @@ class Character extends movableObject {
         right: 128,
         bottom: 80,
         left: 80
+    }
+
+    updateCharacter(){
+        this.checkCharacterEvents();
+        this.moveCharacter();
+        this.checkCharacterStats();
+        this.animate();
+        this.moveCamera();
+        this.magicAttack();
+        this.applyGravity();
+        this.playSoundEffect();
     }
 
     checkCharacterEvents() {
@@ -38,11 +50,10 @@ class Character extends movableObject {
 
     moveCharacter() {
         const moveCharacter = setInterval(() => {
-            this.world.level.walking_sound_grass.pause();
             if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump())
                 this.world.START = false, this.isAlreadyAFK = false;
-            if (this.canMoveRight()) this.moveRight(3) //  this.world.level.walking_sound_grass.play();
-            else if (this.canMoveLeft()) this.moveLeft(-3) // this.world.level.walking_sound_grass.play(); 
+            if (this.canMoveRight()) this.moveRight(3);
+            else if (this.canMoveLeft()) this.moveLeft(-3); 
             if (this.attacks()) this.updateCharacterEnergy(0.4);
             if (this.canClimbUp()) this.climbUp();
             if (this.canClimbDown()) this.climbDown();
@@ -61,6 +72,16 @@ class Character extends movableObject {
             }
         }, 1000 / 60);
         allIntervals.push(moveCharacter);
+    }
+
+    playSoundEffect(){
+        const playSoundEffect = setInterval(() => {
+            this.world.level.walking_sound[0].pause();
+            if (this.canMoveRight() || this.canMoveLeft()) this.world.playWalkingSound()
+            if (this.isJumping) this.world.playJumpSound(), console.log('canJump');
+        }, 1000 / 60);
+        allIntervals.push(playSoundEffect);
+
     }
 
     animate() {

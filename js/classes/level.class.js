@@ -13,9 +13,10 @@ class Level {
     longRangeAttacks;
     closeAttacks;
     level_end_x = 2880;
-    walking_sound_grass = new Audio('../audio/walk_grass.mp3');
+    walking_sound;
+    jump_sound;
 
-    constructor(enemies, clouds, backgroundObjects, blockCollision, ground, firstFloor, wall, platforms, decorations, collectableObjects, stairway, throwableObjects, longRangeAttacks, closeAttacks) {
+    constructor(enemies, clouds, backgroundObjects, blockCollision, ground, firstFloor, wall, platforms, decorations, collectableObjects, stairway, throwableObjects, longRangeAttacks, closeAttacks, walking_sound, jump_sound) {
         this.enemies = enemies;
         this.clouds = clouds;
         this.backgroundObjects = backgroundObjects;
@@ -30,6 +31,8 @@ class Level {
         this.throwableObjects = throwableObjects;
         this.longRangeAttacks = longRangeAttacks;
         this.closeAttacks = closeAttacks;
+        this.walking_sound = walking_sound;
+        this.jump_sound = jump_sound;
     }
 
 

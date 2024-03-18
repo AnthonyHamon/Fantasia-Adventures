@@ -25,13 +25,6 @@ class World {
         this.level = currentLevel;
         this.keyboard = keyboard;
         this.draw();
-        // this.levels.push(this.level);
-        // this.addSnakes();
-        // this.setGround();
-        // this.setFirstFloor();
-        // this.setBackground();
-        // this.setClouds();
-        // this.setStairway();
         this.checkEnemiesCollisions();
         this.checkMagicalAttackCollision();
         this.checkCharactersDeath();
@@ -140,7 +133,8 @@ class World {
         let seconds = fullSeconds % 60;
         let formatedSeconds = seconds < 10 ? `0${seconds}` : seconds; 
         let minutes = Math.floor(fullSeconds / 60);
-        return `${minutes} : ${formatedSeconds}`;
+        let formatedMinutes = minutes < 10 ? `0${minutes}` : minutes
+        return `${formatedMinutes} : ${formatedSeconds}`;
     }
 
     checkEnemiesDeath() {
@@ -412,6 +406,16 @@ class World {
         this.coinBar.splice(0);
     }
 
+    playWalkingSound(){
+        this.level.walking_sound[0].play();
+    }
 
+    playJumpSound(){
+        this.level.walking_sound[0].pause(); 
+        this.level.jump_sound[0].play();
+        if (this.level.jump_sound[0].currentTime === this.level.jump_sound[0].duration)
+        this.level.walking_sound[0].pause();
+        this.character.isJumping = false;
+    }
     
 }
