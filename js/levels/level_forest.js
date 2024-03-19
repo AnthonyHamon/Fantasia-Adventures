@@ -2,6 +2,7 @@ let forestLevel;
 function initLevel(level){
     if(level === 'The Forest')
 forestLevel = new Level(
+        level,
     [
         // Snake,
         new Ent(),
@@ -155,7 +156,7 @@ forestLevel = new Level(
 
     [
         new Audio('../audio/collect.mp3')
-    ]
+    ],
 );
 addSnakes(forestLevel);
 setGround(forestLevel);

@@ -1,4 +1,5 @@
 class Level {
+    levelName;
     enemies;
     clouds;
     backgroundObjects;
@@ -17,7 +18,8 @@ class Level {
     jump_sound;
     collect_sound;
 
-    constructor(enemies, clouds, backgroundObjects, blockCollision, ground, firstFloor, wall, platforms, decorations, collectableObjects, stairway, throwableObjects, longRangeAttacks, closeAttacks, walking_sound, jump_sound, collect_sound) {
+    constructor(levelName, enemies, clouds, backgroundObjects, blockCollision, ground, firstFloor, wall, platforms, decorations, collectableObjects, stairway, throwableObjects, longRangeAttacks, closeAttacks, walking_sound, jump_sound, collect_sound) {
+        this.levelName = levelName;
         this.enemies = enemies;
         this.clouds = clouds;
         this.backgroundObjects = backgroundObjects;

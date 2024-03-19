@@ -92,6 +92,7 @@ class Rogue extends Character {
     ];
 
     world;
+    characterName = 'Rogue';
     avatar = 'img/UI/character-icons/ninja.png';
     hasAlreadyJumped = false;
     isOnTheGround = false;

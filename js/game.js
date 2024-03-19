@@ -4,7 +4,7 @@ let characterInformations;
 let keyboard = new Keyboard();
 let currentCharacter;
 let selectedLevel;
-let currentLevel;
+let currentLevel = false;
 let allIntervals = [];
 let wantToStartGame = false;
 
@@ -55,8 +55,7 @@ function selectCharacter(type) {
 
 function selectLevel(level){
     selectedLevel = initLevel(level);
-    currentLevel = selectedLevel;
-    renderCharacterSelection();
+    if(!currentLevel) renderCharacterSelection();
 }
 
 // function selectLevel(level){
@@ -141,6 +140,7 @@ function closeLevelInformation() {
 }
 
 function startGame() {
+    currentLevel = true;
     world = new World(canvas, keyboard, currentCharacter, selectedLevel);
     world.setWorld(currentCharacter);
     world.START = true;
@@ -159,14 +159,14 @@ function gameStartLevelSelection() {
 //     startGame();
 // }
 
-function restartGame() {
-    clearAllInterval();
-    world = null;
-    selectedLevel = currentLevel;
-    startGame();
+function restartGame(curentLevelName, currentCharacterName) {
+    resetWorld();
+    selectLevel(curentLevelName);
+    selectCharacter(currentCharacterName)
 }
 
 function returnToLevelMenuAfterEndgame() {
+    currentLevel = false;
     resetWorld();
     renderLevelSelection();
 }
