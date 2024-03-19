@@ -17,6 +17,7 @@ class Character extends movableObject {
     enemyKillPoint = 0;
     timePassed = 0;
     isJumping = false;
+    isCollectingObject = false;
     
 
 
@@ -35,7 +36,7 @@ class Character extends movableObject {
         this.moveCamera();
         this.magicAttack();
         this.applyGravity();
-        this.playSoundEffect();
+        // this.playSoundEffect();
     }
 
     checkCharacterEvents() {
@@ -78,7 +79,8 @@ class Character extends movableObject {
         const playSoundEffect = setInterval(() => {
             this.world.level.walking_sound[0].pause();
             if (this.canMoveRight() || this.canMoveLeft()) this.world.playWalkingSound()
-            if (this.isJumping) this.world.playJumpSound(), console.log('canJump');
+            if (this.isJumping) this.world.playJumpSound();
+            if (this.isCollectingObject) this.world.playCollectionSound();
         }, 1000 / 60);
         allIntervals.push(playSoundEffect);
 
@@ -242,6 +244,7 @@ class Character extends movableObject {
         if (object instanceof Heart && this.life < 99) {
             this.world.level.collectableObjects.splice(index, 1);
             this.updateCharacterLife(20);
+            this.isCollectingObject = true;
         }
         if (object instanceof Coin) {
             this.collectedCoins += 100;
@@ -249,12 +252,14 @@ class Character extends movableObject {
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetCoinBar();
             this.world.setCoinBar();
+            this.isCollectingObject = true;
         }
         if (object instanceof EnergyPotions && this.maxMagicalEnergy < 70) {
             this.maxMagicalEnergy += 20;
             this.world.level.collectableObjects.splice(index, 1);
             this.world.resetMagicBar();
             this.world.setMagicBar();
+            this.isCollectingObject = true;
         }
     }
 

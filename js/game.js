@@ -3,6 +3,7 @@ let world;
 let characterInformations;
 let keyboard = new Keyboard();
 let currentCharacter;
+let selectedLevel;
 let currentLevel;
 let allIntervals = [];
 let wantToStartGame = false;
@@ -24,95 +25,186 @@ function renderGameMenu() {
     gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
 }
 
-function renderCharacterSelection(){
+function renderCharacterSelection() {
     document.getElementById('gameMenu').innerHTML = returnCharacterSelection();
     let backToLevelSelectionButton = document.getElementById('back-to-level-selection-button');
     let rendeGameMenuButton = document.getElementById('backward-button');
-    if(wantToStartGame)
-    backToLevelSelectionButton.classList.toggle('d-none'),
-    rendeGameMenuButton.classList.toggle('d-none');
+    if (wantToStartGame)
+        backToLevelSelectionButton.classList.toggle('d-none'),
+            rendeGameMenuButton.classList.toggle('d-none');
 
 }
 
-function renderCharacterInformation(name, avatar, characterPreview, walkRightPreview, walkLeftPreview, climbPreview, jumpPreview, magicalAttackPreview, closeAttackPreview){
+function renderCharacterInformation(name, avatar, characterPreview, walkRightPreview, walkLeftPreview, climbPreview, jumpPreview, magicalAttackPreview, closeAttackPreview) {
     let characterInformations = document.getElementById('character-info');
     characterInformations.innerHTML = returnCharacterInformation(name, avatar, characterPreview, walkRightPreview, walkLeftPreview, climbPreview, jumpPreview, magicalAttackPreview, closeAttackPreview);
     let characterselectionButton = document.getElementById('select-character-button');
-    if(wantToStartGame) characterselectionButton.classList.toggle('d-none');
+    if (wantToStartGame) characterselectionButton.classList.toggle('d-none');
 }
 
 
-function selectCharacter(type){
-    if(type === 'Rogue') currentCharacter = new Rogue();
-    if(type === 'Knight') currentCharacter = new Knight();
-    if(type === 'Mage') currentCharacter = new Mage();
+function selectCharacter(type) {
+    if (type === 'Rogue') currentCharacter = new Rogue();
+    if (type === 'Knight') currentCharacter = new Knight();
+    if (type === 'Mage') currentCharacter = new Mage();
     startGame();
 }
 
+
+
+
 function selectLevel(level){
-    currentLevel = initLevel(level);
+    selectedLevel = initLevel(level);
+    currentLevel = selectedLevel;
     renderCharacterSelection();
 }
 
+// function selectLevel(level){
+//     selectedLevel = initLevel(level);
+//     currentLevel = {...init(level)};
+//     renderCharacterSelection();
+// }
+
+// function selectLevel(level){
+//     selectedLevel = initLevel(level);
+//     currentLevel = {...forestLevel};
+//     renderCharacterSelection();
+// }
+
+// function selectLevel(level){
+//     selectedLevel = deepCopy(initLevel(level));
+//     renderCharacterSelection();
+// }
+
+// function selectLevel(level){
+//     selectedLevel = initLevel(level);
+//     saveCurrentLevel(forestLevel);
+//     renderCharacterSelection();
+// }
+
+
+// function selectLevel(level) {
+//     selectedLevel = initLevel(level);
+//     selectedLevel.itself = selectedLevel;
+//     currentLevel = structuredClone(selectedLevel);
+//     renderCharacterSelection();
+// }
+
+
+// function selectLevel(level) {
+//     selectedLevel = initLevel(level);
+//     currentLevel = Object.create(selectedLevel);
+//     renderCharacterSelection();
+// }
+
+
+// function isSelectedLevel() {
+//     if(selectedLevel){
+//         selectedLevel.itself = selectedLevel;
+//         return structuredClone(selectedLevel);
+//     }
+// }
+
+// function selectLevel(level) {
+//     selectedLevel = initLevel(level);
+//     const currentSelectedLevel = isSelectedLevel();
+//     currentLevel = currentSelectedLevel;
+//     renderCharacterSelection();
+// }
+
+
+
+
+
 function renderLevelSelection() {
     document.getElementById('gameMenu').innerHTML = returnLevelSelection();
-    currentLevel = null;
+    selectedLevel = null;
     currentCharacter = null;
 }
 
-function renderLevelInformation(levelName, levelBgImage, levelDescription, firstQuestName, firstQuestImage){
+function renderLevelInformation(levelName, levelBgImage, levelDescription, firstQuestName, firstQuestImage) {
     let levelInformationCtn = document.getElementById('level-informations');
     levelInformationCtn.classList.toggle('d-none');
     let backwardButton = document.getElementById('backward-button');
     backwardButton.classList.toggle('d-none');
     levelInformationCtn.innerHTML = returnLevelInformations(levelName, levelBgImage, levelDescription, firstQuestName, firstQuestImage);
     let selectLevelButton = document.getElementById('select-level-btn');
-    if(wantToStartGame) selectLevelButton.classList.toggle('d-none');
+    if (wantToStartGame) selectLevelButton.classList.toggle('d-none');
 }
 
-function closeLevelInformation(){
+function closeLevelInformation() {
     let levelInformationCtn = document.getElementById('level-informations');
     let backwardButton = document.getElementById('backward-button');
     levelInformationCtn.classList.toggle('d-none');
     backwardButton.classList.toggle('d-none');
-    
+
 }
 
-function startGame(){
-    world = new World(canvas, keyboard, currentCharacter, currentLevel);
+function startGame() {
+    world = new World(canvas, keyboard, currentCharacter, selectedLevel);
     world.setWorld(currentCharacter);
     world.START = true;
     let startMenu = document.getElementById('gameMenuCtn');
     startMenu.classList.toggle('d-none');
 }
 
-function gameStartLevelSelection(){
+function gameStartLevelSelection() {
     wantToStartGame = true;
     renderLevelSelection();
 }
 
-function restartGame(){
+// function restartGame(){
+//     clearAllInterval();
+//     world = null;
+//     startGame();
+// }
+
+function restartGame() {
     clearAllInterval();
     world = null;
+    selectedLevel = currentLevel;
     startGame();
 }
 
-function returnToLevelMenuAfterEndgame(){
+function returnToLevelMenuAfterEndgame() {
     resetWorld();
     renderLevelSelection();
 }
 
-function clearAllInterval(){
+function clearAllInterval() {
     allIntervals.forEach(interval => {
         clearInterval(interval);
     });
 }
 
-function resetWorld(){
+function resetWorld() {
     clearAllInterval();
-    currentLevel = null;
+    selectedLevel = null;
     currentCharacter = null;
     world = null;
+}
+
+function saveCurrentLevel(level) {
+    localStorage.setItem('currentLevel', JSON.stringify(level));
+}
+
+function loadCurentLevel() {
+    currentLevel = JSON.parse(localStorage.getItem('currentLevel'));
+}
+
+
+
+function deepCopy(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+    let copy = Array.isArray(obj) ? [] : {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            copy[key] = deepCopy(obj[key]);
+        }
+    }
+    return copy;
 }
 
 

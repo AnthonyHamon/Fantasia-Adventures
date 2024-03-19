@@ -151,6 +151,10 @@ forestLevel = new Level(
 
     [
         new Audio('../audio/jump.mp3')
+    ],
+
+    [
+        new Audio('../audio/collect.mp3')
     ]
 );
 addSnakes(forestLevel);

@@ -18,11 +18,11 @@ class World {
     level;
 
 
-    constructor(canvas, keyboard, currentCharacter, currentLevel) {
+    constructor(canvas, keyboard, currentCharacter, selectedLevel) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.character = currentCharacter;
-        this.level = currentLevel;
+        this.level = selectedLevel;
         this.keyboard = keyboard;
         this.draw();
         this.checkEnemiesCollisions();
@@ -414,8 +414,15 @@ class World {
         this.level.walking_sound[0].pause(); 
         this.level.jump_sound[0].play();
         if (this.level.jump_sound[0].currentTime === this.level.jump_sound[0].duration)
-        this.level.walking_sound[0].pause();
+        this.level.jump_sound[0].pause();
         this.character.isJumping = false;
+    }
+
+    playCollectionSound(){
+        this.level.collect_sound[0].play();
+        if (this.level.collect_sound[0].currentTime === this.level.collect_sound[0].duration)
+        this.level.collect_sound[0].pause();
+        this.character.isCollectingObject = false;
     }
     
 }
