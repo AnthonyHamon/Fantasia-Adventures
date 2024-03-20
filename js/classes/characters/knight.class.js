@@ -36,7 +36,6 @@ class Knight extends Character{
     ];
 
     IMAGES_ATTACKING = [
-        'img/character/Knight/Attack/attack0.png',
         'img/character/Knight/Attack/attack1.png',
         'img/character/Knight/Attack/attack2.png',
         'img/character/Knight/Attack/attack3.png',

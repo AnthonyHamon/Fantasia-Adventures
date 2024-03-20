@@ -13,6 +13,10 @@ class World {
     coinBar = [];
     START = false;
     levelDuration = Date.now();
+    levelDurationEndTime;
+    fullElapsedLevelTime;
+    timeScore;
+    endScore = 0;
 
 
     level;
@@ -37,12 +41,12 @@ class World {
     }
 
     setWorld(character) {
-        if(character) this.character = character;
+        if (character) this.character = character;
         this.character.world = this;
         this.level.enemies.forEach(enemy => {
             enemy.world = this;
         })
-        this.level.longRangeAttacks.forEach(attack=>{
+        this.level.longRangeAttacks.forEach(attack => {
             attack.world = this;
         })
     }
@@ -69,8 +73,6 @@ class World {
 
         // this.drawCollisionBlock(this.level.blockCollision); // only drawn to adjust position
 
-
-
         this.ctx.translate(this.camera_x, 0)
         // ------ space for fixed objects
         this.addTomap(this.characterInformations);
@@ -91,17 +93,14 @@ class World {
         });
     }
 
-    
-    
-
-    checkCharactersDeath(){
+    checkCharactersDeath() {
         const charactersdeath = setInterval(() => {
             this.removeCharacterAfterDeath();
         }, 150);
         allIntervals.push(charactersdeath);
     }
 
-    removeCharacterAfterDeath(){
+    removeCharacterAfterDeath() {
         if (this.character.isDead() && !this.character.deathAnimationStarted) {
             this.character.startDeathAnimation();
         }
@@ -112,29 +111,53 @@ class World {
         }
     }
 
-    renderWonScreen(){
+    renderWonScreen() {
+        this.levelDurationEndTime = this.calcLevelDuration();
         let gameMenuCtn = document.getElementById('gameMenuCtn');
         gameMenuCtn.classList.toggle('d-none');
         let gameMainScreen = document.getElementById('gameMenu');
         gameMainScreen.innerHTML = returnWonScreen();
     }
 
-    renderDefeatScreen(){
+    renderDefeatScreen() {
+        this.levelDurationEndTime = this.calcLevelDuration();
         let gameMenuCtn = document.getElementById('gameMenuCtn');
         gameMenuCtn.classList.remove('d-none');
         let gameMainScreen = document.getElementById('gameMenu');
         gameMainScreen.innerHTML = returnDefeatScreen();
     }
 
-    calcLevelDuration(){
+    calcLevelDuration() {
         let timeAtEndOfLevel = Date.now();
         let levelTimePassed = timeAtEndOfLevel - this.levelDuration;
         let fullSeconds = Math.round(levelTimePassed / 1000);
         let seconds = fullSeconds % 60;
-        let formatedSeconds = seconds < 10 ? `0${seconds}` : seconds; 
+        let formatedSeconds = seconds < 10 ? `0${seconds}` : seconds;
         let minutes = Math.floor(fullSeconds / 60);
-        let formatedMinutes = minutes < 10 ? `0${minutes}` : minutes
+        let formatedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        this.fullElapsedLevelTime = this.getTimePassed(timeAtEndOfLevel);
         return `${formatedMinutes} : ${formatedSeconds}`;
+    }
+
+    getTimePassed(timeAtEndOfLevel) {
+        let elapsedTime = (timeAtEndOfLevel - this.levelDuration) / 1000;
+        let minutes = Math.floor(elapsedTime / 60);
+        let seconds = elapsedTime % 60;
+        let timePassed = minutes + seconds / 60;
+        return timePassed;
+    }
+
+    calcEndScore() {
+        this.timeScore = this.calcTimeScore();
+        this.endScore = this.character.enemyKillPoint + this.character.collectedCoins + this.timeScore
+    }
+
+    calcTimeScore() {
+        let timeScore;
+        if (this.fullElapsedLevelTime <= 3) timeScore = 500;
+        if (this.fullElapsedLevelTime > 3 && this.fullElapsedLevelTime < 5) timeScore = 300;
+        if (this.fullElapsedLevelTime > 5) timeScore = 100;
+        return timeScore;
     }
 
     checkEnemiesDeath() {
@@ -148,14 +171,14 @@ class World {
 
     checkEnemiesCollisions() {
         this.characterInflictDamages();
-        this.characterReceiveDamages(); 
+        this.characterReceiveDamages();
     }
 
-    characterInflictDamages(){
-        
+    characterInflictDamages() {
+
         const characterInflictDamages = setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.character.comesFromTop(enemy) && this.character.speedY!== 0.4 && this.character.maxEnergy > 0 && !enemy.isDead()) {
+                if (this.character.comesFromTop(enemy) && this.character.speedY !== 0.4 && this.character.maxEnergy > 0 && !enemy.isDead()) {
                     this.character.jump();
                     this.character.maxEnergy -= 30;
                     enemy.hit(enemy.receivedPhysicalDamages);
@@ -168,7 +191,7 @@ class World {
         allIntervals.push(characterInflictDamages);
     }
 
-    characterReceiveDamages(){
+    characterReceiveDamages() {
         const characterReceiveDamages = setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy) && this.character.comesFromTop(enemy) && !this.character.isAttacking(enemy) && !enemy.isDead()) {
@@ -194,9 +217,9 @@ class World {
         allIntervals.push(magicalAttackCollison);
     }
 
-    countEnemyKillPoint(){
-        this.level.enemies.forEach(enemy =>{
-            if(enemy.isDead() && enemy.deathAnimationEnded) this.character.enemyKillPoint += enemy.killPoint;
+    countEnemyKillPoint() {
+        this.level.enemies.forEach(enemy => {
+            if (enemy.isDead() && enemy.deathAnimationEnded) this.character.enemyKillPoint += enemy.killPoint;
         })
     }
 
@@ -207,7 +230,9 @@ class World {
             }
             if (enemy.deathAnimationEnded) {
                 this.level.enemies.splice(index, 1);
-                if(enemy instanceof Endboss){
+                if (enemy instanceof Endboss) {
+                    this.calcLevelDuration();
+                    this.calcEndScore();
                     this.renderWonScreen();
                 }
             }
@@ -251,7 +276,7 @@ class World {
         // this.drawColisionFrame(obj);
         // this.drawOffsetColisionFrame(obj);
 
-        if((obj instanceof Platforms)){
+        if ((obj instanceof Platforms)) {
             // this.drawColisionFrame(obj);
             // this.drawOffsetColisionFrame(obj);
         }
@@ -406,23 +431,23 @@ class World {
         this.coinBar.splice(0);
     }
 
-    playWalkingSound(){
+    playWalkingSound() {
         this.level.walking_sound[0].play();
     }
 
-    playJumpSound(){
-        this.level.walking_sound[0].pause(); 
+    playJumpSound() {
+        this.level.walking_sound[0].pause();
         this.level.jump_sound[0].play();
         if (this.level.jump_sound[0].currentTime === this.level.jump_sound[0].duration)
-        this.level.jump_sound[0].pause();
+            this.level.jump_sound[0].pause();
         this.character.isJumping = false;
     }
 
-    playCollectionSound(){
+    playCollectionSound() {
         this.level.collect_sound[0].play();
         if (this.level.collect_sound[0].currentTime === this.level.collect_sound[0].duration)
-        this.level.collect_sound[0].pause();
+            this.level.collect_sound[0].pause();
         this.character.isCollectingObject = false;
     }
-    
+
 }

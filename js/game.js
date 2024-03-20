@@ -50,70 +50,10 @@ function selectCharacter(type) {
     startGame();
 }
 
-
-
-
 function selectLevel(level){
     selectedLevel = initLevel(level);
     if(!currentLevel) renderCharacterSelection();
 }
-
-// function selectLevel(level){
-//     selectedLevel = initLevel(level);
-//     currentLevel = {...init(level)};
-//     renderCharacterSelection();
-// }
-
-// function selectLevel(level){
-//     selectedLevel = initLevel(level);
-//     currentLevel = {...forestLevel};
-//     renderCharacterSelection();
-// }
-
-// function selectLevel(level){
-//     selectedLevel = deepCopy(initLevel(level));
-//     renderCharacterSelection();
-// }
-
-// function selectLevel(level){
-//     selectedLevel = initLevel(level);
-//     saveCurrentLevel(forestLevel);
-//     renderCharacterSelection();
-// }
-
-
-// function selectLevel(level) {
-//     selectedLevel = initLevel(level);
-//     selectedLevel.itself = selectedLevel;
-//     currentLevel = structuredClone(selectedLevel);
-//     renderCharacterSelection();
-// }
-
-
-// function selectLevel(level) {
-//     selectedLevel = initLevel(level);
-//     currentLevel = Object.create(selectedLevel);
-//     renderCharacterSelection();
-// }
-
-
-// function isSelectedLevel() {
-//     if(selectedLevel){
-//         selectedLevel.itself = selectedLevel;
-//         return structuredClone(selectedLevel);
-//     }
-// }
-
-// function selectLevel(level) {
-//     selectedLevel = initLevel(level);
-//     const currentSelectedLevel = isSelectedLevel();
-//     currentLevel = currentSelectedLevel;
-//     renderCharacterSelection();
-// }
-
-
-
-
 
 function renderLevelSelection() {
     document.getElementById('gameMenu').innerHTML = returnLevelSelection();
@@ -153,12 +93,6 @@ function gameStartLevelSelection() {
     renderLevelSelection();
 }
 
-// function restartGame(){
-//     clearAllInterval();
-//     world = null;
-//     startGame();
-// }
-
 function restartGame(curentLevelName, currentCharacterName) {
     resetWorld();
     selectLevel(curentLevelName);
@@ -183,30 +117,6 @@ function resetWorld() {
     currentCharacter = null;
     world = null;
 }
-
-function saveCurrentLevel(level) {
-    localStorage.setItem('currentLevel', JSON.stringify(level));
-}
-
-function loadCurentLevel() {
-    currentLevel = JSON.parse(localStorage.getItem('currentLevel'));
-}
-
-
-
-function deepCopy(obj) {
-    if (typeof obj !== 'object' || obj === null) {
-        return obj;
-    }
-    let copy = Array.isArray(obj) ? [] : {};
-    for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            copy[key] = deepCopy(obj[key]);
-        }
-    }
-    return copy;
-}
-
 
 window.addEventListener('keydown', (e) => {
     if (e.key == 'd') {

@@ -167,10 +167,11 @@ function returnWonScreen() {
                 <img src="img/UI/victory/knight+tape.png">
                 <span class="p-absolute victory_text">Victory!</span>
             </div>
-            <div class="flex gap_12">
-                <img src="img/UI/victory/big_star_yellow.png">
-                <img src="img/UI/victory/big_star_yellow.png">
-                <img src="img/UI/victory/big_star.png">
+            <div id="star_score" class="flex gap_12">
+                ${returnZeroStarVictory()}
+                ${returnOneStarVictory()}
+                ${returnTwoStarVictory()}
+                ${returnThreeStarVictory()}
             </div>
             <div class="p-relative">
                 <img src="img/UI/defeat/begie_border2.png">
@@ -183,7 +184,7 @@ function returnWonScreen() {
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/clock_yellow.png">
                         <span>Time:</span>
-                        <span>${world.calcLevelDuration()}</span>
+                        <span>${world.levelDurationEndTime}</span>
                     </div>
                     <div class="statistic_ctn">
                         <img src="img/UI/defeat/coin.png">
@@ -224,7 +225,7 @@ function returnDefeatScreen() {
                 <div class="statistic_ctn">
                     <img src="img/UI/defeat/clock_yellow.png">
                     <span>Time:</span>
-                    <span>${world.calcLevelDuration()}</span>
+                    <span>${world.levelDurationEndTime}</span>
                 </div>
                 <div class="statistic_ctn">
                     <img src="img/UI/defeat/coin.png">
@@ -245,6 +246,52 @@ function returnDefeatScreen() {
         </div>
     </div>
     `
+}
+
+
+function returnZeroStarVictory() {
+    let html = '';
+    if(world.endScore < 1300)
+    html = `
+        <img src="img/UI/victory/big_star.png">
+        <img src="img/UI/victory/big_star.png">
+        <img src="img/UI/victory/big_star.png">
+    `
+    return html;
+}
+
+function returnOneStarVictory() {
+    let html = '';
+    if(world.endScore >= 1300 && world.endScore <= 1500)
+    html = `
+        <img src="img/UI/victory/big_star_yellow.png">
+        <img src="img/UI/victory/big_star.png">
+        <img src="img/UI/victory/big_star.png">
+    `
+    return html;
+}
+
+function returnTwoStarVictory() {
+    let html = '';
+    if(world.endScore > 1500 && world.endScore < 2000)
+    html = `
+        <img src="img/UI/victory/big_star_yellow.png">
+        <img src="img/UI/victory/big_star_yellow.png">
+        <img src="img/UI/victory/big_star.png">
+    `
+    return html;
+}
+
+
+function returnThreeStarVictory() {
+    let html = '';
+    if(world.endScore >= 2000)
+    html = `
+        <img src="img/UI/victory/big_star_yellow.png">
+        <img src="img/UI/victory/big_star_yellow.png">
+        <img src="img/UI/victory/big_star_yellow.png">
+    `
+    return html;
 }
 
 function returnCredits() {

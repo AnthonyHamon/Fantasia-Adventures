@@ -1,5 +1,6 @@
 class Character extends movableObject {
     world;
+    isInTheAir = false;
     hasAlreadyJumped = false;
     isOnTheGround = false;
     isOnPlatform = false;
@@ -36,7 +37,7 @@ class Character extends movableObject {
         this.moveCamera();
         this.magicAttack();
         this.applyGravity();
-        // this.playSoundEffect();
+        this.playSoundEffect();
     }
 
     checkCharacterEvents() {
@@ -60,6 +61,7 @@ class Character extends movableObject {
             if (this.canClimbDown()) this.climbDown();
             if (!this.isAlreadyAFK) this.isAlreadyAFK = true, this.stay();
 
+            if(this.isJumping) this.isInTheAir = true;
             if (this.canJump()) {
                 this.updateCharacterEnergy(15);
                 this.jump();
@@ -78,10 +80,10 @@ class Character extends movableObject {
     playSoundEffect(){
         const playSoundEffect = setInterval(() => {
             this.world.level.walking_sound[0].pause();
-            if (this.canMoveRight() || this.canMoveLeft()) this.world.playWalkingSound()
+            if (!this.isInTheAir && (this.canMoveRight() || this.canMoveLeft())) this.world.playWalkingSound()
             if (this.isJumping) this.world.playJumpSound();
             if (this.isCollectingObject) this.world.playCollectionSound();
-        }, 1000 / 60);
+        }, 100);
         allIntervals.push(playSoundEffect);
 
     }
@@ -301,7 +303,7 @@ class Character extends movableObject {
                 this.speedY = 0;
                 this.hasAlreadyJumped = false;
             }
-            if (platform instanceof Platforms) this.isOnPlatform = true, this.isOnTheGround = false
+            if (platform instanceof Platforms) this.isOnPlatform = true, this.isOnTheGround = false, this.isInTheAir = false
             else this.isOnPlatform = false;
         }
     }
@@ -313,7 +315,7 @@ class Character extends movableObject {
                 this.speedY = 0;
                 this.hasAlreadyJumped = false;
             }
-            if (ground instanceof Ground) this.isOnTheGround = true, this.isOnPlatform = false;
+            if (ground instanceof Ground) this.isOnTheGround = true, this.isOnPlatform = false, this.isInTheAir = false
             else this.isOnTheGround = false;
         }
     }
