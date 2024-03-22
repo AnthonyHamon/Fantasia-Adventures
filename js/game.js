@@ -7,6 +7,7 @@ let selectedLevel;
 let currentLevel = false;
 let allIntervals = [];
 let wantToStartGame = false;
+let backgroundMusic = new Audio('audio/background_music.mp3');
 
 
 let allCharactersInformations = [new RogueInformations(), new MageInformations(), new KnightInformations()];
@@ -16,7 +17,15 @@ let everyLevelsInformations = [new ForestLevelInformation()];
 function init() {
     canvas = document.getElementById('canvas');
     renderGameMenu();
+    initBackgroundMusic();
 }
+
+function initBackgroundMusic(){
+    backgroundMusic.play();
+    backgroundMusic.volume = 0.1
+    backgroundMusic.loop = true;
+}
+
 
 function renderGameMenu() {
     wantToStartGame = false;

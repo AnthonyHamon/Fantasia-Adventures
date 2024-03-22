@@ -50,6 +50,8 @@ class Ent extends movableObject {
     receivedPhysicalDamages = 5;
     receivedMagicalDamages = 7;
     killPoint = 30;
+    attack_sound = new Audio('../audio/ent_attack.mp3');
+    hurt_sound = new Audio('../audio/ent_hurt2.mp3');
 
 
 
@@ -68,6 +70,7 @@ class Ent extends movableObject {
         this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
         this.letEnemyMove();
+        this.playEnemiesSoundEffect();
     }
 
     letEnemyMove(){

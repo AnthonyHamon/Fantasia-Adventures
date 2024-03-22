@@ -44,6 +44,9 @@ class Bear extends movableObject {
     receivedPhysicalDamages = 5;
     receivedMagicalDamages = 7;
     killPoint = 50;
+    attack_sound = new Audio('../audio/bear_attack.mp3');
+    hurt_sound = new Audio('../audio/bear_attack.mp3');
+
 
     startPoint = 1800;
     endPoint = 2800;
@@ -65,6 +68,7 @@ class Bear extends movableObject {
         this.loadImages(this.IMAGES_ATTACKING);
         this.animate();
         this.letEnemyMove();
+        this.playEnemiesSoundEffect();
     }
 
     letEnemyMove(){
@@ -114,12 +118,6 @@ class Bear extends movableObject {
                     i = 0;
                     this.hadFirstContact = true;
                 }
-            // setTimeout(() => {
-            //     if (this.world.character.x > 1200 && !this.hadFirstContact) {
-            //         i = 0;
-            //         this.hadFirstContact = true;
-            //     }
-            // }, 1000);
         }
 
         }, 180);

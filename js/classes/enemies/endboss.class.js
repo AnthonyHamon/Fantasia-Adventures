@@ -43,6 +43,9 @@ class Endboss extends movableObject {
     receivedPhysicalDamages = 2;
     receivedMagicalDamages = 5;
     killPoint = 1000;
+    attack_sound = new Audio('../audio/endBoss_attack.mp3');
+    hurt_sound = new Audio('../audio/endBoss_hurt.mp3');
+
 
 
     offset = {
@@ -58,7 +61,8 @@ class Endboss extends movableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEATH);
         this.animate();
-        this.letEnemyMove( );
+        this.letEnemyMove();
+        this.playEnemiesSoundEffect();
     }
 
     letEnemyMove(){

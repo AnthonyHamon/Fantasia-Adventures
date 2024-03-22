@@ -1,4 +1,4 @@
-class DrawableObjects{
+class DrawableObjects extends Sounds{
     world;
     x = 0;
     y = 360;

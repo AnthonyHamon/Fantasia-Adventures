@@ -431,23 +431,4 @@ class World {
         this.coinBar.splice(0);
     }
 
-    playWalkingSound() {
-        this.level.walking_sound[0].play();
-    }
-
-    playJumpSound() {
-        this.level.walking_sound[0].pause();
-        this.level.jump_sound[0].play();
-        if (this.level.jump_sound[0].currentTime === this.level.jump_sound[0].duration)
-            this.level.jump_sound[0].pause();
-        this.character.isJumping = false;
-    }
-
-    playCollectionSound() {
-        this.level.collect_sound[0].play();
-        if (this.level.collect_sound[0].currentTime === this.level.collect_sound[0].duration)
-            this.level.collect_sound[0].pause();
-        this.character.isCollectingObject = false;
-    }
-
 }

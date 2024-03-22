@@ -33,6 +33,8 @@ class Snake extends movableObject {
     receivedPhysicalDamages = 2;
     receivedMagicalDamages = 0;
     killPoint = 10;
+    attack_sound = new Audio('../audio/snake_attack.mp3');
+    hurt_sound = new Audio('../audio/snake_attack.mp3');
 
 
 
@@ -54,6 +56,7 @@ class Snake extends movableObject {
         this.speed = 0.15 + Math.random() * 0.5;
         this.letEnemyMove();
         this.animate();
+        this.playEnemiesSoundEffect();
     };
 
     letEnemyMove() {

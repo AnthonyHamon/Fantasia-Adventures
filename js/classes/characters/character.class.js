@@ -19,6 +19,7 @@ class Character extends movableObject {
     timePassed = 0;
     isJumping = false;
     isCollectingObject = false;
+    jump_sound = new Audio('../audio/jump_all_character.mp3');
     
 
 
@@ -37,7 +38,7 @@ class Character extends movableObject {
         this.moveCamera();
         this.magicAttack();
         this.applyGravity();
-        this.playSoundEffect();
+        this.playCharacterSoundEffect();
     }
 
     checkCharacterEvents() {
@@ -75,17 +76,6 @@ class Character extends movableObject {
             }
         }, 1000 / 60);
         allIntervals.push(moveCharacter);
-    }
-
-    playSoundEffect(){
-        const playSoundEffect = setInterval(() => {
-            this.world.level.walking_sound[0].pause();
-            if (!this.isInTheAir && (this.canMoveRight() || this.canMoveLeft())) this.world.playWalkingSound()
-            if (this.isJumping) this.world.playJumpSound();
-            if (this.isCollectingObject) this.world.playCollectionSound();
-        }, 100);
-        allIntervals.push(playSoundEffect);
-
     }
 
     animate() {
@@ -142,6 +132,10 @@ class Character extends movableObject {
         return !this.isDead() && this.world.keyboard.S && this.y < 346;
     }
 
+    canUseMagicalSkill(){
+        return this.world.keyboard.E && this.maxMagicalEnergy >= 20
+    }
+
     checkCharacterStats() {
         const checkCharacterStats = setInterval(() => {
             this.restoreJumpEnergy();
@@ -193,7 +187,7 @@ class Character extends movableObject {
 
     magicAttack() {
         const magicAttack = setInterval(() => {
-            if (!this.isDead() && this.world.keyboard.E && this.maxMagicalEnergy >= 20) {
+            if (this.canUseMagicalSkill()) {
                 this.maxMagicalEnergy -= 20;
                 this.world.resetMagicBar();
                 this.world.setMagicBar();

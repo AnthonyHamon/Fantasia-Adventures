@@ -145,18 +145,8 @@ forestLevel = new Level(
     [
         // closeAttacks
     ],
-
-    [
-        new Audio('../audio/walk_grass.mp3')
-    ],
-
-    [
-        new Audio('../audio/jump.mp3')
-    ],
-
-    [
-        new Audio('../audio/collect.mp3')
-    ],
+    new Audio('../audio/walk_grass.mp3'),
+    new Audio('../audio/collect.mp3'),
 );
 addSnakes(forestLevel);
 setGround(forestLevel);

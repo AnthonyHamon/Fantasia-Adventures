@@ -19,12 +19,15 @@ class Tornado extends LongRangeAttack{
         bottom: 20,
         left: 28
     }
+
+    tornado_effect = new Audio('../audio/tornado_effect.mp3');
     
     
     constructor(x, y, otherDirection) {
         super().loadImages(this.TORNADO_IMAGES);
         this.animate();
         this.useLongRangeAttack(x, otherDirection);
+        this.playTornadoEffect();
         this.y = y;
         this.x = x;
         this.width = 128;
