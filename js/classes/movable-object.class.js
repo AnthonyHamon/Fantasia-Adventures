@@ -63,6 +63,18 @@ class movableObject extends DrawableObjects {
         allIntervals.push(applyGravity);
     }
 
+    // applyGravity() {
+    //     const applyGravity = setInterval(() => {
+    //         this.isOnPlatform = false;
+    //         this.isOnTheGround = false;
+    //         this.y += this.speedY;
+    //         if (this instanceof Character && this.isOnPlatform || this.isOnTheGround)
+    //             this.speedY = 0
+    //          else this.speedY += this.gravityAcceleration;
+    //     }, 1000 / 60);
+    //     allIntervals.push(applyGravity);
+    // }
+
     setEnemyLifeBar(boss) {
         let x = this.x + this.offset.left;
         let y = this.y + this.offset.top - 20;

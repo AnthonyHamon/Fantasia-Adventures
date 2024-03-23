@@ -43,8 +43,8 @@ class Endboss extends movableObject {
     receivedPhysicalDamages = 2;
     receivedMagicalDamages = 5;
     killPoint = 1000;
-    attack_sound = new Audio('../audio/endBoss_attack.mp3');
-    hurt_sound = new Audio('../audio/endBoss_hurt.mp3');
+    attack_sound = new Audio('audio/endBoss_attack.mp3');
+    hurt_sound = new Audio('audio/endBoss_hurt.mp3');
 
 
 

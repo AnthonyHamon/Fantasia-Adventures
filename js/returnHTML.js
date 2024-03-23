@@ -11,7 +11,20 @@ function returnGameMenuHTML(avatar) {
                 <img src="./img/UI/menu/characters.png" alt="">
             </div>
             <div class="button_ctn">
-                <button onclick="">Options</button>
+                <div class="p-relative">
+                    <div class="p-absolute flex column_center_x align_item_center">
+                        <div class="option_menu">
+                            <div class="flex column_center_x align_item_center">
+                                <span id="music-on" onclick="toggleMusicSound()">Music ON</span>
+                                <span id="music-off" onclick="toggleMusicSound()" class="d-none">Music OFF</span>
+                            </div>
+                            <span>Credits</span>
+                            <span>Legal Notice</span>
+                            <span>Privacy policy</span>
+                        </div>
+                    </div>
+                    <button onclick="showOptions">Options</button>
+                </div>    
                 <button onclick="gameStartLevelSelection()">Start Game</button>
                 <button onclick="renderLevelSelection()">Levels</button>
             </div> 
@@ -19,9 +32,6 @@ function returnGameMenuHTML(avatar) {
     </div>`;
 }
 
-function returnGameOptions() {
-
-}
 
 function returnCharacterSelection() {
     return `

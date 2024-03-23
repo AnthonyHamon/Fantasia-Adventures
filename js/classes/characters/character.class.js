@@ -19,7 +19,7 @@ class Character extends movableObject {
     timePassed = 0;
     isJumping = false;
     isCollectingObject = false;
-    jump_sound = new Audio('../audio/jump_all_character.mp3');
+    jump_sound = new Audio('audio/jump_all_character.mp3');
     
 
 
@@ -90,6 +90,7 @@ class Character extends movableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (!this.isDead() && this.speedY !== 0 && this.speedY !== 0.4) {
+                console.log(this.speedY)
                 this.playAnimation(this.IMAGES_JUMPING);
                 // } else if(this.hasAlreadyJumped){
                 //     this.playAnimation(this.IMAGES_DOUBLE_JUMP);
@@ -117,7 +118,7 @@ class Character extends movableObject {
     }
 
     canJump() {
-        return !this.isDead() && this.world.keyboard.UP && !this.isClimbing && (this.speedY === 0 || this.speedY === 0.4) && this.maxEnergy > 15;
+        return !this.isDead() && this.world.keyboard.UP && !this.isClimbing && (this.speedY === 0) && this.maxEnergy > 15;
     }
 
     canDoubleJump() {
@@ -313,6 +314,29 @@ class Character extends movableObject {
             else this.isOnTheGround = false;
         }
     }
+    // landOnPlatform(platform) {
+    //     if (platform instanceof Platforms && this.isAboveGroundOf(platform) && !this.isClimbing) {
+    //         if (this.speedY > 0) {
+    //             this.y = ((platform.y + platform.offset.top) - (this.height - this.offset.bottom));
+    //             this.speedY = 0;
+    //             this.hasAlreadyJumped = false;
+    //         }
+    //         if (platform instanceof Platforms) this.isOnPlatform = true, this.isOnTheGround = false, this.isInTheAir = false
+    //         else this.isOnPlatform = false;
+    //     }
+    // }
+
+    // landOnTheGround(ground) {
+    //     if (ground instanceof Ground && this.isAboveGroundOf(ground)) {
+    //         if (this.speedY > 0) {
+    //             this.y = ((ground.y + ground.offset.top) - (this.height - this.offset.bottom));
+    //             this.speedY = 0;
+    //             this.hasAlreadyJumped = false;
+    //         }
+    //         if (ground instanceof Ground) this.isOnTheGround = true, this.isOnPlatform = false, this.isInTheAir = false
+    //         else this.isOnTheGround = false;
+    //     }
+    // }
 
     isAboveGroundOf(obj) {
         return (

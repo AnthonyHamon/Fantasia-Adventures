@@ -50,8 +50,8 @@ class Ent extends movableObject {
     receivedPhysicalDamages = 5;
     receivedMagicalDamages = 7;
     killPoint = 30;
-    attack_sound = new Audio('../audio/ent_attack.mp3');
-    hurt_sound = new Audio('../audio/ent_hurt2.mp3');
+    attack_sound = new Audio('audio/ent_attack.mp3');
+    hurt_sound = new Audio('audio/ent_hurt2.mp3');
 
 
 

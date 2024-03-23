@@ -44,8 +44,8 @@ class Bear extends movableObject {
     receivedPhysicalDamages = 5;
     receivedMagicalDamages = 7;
     killPoint = 50;
-    attack_sound = new Audio('../audio/bear_attack.mp3');
-    hurt_sound = new Audio('../audio/bear_attack.mp3');
+    attack_sound = new Audio('audio/bear_attack.mp3');
+    hurt_sound = new Audio('audio/bear_attack.mp3');
 
 
     startPoint = 1800;

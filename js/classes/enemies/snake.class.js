@@ -33,8 +33,8 @@ class Snake extends movableObject {
     receivedPhysicalDamages = 2;
     receivedMagicalDamages = 0;
     killPoint = 10;
-    attack_sound = new Audio('../audio/snake_attack.mp3');
-    hurt_sound = new Audio('../audio/snake_attack.mp3');
+    attack_sound = new Audio('audio/snake_attack.mp3');
+    hurt_sound = new Audio('audio/snake_attack.mp3');
 
 
 

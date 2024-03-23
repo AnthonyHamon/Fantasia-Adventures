@@ -7,7 +7,9 @@ let selectedLevel;
 let currentLevel = false;
 let allIntervals = [];
 let wantToStartGame = false;
-let backgroundMusic = new Audio('audio/background_music.mp3');
+let backgroundMusicStarted = false;
+let backgroundMusic = new Audio(src = 'audio/background_music.mp3', autoplay = true, muted = true);
+let allSoundArrays = [];
 
 
 let allCharactersInformations = [new RogueInformations(), new MageInformations(), new KnightInformations()];
@@ -17,15 +19,7 @@ let everyLevelsInformations = [new ForestLevelInformation()];
 function init() {
     canvas = document.getElementById('canvas');
     renderGameMenu();
-    initBackgroundMusic();
 }
-
-function initBackgroundMusic(){
-    backgroundMusic.play();
-    backgroundMusic.volume = 0.1
-    backgroundMusic.loop = true;
-}
-
 
 function renderGameMenu() {
     wantToStartGame = false;
@@ -59,9 +53,9 @@ function selectCharacter(type) {
     startGame();
 }
 
-function selectLevel(level){
+function selectLevel(level) {
     selectedLevel = initLevel(level);
-    if(!currentLevel) renderCharacterSelection();
+    if (!currentLevel) renderCharacterSelection();
 }
 
 function renderLevelSelection() {
@@ -126,6 +120,39 @@ function resetWorld() {
     currentCharacter = null;
     world = null;
 }
+
+window.addEventListener("click", () => {
+    if (!backgroundMusicStarted)
+    initBackgroundMusic()
+    backgroundMusicStarted = true;
+})
+
+function initBackgroundMusic() {
+    backgroundMusic.muted = false;
+    backgroundMusic.play();
+    backgroundMusic.volume = 0.009
+    backgroundMusic.loop = true;
+}
+
+function toggleMusicSound() {
+    let musicON = document.getElementById('music-on');
+    let musicOFF = document.getElementById('music-off');
+    if (musicON.classList.contains('d-none'))
+        musicON.classList.toggle('d-none'),
+            musicOFF.classList.toggle('d-none'),
+            initBackgroundMusic();
+    else if (musicOFF.classList.contains('d-none'))
+        musicON.classList.toggle('d-none'),
+            musicOFF.classList.toggle('d-none'),
+            muteBackgroundMusic()
+}
+
+function muteBackgroundMusic() {
+    backgroundMusic.muted = true;
+    backgroundMusic.pause();
+}
+
+
 
 window.addEventListener('keydown', (e) => {
     if (e.key == 'd') {

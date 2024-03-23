@@ -140,32 +140,32 @@
     // }
 
 
-    function checkPlatformsCollision() {
-        this.world.level.platforms.forEach(platform => {
-            if(this.comesFromTop(platform)){
-            // if(this.comesFromTop(platform) || this.isAbovePlatform(platform)){
-                console.log('comefromtopofplatform', this.comesFromTop(platform), 'or isAbovePlatform', this.isAbovePlatform(platform))
-                this.landOnPlatform(platform)
-            }
-            // else if(!this.isAbovePlatform(platform)){
-            //     this.isOnPlatform = false;
-            // }
-        });
-    }
+    // function checkPlatformsCollision() {
+    //     this.world.level.platforms.forEach(platform => {
+    //         if(this.comesFromTop(platform)){
+    //         // if(this.comesFromTop(platform) || this.isAbovePlatform(platform)){
+    //             console.log('comefromtopofplatform', this.comesFromTop(platform), 'or isAbovePlatform', this.isAbovePlatform(platform))
+    //             this.landOnPlatform(platform)
+    //         }
+    //         // else if(!this.isAbovePlatform(platform)){
+    //         //     this.isOnPlatform = false;
+    //         // }
+    //     });
+    // }
 
-    function isAbovePlatform(platform) {
-        return this.y + this.height - this.offset.bottom <= platform.y + platform.offset.top
-            && (this.x + this.width - this.offset.right) >= (platform.x + platform.offset.left) &&
-            (this.x + this.width - this.offset.right) <= (platform.x + platform.width - platform.offset.right) ||
-            this.x + this.offsetleft > platform.x + platform.offset.left &&
-            this.x + width - this.offset.right < platform.x + platform.width - platform.offset
-    }
+    // function isAbovePlatform(platform) {
+    //     return this.y + this.height - this.offset.bottom <= platform.y + platform.offset.top
+    //         && (this.x + this.width - this.offset.right) >= (platform.x + platform.offset.left) &&
+    //         (this.x + this.width - this.offset.right) <= (platform.x + platform.width - platform.offset.right) ||
+    //         this.x + this.offsetleft > platform.x + platform.offset.left &&
+    //         this.x + width - this.offset.right < platform.x + platform.width - platform.offset
+    // }
 
-    function landOnPlatform(platform) {
-        console.log('character is on a platform')
-        this.isOnPlatform = true;
-        this.y = platform.y + platform.offset.top - this.height + this.offset.bottom;
-    }
+    // function landOnPlatform(platform) {
+    //     console.log('character is on a platform')
+    //     this.isOnPlatform = true;
+    //     this.y = platform.y + platform.offset.top - this.height + this.offset.bottom;
+    // }
 
 
       // checkCharacterCollision() {
@@ -360,3 +360,61 @@
     //         }
     //     });
     // }
+
+
+
+
+
+// possible idea for improving game:
+
+// initSoundConfiguration(){
+//     setSoundArray();
+//     setSoundsVolume();
+// }
+
+//  setSoundArray(){
+//     allSoundArrays.push(this.world.level.walking_sound);
+//     allSoundArrays.push(this.jump_sound);
+//     allSoundArrays.push(this.world.level.collect_sound);
+//     allSoundArrays.push(this.attack_sound);
+//     allSoundArrays.push(this.hurt_sound);
+//     allSoundArrays.push(this.tornado_effect);
+// }
+
+//  setSoundsVolume(){
+//     allSoundArrays.forEach(sound =>{
+//         sound.volume = 0.1
+//     })
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// check Ground and platform collision are intervals
+// apply gravitiy is an interval
+
+// apply gravity set speedY of 0.4 and ground / platform collision of 0
+// because of it switch speedY from 0 to 0.4
+
+// possible solution: have to set apply gravity only when character is aboveground.
+
+    applyGravity() {
+        const applyGravity = setInterval(() => {
+            this.y += this.speedY;
+            if(/*isOnGround && instance of Character*/) {
+                this.speedY = 0;
+            } else {
+                this.speedY += this.gravityAcceleration;
+            }
+        }, 1000 / 60);
+        allIntervals.push(applyGravity);
+    }

@@ -41,8 +41,8 @@ class Spider extends movableObject {
     receivedPhysicalDamages = 10;
     receivedMagicalDamages = 5;
     killPoint = 30;
-    attack_sound = new Audio('../audio/spider_attack.mp3');
-    hurt_sound = new Audio('../audio/spider_attack.mp3');
+    attack_sound = new Audio('audio/spider_attack.mp3');
+    hurt_sound = new Audio('audio/spider_attack.mp3');
 
 
 
