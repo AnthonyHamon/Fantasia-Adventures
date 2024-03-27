@@ -60,8 +60,23 @@
         <h1>Fantasia Adventures</h1>
     </header>
     <canvas id="canvas" width="960" height="576"></canvas>
-    <main id="gameMenuCtn" class="game_menu_ctn">
-    </main>
+    <div id="mobile-overlay" class="d-none">
+        <div class="mobile_overlay_attack">
+            <img src="img/UI/mobile_overlay/sword_button.png" alt="">
+            <img id="hud-arrow-image" src="img/UI/mobile_overlay/magic_button.png" alt="">
+        </div>
+        <div class="mobile_overlay_movement">
+            <img src="img/UI/mobile_overlay/arrows.png" alt="">
+        </div>
+    </div>
+    <main id="gameMenuCtn" class="game_menu_ctn"></main>
+    <div onclick="stopPropagation(event)" id="rotate-device-screen" class="d-none">
+        <span>Please Rotate your phone</span>
+        <div>
+            <img id="rotate-device-img" src="img/rotate_phone.png" alt="Please Rotate Your Device">
+        </div>
+    </div>
+    
 </body>
 
 </html>

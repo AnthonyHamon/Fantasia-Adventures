@@ -6,7 +6,7 @@ class Sounds {
             if (this.isJumping) this.playJumpSound();
             if (this.isCollectingObject) this.playCollectionSound();
             if (this.isHurt()) this.playHurtSound();
-        }, 1000 / 60);
+        }, 100);
         allIntervals.push(playSoundEffect);
     }
 

@@ -10,6 +10,7 @@ let wantToStartGame = false;
 let backgroundMusicStarted = false;
 let backgroundMusic = new Audio(src = 'audio/background_music.mp3', autoplay = true, muted = true);
 let allSoundArrays = [];
+let musicVolume = 0.1;
 
 
 let allCharactersInformations = [new RogueInformations(), new MageInformations(), new KnightInformations()];
@@ -28,7 +29,8 @@ function renderGameMenu() {
     gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
 }
 
-function renderCharacterSelection() {
+function renderCharacterSelection(event) {
+    stopPropagation(event);
     document.getElementById('gameMenu').innerHTML = returnCharacterSelection();
     let backToLevelSelectionButton = document.getElementById('back-to-level-selection-button');
     let rendeGameMenuButton = document.getElementById('backward-button');
@@ -53,12 +55,13 @@ function selectCharacter(type) {
     startGame();
 }
 
-function selectLevel(level) {
+function selectLevel(level, event) {
     selectedLevel = initLevel(level);
-    if (!currentLevel) renderCharacterSelection();
+    if (!currentLevel) renderCharacterSelection(event);
 }
 
-function renderLevelSelection() {
+function renderLevelSelection(event) {
+    stopPropagation(event);
     document.getElementById('gameMenu').innerHTML = returnLevelSelection();
     selectedLevel = null;
     currentCharacter = null;
@@ -91,9 +94,10 @@ function startGame() {
     startMenu.classList.toggle('d-none');
 }
 
-function gameStartLevelSelection() {
+function gameStartLevelSelection(event) {
+    stopPropagation(event);
     wantToStartGame = true;
-    renderLevelSelection();
+    renderLevelSelection(event);
 }
 
 function restartGame(curentLevelName, currentCharacterName) {
@@ -102,10 +106,10 @@ function restartGame(curentLevelName, currentCharacterName) {
     selectCharacter(currentCharacterName)
 }
 
-function returnToLevelMenuAfterEndgame() {
+function returnToLevelMenuAfterEndgame(event) {
     currentLevel = false;
     resetWorld();
-    renderLevelSelection();
+    renderLevelSelection(event);
 }
 
 function clearAllInterval() {
@@ -130,7 +134,7 @@ window.addEventListener("click", () => {
 function initBackgroundMusic() {
     backgroundMusic.muted = false;
     backgroundMusic.play();
-    backgroundMusic.volume = 0.009
+    backgroundMusic.volume = musicVolume;
     backgroundMusic.loop = true;
 }
 
@@ -152,59 +156,73 @@ function muteBackgroundMusic() {
     backgroundMusic.pause();
 }
 
+function toggleOptionsMenu(event){
+    stopPropagation(event);
+    let optionMenu = document.getElementById('options-menu');
+    optionMenu.classList.toggle('d-none');
+}
+
+function closeOptionMenu(){
+    let optionMenu = document.getElementById('options-menu');
+    optionMenu.classList.add('d-none');
+}
+
+function stopPropagation(event){
+    event.stopPropagation();
+}
 
 
-window.addEventListener('keydown', (e) => {
-    if (e.key == 'd') {
-        keyboard.RIGHT = true;
-    }
-    if (e.key == 'a') {
-        keyboard.LEFT = true;
-    }
-    if (e.key == 'w') {
-        keyboard.UP = true;
-    }
-    if (e.key == 's') {
-        keyboard.DOWN = true;
-    }
-    if (e.key == 'Space') {
-        keyboard.SPACE = true;
-    }
-    if (e.key == 'e') {
-        keyboard.E = true;
-    }
-    if (e.key == 'f') {
-        keyboard.F = true;
-    }
-    if (e.key == 's') {
-        keyboard.S = true;
-    }
-});
+// window.addEventListener('keydown', (e) => {
+//     if (e.key == 'd') {
+//         keyboard.RIGHT = true;
+//     }
+//     if (e.key == 'a') {
+//         keyboard.LEFT = true;
+//     }
+//     if (e.key == 'w') {
+//         keyboard.UP = true;
+//     }
+//     if (e.key == 's') {
+//         keyboard.DOWN = true;
+//     }
+//     if (e.key == 'Space') {
+//         keyboard.SPACE = true;
+//     }
+//     if (e.key == 'e') {
+//         keyboard.E = true;
+//     }
+//     if (e.key == 'f') {
+//         keyboard.F = true;
+//     }
+//     if (e.key == 's') {
+//         keyboard.S = true;
+//     }
+// });
 
 
-window.addEventListener('keyup', (e) => {
-    if (e.key == 'd') {
-        keyboard.RIGHT = false;
-    }
-    if (e.key == 'a') {
-        keyboard.LEFT = false;
-    }
-    if (e.key == 'w') {
-        keyboard.UP = false;
-    }
-    if (e.key == 's') {
-        keyboard.DOWN = false;
-    }
-    if (e.key == 'Space') {
-        keyboard.SPACE = false;
-    }
-    if (e.key == 'e') {
-        keyboard.E = false;
-    }
-    if (e.key == 'f') {
-        keyboard.F = false;
-    }
-    if (e.key == 's') {
-        keyboard.S = false;
-    }
-});
+// window.addEventListener('keyup', (e) => {
+//     if (e.key == 'd') {
+//         keyboard.RIGHT = false;
+//     }
+//     if (e.key == 'a') {
+//         keyboard.LEFT = false;
+//     }
+//     if (e.key == 'w') {
+//         keyboard.UP = false;
+//     }
+//     if (e.key == 's') {
+//         keyboard.DOWN = false;
+//     }
+//     if (e.key == 'Space') {
+//         keyboard.SPACE = false;
+//     }
+//     if (e.key == 'e') {
+//         keyboard.E = false;
+//     }
+//     if (e.key == 'f') {
+//         keyboard.F = false;
+//     }
+//     if (e.key == 's') {
+//         keyboard.S = false;
+//     }
+// });

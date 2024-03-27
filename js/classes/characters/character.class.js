@@ -90,7 +90,6 @@ class Character extends movableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (!this.isDead() && this.speedY !== 0 && this.speedY !== 0.4) {
-                console.log(this.speedY)
                 this.playAnimation(this.IMAGES_JUMPING);
                 // } else if(this.hasAlreadyJumped){
                 //     this.playAnimation(this.IMAGES_DOUBLE_JUMP);
