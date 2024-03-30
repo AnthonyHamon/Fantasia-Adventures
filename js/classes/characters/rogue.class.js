@@ -109,6 +109,7 @@ class Rogue extends Character {
     width = 256;
     characterAvatar = new CharacterAvatar(this.CHARACTERAVATAR);
     hurt_sound = new Audio('audio/hurt_rogue.mp3');
+    close_attack_sound = new Audio('audio/blade_attack.mp3');
 
 
 

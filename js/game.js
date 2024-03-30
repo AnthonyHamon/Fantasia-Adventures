@@ -103,13 +103,15 @@ function gameStartLevelSelection(event) {
 function restartGame(curentLevelName, currentCharacterName) {
     resetWorld();
     selectLevel(curentLevelName);
-    selectCharacter(currentCharacterName)
+    selectCharacter(currentCharacterName);
+    backgroundMusic.play();
 }
 
 function returnToLevelMenuAfterEndgame(event) {
     currentLevel = false;
     resetWorld();
     renderLevelSelection(event);
+    backgroundMusic.play();
 }
 
 function clearAllInterval() {
@@ -127,7 +129,7 @@ function resetWorld() {
 
 window.addEventListener("click", () => {
     if (!backgroundMusicStarted)
-    initBackgroundMusic()
+        initBackgroundMusic()
     backgroundMusicStarted = true;
 })
 
@@ -156,73 +158,62 @@ function muteBackgroundMusic() {
     backgroundMusic.pause();
 }
 
-function toggleOptionsMenu(event){
+function toggleOptionsMenu(event) {
     stopPropagation(event);
     let optionMenu = document.getElementById('options-menu');
     optionMenu.classList.toggle('d-none');
 }
 
-function closeOptionMenu(){
+function closeOptionMenu() {
     let optionMenu = document.getElementById('options-menu');
     optionMenu.classList.add('d-none');
 }
 
-function stopPropagation(event){
+function stopPropagation(event) {
     event.stopPropagation();
 }
 
 
-// window.addEventListener('keydown', (e) => {
-//     if (e.key == 'd') {
-//         keyboard.RIGHT = true;
-//     }
-//     if (e.key == 'a') {
-//         keyboard.LEFT = true;
-//     }
-//     if (e.key == 'w') {
-//         keyboard.UP = true;
-//     }
-//     if (e.key == 's') {
-//         keyboard.DOWN = true;
-//     }
-//     if (e.key == 'Space') {
-//         keyboard.SPACE = true;
-//     }
-//     if (e.key == 'e') {
-//         keyboard.E = true;
-//     }
-//     if (e.key == 'f') {
-//         keyboard.F = true;
-//     }
-//     if (e.key == 's') {
-//         keyboard.S = true;
-//     }
-// });
+function getFullScreen(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) { /* Safari */
+        element.webkitRequestFullscreen();
+    } else if (element.mozRequestFullScreen) { /* Firefox */
+        element.mozRequestFullScreen();
+    } else if (element.msRequestFullscreen) { /* IE/Edge */
+        element.msRequestFullscreen();
+    }
+}
 
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+    }
+}
 
-// window.addEventListener('keyup', (e) => {
-//     if (e.key == 'd') {
-//         keyboard.RIGHT = false;
-//     }
-//     if (e.key == 'a') {
-//         keyboard.LEFT = false;
-//     }
-//     if (e.key == 'w') {
-//         keyboard.UP = false;
-//     }
-//     if (e.key == 's') {
-//         keyboard.DOWN = false;
-//     }
-//     if (e.key == 'Space') {
-//         keyboard.SPACE = false;
-//     }
-//     if (e.key == 'e') {
-//         keyboard.E = false;
-//     }
-//     if (e.key == 'f') {
-//         keyboard.F = false;
-//     }
-//     if (e.key == 's') {
-//         keyboard.S = false;
-//     }
-// });
+function toggleFullScreenModus(){
+    let element = document.documentElement;
+    if (!document.fullscreenElement &&
+        !document.webkitFullscreenElement &&
+        !document.mozFullScreenElement &&
+        !document.msFullscreenElement) {
+        getFullScreen(element);
+    }else{
+        exitFullscreen();
+    }
+    toggleFullScreenIcon();
+}
+
+function toggleFullScreenIcon(){
+    let fullScreenOn = document.getElementById('full-screen-on');
+    let fullScreenOff = document.getElementById('full-screen-off');
+    fullScreenOn.classList.toggle('d-none'),
+    fullScreenOff.classList.toggle('d-none')
+}

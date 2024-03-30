@@ -100,6 +100,7 @@ class Knight extends Character{
     width = 256;
     characterAvatar = new CharacterAvatar(this.CHARACTERAVATAR);
     hurt_sound = new Audio('audio/hurt_knight.mp3');
+    close_attack_sound = new Audio('audio/sword_attack.mp3');
 
 
 

@@ -20,7 +20,7 @@ class Character extends movableObject {
     isJumping = false;
     isCollectingObject = false;
     jump_sound = new Audio('audio/jump_all_character.mp3');
-    
+
 
 
     offset = {
@@ -30,7 +30,7 @@ class Character extends movableObject {
         left: 80
     }
 
-    updateCharacter(){
+    updateCharacter() {
         this.checkCharacterEvents();
         this.moveCharacter();
         this.checkCharacterStats();
@@ -56,13 +56,12 @@ class Character extends movableObject {
             if (this.canMoveRight() || this.canMoveLeft() || this.attacks() || this.canJump())
                 this.world.START = false, this.isAlreadyAFK = false;
             if (this.canMoveRight()) this.moveRight(3);
-            else if (this.canMoveLeft()) this.moveLeft(-3); 
+            else if (this.canMoveLeft()) this.moveLeft(-3);
             if (this.attacks()) this.updateCharacterEnergy(0.4);
-            if (this.canClimbUp()) this.climbUp();
             if (this.canClimbDown()) this.climbDown();
             if (!this.isAlreadyAFK) this.isAlreadyAFK = true, this.stay();
 
-            if(this.isJumping) this.isInTheAir = true;
+            if (this.isJumping) this.isInTheAir = true;
             if (this.canJump()) {
                 this.updateCharacterEnergy(15);
                 this.jump();
@@ -124,15 +123,11 @@ class Character extends movableObject {
         return !this.isDead() && this.hasAlreadyJumped && !this.isClimbing && this.world.keyboard.UP && this.maxEnergy > 15;
     }
 
-    canClimbUp() {
-        return
-    }
-
     canClimbDown() {
-        return !this.isDead() && this.world.keyboard.S && this.y < 346;
+        return !this.isDead() && this.world.keyboard.DOWN && this.y < 346;
     }
 
-    canUseMagicalSkill(){
+    canUseMagicalSkill() {
         return this.world.keyboard.E && this.maxMagicalEnergy >= 20
     }
 
@@ -172,7 +167,7 @@ class Character extends movableObject {
     }
 
 
-   
+
 
     climbDown() {
         this.world.level.stairway.forEach(step => {
@@ -204,7 +199,10 @@ class Character extends movableObject {
     }
 
     attacks() {
-        if (!this.isDead() && this.world.keyboard.F && this.maxEnergy > 5) return true;
+        if (!this.isDead() && this.world.keyboard.F && this.maxEnergy > 5){
+            this.close_attack_sound.play();
+            return true;
+        }
     }
 
     updateCharacterLife(lifePoint) {

@@ -7,6 +7,7 @@
     <title>Fantasia Adventures</title>
     <link rel="icon" type="image/x-icon" href="./img/UI/fantasy-platformer-game-ui/PNG/01main/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.webmanifest">
     <script defer src="./js/classes/world.class.js"></script>
     <script defer src="./js/classes/sounds.class.js"></script>
     <script defer src="./js/classes/drawable-objects.class.js"></script>
@@ -60,13 +61,21 @@
         <h1>Fantasia Adventures</h1>
     </header>
     <canvas id="canvas" width="960" height="576"></canvas>
-    <div id="mobile-overlay" class="d-none">
-        <div class="mobile_overlay_attack">
-            <img src="img/UI/mobile_overlay/sword_button.png" alt="">
-            <img id="hud-arrow-image" src="img/UI/mobile_overlay/magic_button.png" alt="">
-        </div>
-        <div class="mobile_overlay_movement">
-            <img src="img/UI/mobile_overlay/arrows.png" alt="">
+    <div class="hud_ctn p-absolute">
+        <div class="hud">
+            <div class="fullScreen_img_ctn">
+                <img onclick="toggleFullScreenModus()" id="full-screen-on" src="./img/UI/fullscreen-enter-48.png" alt="">
+                <img onclick="toggleFullScreenModus()" id="full-screen-off" class="d-none" src="./img/UI/fullscreen-exit-48.png" alt="">
+            </div>
+            <div id="mobile-overlay" class="d-none">
+                <div class="mobile_overlay_attack">
+                    <img id="close-attack-HUD" src="img/UI/mobile_overlay/sword_button.png" alt="">
+                    <img id="magical-attack-HUD" src="img/UI/mobile_overlay/magic_button.png" alt="">
+                </div>
+                <div class="mobile_overlay_movement">
+                    <img id="hud-arrow-image" src="img/UI/mobile_overlay/arrows.png" alt="">
+                </div>
+            </div>
         </div>
     </div>
     <main id="gameMenuCtn" class="game_menu_ctn"></main>
@@ -76,7 +85,7 @@
             <img id="rotate-device-img" src="img/rotate_phone.png" alt="Please Rotate Your Device">
         </div>
     </div>
-    
+
 </body>
 
 </html>

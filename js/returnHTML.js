@@ -118,8 +118,16 @@ function returnLevelSelection() {
             <div id="levels" class="level_selection">
                 <div onclick="renderLevelInformation('${level.name}', '${level.levelAvatar}', '${level.description}', '${level.firstQuestName}', '${level.firstQuestImage}')" style= "background: url('${level.backgroundImage}') bottom no-repeat;" class="level_ctn">
                     <div class="level">
-                        ${returnDoorlevel(level)}
-                        <span>${level.name}</span>
+                        <div class="flex column align_item_center">
+                            ${returnDoorlevel(level)}
+                            <span>${level.name}</span>
+                        </div>
+                        <div class="flex">
+                            ${returnZeroStarVictory(level.levelScore)}
+                            ${returnOneStarVictory(level.levelScore)}
+                            ${returnTwoStarVictory(level.levelScore)}
+                            ${returnThreeStarVictory(level.levelScore)}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -158,7 +166,7 @@ function returnLevelInformations(levelName, levelImage, levelDescription, firstQ
                 </div>
                 <div class="mobile_quest_description flex column_center_x align_item_center padding_top_24">
                     <span class="font_24">${levelName}</span>
-                    <p>${levelDescription}</p>
+                    <p>'${levelDescription}'</p>
                 </div> 
             </div>
             <div id="select-level-btn" onclick="selectLevel('${levelName}', event)" class="select_level_btn d-none">
@@ -173,7 +181,7 @@ function returnLevelInformations(levelName, levelImage, levelDescription, firstQ
 }
 
 
-function returnWonScreen() {
+function returnWonScreen(starsScore) {
     return `
         <div class="game_finished_ctn won_bg">
             <div class="p-relative">
@@ -182,10 +190,10 @@ function returnWonScreen() {
             </div>
             <div class="endscreen_result flex column_center_x align_item_center gap_12">
                 <div id="star_score" class="flex gap_12">
-                    ${returnZeroStarVictory()}
-                    ${returnOneStarVictory()}
-                    ${returnTwoStarVictory()}
-                    ${returnThreeStarVictory()}
+                    ${returnZeroStarVictory(starsScore)}
+                    ${returnOneStarVictory(starsScore)}
+                    ${returnTwoStarVictory(starsScore)}
+                    ${returnThreeStarVictory(starsScore)}
                 </div>
                 <div class="p-relative">
                     <img src="img/UI/defeat/begie_border2.png">
@@ -266,10 +274,11 @@ function returnDefeatScreen() {
 }
 
 
-function returnZeroStarVictory() {
+function returnZeroStarVictory(score) {
     let html = '';
-    if(world.endScore < 1300)
-    html = `
+    if (score)
+        if (score === 0)
+            html = `
         <img src="img/UI/victory/big_star.png">
         <img src="img/UI/victory/big_star.png">
         <img src="img/UI/victory/big_star.png">
@@ -277,10 +286,11 @@ function returnZeroStarVictory() {
     return html;
 }
 
-function returnOneStarVictory() {
+function returnOneStarVictory(score) {
     let html = '';
-    if(world.endScore >= 1300 && world.endScore <= 1500)
-    html = `
+    if (score)
+        if (score === 1)
+            html = `
         <img src="img/UI/victory/big_star_yellow.png">
         <img src="img/UI/victory/big_star.png">
         <img src="img/UI/victory/big_star.png">
@@ -288,10 +298,11 @@ function returnOneStarVictory() {
     return html;
 }
 
-function returnTwoStarVictory() {
+function returnTwoStarVictory(score) {
     let html = '';
-    if(world.endScore > 1500 && world.endScore < 2000)
-    html = `
+    if (score)
+        if (score === 2)
+            html = `
         <img src="img/UI/victory/big_star_yellow.png">
         <img src="img/UI/victory/big_star_yellow.png">
         <img src="img/UI/victory/big_star.png">
@@ -300,10 +311,11 @@ function returnTwoStarVictory() {
 }
 
 
-function returnThreeStarVictory() {
+function returnThreeStarVictory(score) {
     let html = '';
-    if(world.endScore >= 2000)
-    html = `
+    if (score)
+        if (score === 3)
+            html = `
         <img src="img/UI/victory/big_star_yellow.png">
         <img src="img/UI/victory/big_star_yellow.png">
         <img src="img/UI/victory/big_star_yellow.png">

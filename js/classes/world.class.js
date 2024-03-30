@@ -17,7 +17,9 @@ class World {
     fullElapsedLevelTime;
     timeScore;
     endScore = 0;
-
+    starsScore;
+    gameWonSound = new Audio('audio/game_won.mp3');
+    gameOverSound = new Audio('audio/game_over.mp3');
 
     level;
 
@@ -51,7 +53,7 @@ class World {
         })
     }
 
-   
+
 
 
     draw() {
@@ -107,8 +109,8 @@ class World {
             this.character.startDeathAnimation();
         }
         if (this.character.deathAnimationEnded) {
-            this.renderDefeatScreen();
             this.character.deathAnimationEnded = false;
+            this.gameOver();
             return
         }
     }
@@ -118,7 +120,7 @@ class World {
         let gameMenuCtn = document.getElementById('gameMenuCtn');
         gameMenuCtn.classList.toggle('d-none');
         let gameMainScreen = document.getElementById('gameMenu');
-        gameMainScreen.innerHTML = returnWonScreen();
+        gameMainScreen.innerHTML = returnWonScreen(this.starsScore);
     }
 
     renderDefeatScreen() {
@@ -151,7 +153,11 @@ class World {
 
     calcEndScore() {
         this.timeScore = this.calcTimeScore();
-        this.endScore = this.character.enemyKillPoint + this.character.collectedCoins + this.timeScore
+        this.endScore = this.character.enemyKillPoint + this.character.collectedCoins + this.timeScore;
+        if (world.endScore < 1300) this.starsScore = 0;
+        if (world.endScore >= 1300 && world.endScore <= 1500) this.starsScore = 1;
+        if (world.endScore > 1500 && world.endScore < 2000) this.starsScore = 2;
+        if (world.endScore >= 2000) this.starsScore = 3;
     }
 
     calcTimeScore() {
@@ -233,12 +239,54 @@ class World {
             if (enemy.deathAnimationEnded) {
                 this.level.enemies.splice(index, 1);
                 if (enemy instanceof Endboss) {
-                    this.calcLevelDuration();
-                    this.calcEndScore();
-                    this.renderWonScreen();
+                    this.endOfGame();
                 }
             }
         })
+    }
+
+    endOfGame() {
+        this.calcLevelDuration();
+        this.calcEndScore();
+        this.saveLevelResultPoint();
+        backgroundMusic.pause();
+        this.gameWonSound.play();
+        this.renderWonScreen();
+    }
+
+    gameOver(){
+        backgroundMusic.pause();
+        this.gameOverSound.play();
+        this.renderDefeatScreen();
+    }
+
+    // saveLevelResultPoint() {
+    //     everyLevelsInformations.forEach(level => {
+    //         if (level.name === this.level.levelName) {
+    //             level.levelFinished = true;
+    //             if (!level.levelReward) level.levelReward = this.starsScore;
+    //             else if (this.starsScore > level.levelReward) level.levelReward = this.starsScore;
+    //         }
+    //     })
+    // }
+
+    saveLevelResultPoint() {
+        everyLevelsInformations.forEach(level => {
+            if (level.name === this.level.levelName) {
+                this.getPreviousScore(level) ;
+                if (!level.levelScore) level.levelScore = this.starsScore;
+                else if (this.starsScore > level.levelScore) level.levelScore = this.starsScore;
+            }
+            localStorage.setItem('levelScore', JSON.stringify(level.levelScore))
+        })
+    }
+
+    getPreviousScore(level) {
+        try {
+            level.levelScore = JSON.parse(localStorage.getItem('levelScore'));
+        } catch (error) {
+
+        }
     }
 
     // throwObjects() {

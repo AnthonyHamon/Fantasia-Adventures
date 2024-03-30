@@ -105,6 +105,7 @@ class Mage extends Character{
     width = 256;
     characterAvatar = new CharacterAvatar(this.CHARACTERAVATAR);
     hurt_sound = new Audio('audio/hurt_mage.mp3');
+    close_attack_sound = new Audio('audio/rod_attack.mp3');
 
 
 
