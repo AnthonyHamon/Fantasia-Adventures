@@ -82,16 +82,16 @@ class movableObject extends DrawableObjects {
         if (boss) height = 10, x = this.x + 20, y = this.y + this.offset.top - 40
         let percentage = this.life / 10;
         if (percentage > 0) {
-            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, y, 4, height);
+            let HPCorner = new LifeBar('img/UI/HUD-Bar/hp_corner1.png', x, y, 4, height);
             this.enemyLifeBar.push(HPCorner);
             for (let index = 1; index < percentage; index++) {
-                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, y, 10, height);
+                let HP = new LifeBar('img/UI/HUD-Bar/hp_point.png', x + 4, y, 10, height);
                 this.enemyLifeBar.push(HP);
                 x = x + 10;
             }
         }
         if (percentage = percentage * 10) {
-            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, y, 4, height);
+            let HPEndCorner = new LifeBar('img/UI/HUD-Bar/hp_corner2.png', x + 4, y, 4, height);
             this.enemyLifeBar.push(HPEndCorner);
         }
     }

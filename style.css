@@ -20,7 +20,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-image: url('./img/UI/fantasy-platformer-game-ui/PNG/01main/bg.png');
+    background-image: url('./img/UI/UI-Background/bg.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -65,6 +65,7 @@ canvas {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    z-index: 1;
 }
 
 .backward_button {
@@ -320,6 +321,9 @@ canvas {
     width: 80%;
     height: 85%;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 .level_selection {
@@ -355,36 +359,33 @@ canvas {
     font-size: 22px;
 }
 
-.level_information {
+.information_content_ctn_background {
     height: 95%;
     width: 97%;
-    background-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/menu_bg.png');
+    background-image: url('img/UI/UI-Background/menu_bg.png');
     background-repeat: no-repeat;
     background-size: cover;
     border: 10px solid transparent;
-    border-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/border.png') 2% stretch;
+    border-image: url('img/UI/UI-Background/border.png') 2% stretch;
 }
 
-.level_description_banner {
+.description_banner {
     display: flex;
     justify-content: center;
     position: relative;
     margin-top: -34px;
 }
 
-.level_description_section {
+.width_height_100 {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
 }
 
-.level_description_ctn {
-    background-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/beige_bg.png');
+.content_description_ctn {
+    background-image: url('img/UI/UI-Background/beige_bg.png');
     background-repeat: no-repeat;
     background-size: contain;
     display: flex;
-    flex-direction: column;
     width: 87%;
     height: 87%;
     position: relative;
@@ -407,7 +408,7 @@ canvas {
 .level_avatar_ctn {
     margin-top: -12px;
     border: 10px solid transparent;
-    border-image: url('img/UI/fantasy-platformer-game-ui/PNG/08Quest/round_border.png') 60 / 10;
+    border-image: url('img/UI/UI-Background/round_border.png') 60 / 10;
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -510,6 +511,40 @@ canvas {
     justify-content: space-between;
 }
 
+
+
+#legal-content-close-button {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    cursor: pointer;
+}
+
+.legal_content_description {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    padding: 10px;
+    height: 90%;
+    overflow: hidden;
+}
+
+.legal_content_sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 12px 0 24px;
+}
+
+.legal_content_sidebar span {
+    cursor: pointer;
+}
+
+
+.overflow_scroll {
+    overflow: scroll;
+}
+
 .fullScreen_img_ctn {
     position: relative;
     display: flex;
@@ -524,20 +559,20 @@ canvas {
     position: relative;
 }
 
-#full-screen-on:hover{
+#full-screen-on:hover {
     transform: scale(1.1);
     cursor: pointer;
 }
 
-#full-screen-off:hover{
+#full-screen-off:hover {
     transform: scale(0.9);
     cursor: pointer;
 }
 
 ::-webkit-scrollbar {
-    background: url('img/UI/menu/scroll_bar_full.png');
+    background: url('img/UI/menu/scrollbar_point.png');
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     height: 100%;
 }
 
@@ -546,7 +581,24 @@ canvas {
     background-origin: border-box;
     background-repeat: no-repeat;
     background-position: center;
+    height: 23px;
 }
+
+::-webkit-scrollbar-button:vertical:increment {
+    background: url('img/UI/menu/arrow1.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: contain;
+}
+
+::-webkit-scrollbar-button:vertical:decrement {
+    background: url('img/UI/menu/arrow2.png');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: contain;
+}
+
+
 
 
 
@@ -556,7 +608,7 @@ canvas {
         display: none;
     }
 
-    #gameMenuCtn {
+    #game-menu-main-ctn {
         display: none;
     }
 
@@ -588,6 +640,7 @@ canvas {
 
 
 @media only screen and (max-width: 960px) {
+
     header {
         display: none;
     }
@@ -603,7 +656,7 @@ canvas {
         border-radius: unset;
     }
 
-    #gameMenu main {
+    #game-menu-main-ctn {
         width: 100%;
     }
 
@@ -637,7 +690,7 @@ canvas {
         height: 75%;
     }
 
-    .level_description_ctn {
+    .content_description_ctn {
         background-size: cover;
         width: unset;
         height: unset;
@@ -783,7 +836,7 @@ canvas {
         border-radius: unset;
     }
 
-    #gameMenu main {
+    #game-menu-main-ctn {
         height: 100vh;
     }
 
@@ -817,7 +870,7 @@ canvas {
         height: 75%;
     }
 
-    .level_description_ctn {
+    .content_description_ctn {
         background-size: cover;
         width: unset;
         height: unset;
@@ -970,4 +1023,112 @@ canvas {
     .endscreen_result {
         margin-top: -16px;
     }
+}
+
+@media only screen and (max-height: 360px) {
+
+    .start_menu_content img {
+        width: 380px;
+    }
+
+    .description_banner img {
+        width: 300px; 
+    }
+
+    .level_avatar_ctn {
+        width: 96px;
+        height: 96px;
+    }
+
+    #character-selection-titel{
+        margin-top: -24px;
+    }
+
+}
+
+@media only screen and (max-height: 320px) {
+
+    .start_menu_content img {
+        width: 360px;
+    }
+
+    .start_menu button {
+        font-size: 28px;
+    }
+
+    .start_menu_content h2 {
+        font-size: 36px;
+    }
+
+    .description_banner img {
+        width: 280px;
+    }
+
+    .level_avatar_ctn {
+        width: 70px;
+        height: 70px;
+    }
+
+    .character_selection_img_frame {
+        width: 51px;
+        height: 51px;
+    }
+
+    .character-selection-avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    .select_level_btn img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .content_ctn{
+        gap: unset;
+    }
+
+    #character-info-avatar-img{
+        width: 48px;
+        height: 48px;
+    }
+
+    #character-selection-titel{
+        font-size: 44px;
+    }
+    
+    #character-info {
+        width: 300px;
+        height: 190px;
+    }
+
+    .character_info_ctn{
+        background-size: contain;
+        background-position: center;
+    }
+
+    .mobile_charatcer_info_ctn{
+        gap: 8px;
+    }
+
+    .keyboard_preview {
+        gap: 0;
+    }
+
+    .option_menu{
+        gap: 8px;
+        margin-bottom: 200px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+
+    .start_menu button{
+        font-size: 24px;
+    }
+
+    .start_menu_content h2 {
+        font-size: 32px;
+    }
+
 }

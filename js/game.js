@@ -217,3 +217,19 @@ function toggleFullScreenIcon(){
     fullScreenOn.classList.toggle('d-none'),
     fullScreenOff.classList.toggle('d-none')
 }
+
+function showLegalContent(contentName, functionName){
+    if(window.innerWidth >= 1024){
+        renderLegalContent(contentName, functionName)
+    }else{
+        redirectTo(functionName);
+    }
+}
+
+function renderLegalContent(contentName, functionName){
+    document.getElementById('gameMenu').innerHTML = returnLegalContent(contentName, functionName);
+}
+
+function redirectTo(functionName){
+    window.open(`${functionName['name']}.html`, '_blank');
+}

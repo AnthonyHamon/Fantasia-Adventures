@@ -20,21 +20,6 @@ class Mage extends Character{
         'img/character/Mage/Jump/jump7.png',
     ];
 
-    IMAGES_DOUBLE_JUMP = [
-        'img/character/Mage/High_jump/high_jump1.png',
-        'img/character/Mage/High_jump/high_jump2.png',
-        'img/character/Mage/High_jump/high_jump3.png',
-        'img/character/Mage/High_jump/high_jump4.png',
-        'img/character/Mage/High_jump/high_jump5.png',
-        'img/character/Mage/High_jump/high_jump6.png',
-        'img/character/Mage/High_jump/high_jump7.png',
-        'img/character/Mage/High_jump/high_jump8.png',
-        'img/character/Mage/High_jump/high_jump9.png',
-        'img/character/Mage/High_jump/high_jump10.png',
-        'img/character/Mage/High_jump/high_jump11.png',
-        'img/character/Mage/High_jump/high_jump12.png',
-    ];
-
     IMAGES_ATTACKING = [
         'img/character/Mage/Attack/attack1.png',
         'img/character/Mage/Attack/attack2.png',
@@ -120,7 +105,6 @@ class Mage extends Character{
     constructor() {
         super();
         this.loadImages(this.IMAGES_JUMPING);
-        this.loadImages(this.IMAGES_DOUBLE_JUMP);
         this.loadImages(this.IMAGES_ATTACKING);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_HURT);

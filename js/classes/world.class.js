@@ -397,16 +397,16 @@ class World {
         let x = 80;
         let percentage = this.character.life;
         if (percentage > 0) {
-            let HPCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner1.png', x, 8, 4, 12);
+            let HPCorner = new LifeBar('img/UI/HUD-Bar/hp_corner1.png', x, 8, 4, 12);
             this.lifeBar.push(HPCorner);
             for (let index = 1; index < percentage; index++) {
-                let HP = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_point.png', x + 4, 8, 2, 12);
+                let HP = new LifeBar('img/UI/HUD-Bar/hp_point.png', x + 4, 8, 2, 12);
                 this.lifeBar.push(HP);
                 x = x + 1.1;
             }
         }
         if (percentage = percentage * 4) {
-            let HPEndCorner = new LifeBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/hp_corner2.png', x + 4, 8, 4, 12);
+            let HPEndCorner = new LifeBar('img/UI/HUD-Bar/hp_corner2.png', x + 4, 8, 4, 12);
             this.lifeBar.push(HPEndCorner);
         }
     }
@@ -415,16 +415,16 @@ class World {
         let x = 79;
         let percentage = this.character.maxEnergy;
         if (percentage > 0) {
-            let energyCorner = new EnergyBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/stamina_corner1.png', x, 4);
+            let energyCorner = new EnergyBar('img/UI/HUD-Bar/stamina_corner1.png', x, 4);
             this.energyBar.push(energyCorner);
             for (let index = 1; index < percentage; index++) {
-                let energy = new EnergyBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/stamina_point.png', x + 4, 2);
+                let energy = new EnergyBar('img/UI/HUD-Bar/stamina_point.png', x + 4, 2);
                 this.energyBar.push(energy);
                 x = x + 1.1;
             }
         }
         if (percentage = percentage * 4) {
-            let energyEndCorner = new EnergyBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/stamina_corner2.png', x + 4, 4);
+            let energyEndCorner = new EnergyBar('img/UI/HUD-Bar/stamina_corner2.png', x + 4, 4);
             this.energyBar.push(energyEndCorner);
         }
     }
@@ -433,16 +433,16 @@ class World {
         let x = 79;
         let percentage = this.character.maxMagicalEnergy;
         if (percentage > 0) {
-            let magicEnergyCorner = new MagicBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/magic_corner1.png', x, 4);
+            let magicEnergyCorner = new MagicBar('img/UI/HUD-Bar/magic_corner1.png', x, 4);
             this.magicBar.push(magicEnergyCorner);
             for (let index = 1; index < percentage; index++) {
-                let magicEnergy = new MagicBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/magic_point.png', x + 4, 2);
+                let magicEnergy = new MagicBar('img/UI/HUD-Bar/magic_point.png', x + 4, 2);
                 this.magicBar.push(magicEnergy);
                 x = x + 1.1;
             }
         }
         if (percentage = percentage * 4) {
-            let magicEnergyEndCorner = new MagicBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/magic_corner2.png', x + 4, 4);
+            let magicEnergyEndCorner = new MagicBar('img/UI/HUD-Bar/magic_corner2.png', x + 4, 4);
             this.magicBar.push(magicEnergyEndCorner);
         }
     }
@@ -451,16 +451,16 @@ class World {
         let x = 79;
         let percentage = this.character.maxCoin;
         if (percentage > 0) {
-            let coinBarCorner = new CoinBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/coin_corner1.png', x, 4);
+            let coinBarCorner = new CoinBar('img/UI/HUD-Bar/coin_corner1.png', x, 4);
             this.coinBar.push(coinBarCorner);
             for (let index = 1; index < percentage; index++) {
-                let coin = new CoinBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/coin_point.png', x + 4, 2);
+                let coin = new CoinBar('img/UI/HUD-Bar/coin_point.png', x + 4, 2);
                 this.coinBar.push(coin);
                 x = x + 1.1;
             }
         }
         if (percentage = percentage * 4) {
-            let coinEndCorner = new CoinBar('img/UI/fantasy-platformer-game-ui/PNG/16Inner_Interface/coin_corner2.png', x + 4, 4);
+            let coinEndCorner = new CoinBar('img/UI/HUD-Bar/coin_corner2.png', x + 4, 4);
             this.coinBar.push(coinEndCorner);
         }
     }

@@ -20,7 +20,7 @@ class Tornado extends LongRangeAttack{
         left: 28
     }
 
-    tornado_effect = new Audio('../audio/tornado_effect.mp3');
+    tornado_effect = new Audio('audio/tornado_effect.mp3');
     
     
     constructor(x, y, otherDirection) {

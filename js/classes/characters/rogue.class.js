@@ -20,21 +20,6 @@ class Rogue extends Character {
         'img/character/Rogue/Jump/jump7.png',
     ];
 
-    IMAGES_DOUBLE_JUMP = [
-        'img/character/Rogue/High_Jump/high_jump1.png',
-        'img/character/Rogue/High_Jump/high_jump2.png',
-        'img/character/Rogue/High_Jump/high_jump3.png',
-        'img/character/Rogue/High_Jump/high_jump4.png',
-        'img/character/Rogue/High_Jump/high_jump5.png',
-        'img/character/Rogue/High_Jump/high_jump6.png',
-        'img/character/Rogue/High_Jump/high_jump7.png',
-        'img/character/Rogue/High_Jump/high_jump8.png',
-        'img/character/Rogue/High_Jump/high_jump9.png',
-        'img/character/Rogue/High_Jump/high_jump10.png',
-        'img/character/Rogue/High_Jump/high_jump11.png',
-        'img/character/Rogue/High_Jump/high_jump12.png',
-    ];
-
     IMAGES_ATTACKING = [
         'img/character/Rogue/Attack/Attack1.png',
         'img/character/Rogue/Attack/Attack2.png',
@@ -124,7 +109,6 @@ class Rogue extends Character {
     constructor() {
         super();
         this.loadImages(this.IMAGES_JUMPING);
-        this.loadImages(this.IMAGES_DOUBLE_JUMP);
         this.loadImages(this.IMAGES_ATTACKING);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_HURT);
