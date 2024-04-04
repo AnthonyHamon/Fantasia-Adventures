@@ -17,6 +17,7 @@ let allCharactersInformations = [new RogueInformations(), new MageInformations()
 let everyLevelsInformations = [new ForestLevelInformation()];
 
 
+
 function init() {
     canvas = document.getElementById('canvas');
     renderGameMenu();
@@ -28,6 +29,7 @@ function renderGameMenu() {
     let gameMenu = document.getElementById('gameMenuCtn');
     gameMenu.innerHTML = returnGameMenuHTML(defaultAvatar);
 }
+
 
 function renderCharacterSelection(event) {
     stopPropagation(event);
