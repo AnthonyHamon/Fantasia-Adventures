@@ -1,4 +1,4 @@
-class Mage extends Character{
+class Mage extends Character {
     CHARACTERAVATAR = 'img/UI/character-icons/mage.png';
 
     IMAGES_WALKING = [

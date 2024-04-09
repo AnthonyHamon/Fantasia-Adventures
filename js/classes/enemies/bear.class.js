@@ -4,7 +4,7 @@ class Bear extends movableObject {
         'img/enemies/Bear/Idle1.png',
         'img/enemies/Bear/Idle2.png',
         'img/enemies/Bear/Idle3.png'
-     
+
     ]
 
     IMAGES_HURT = [
@@ -71,55 +71,58 @@ class Bear extends movableObject {
         this.playEnemiesSoundEffect();
     }
 
-    letEnemyMove(){
+
+    /**
+     * methode to make enemy move if passed a test
+     */
+    letEnemyMove() {
         const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
-            } else if (this.reachedEndPoint()) {
-                this.moveLeft();
+            } else if (this.reachedEndPoint()) { // check enemys position to a given coordinate
+                this.moveLeft(); // enemy is moving left
             }
             if (this.reachedStart && !this.reachedEnd) {
-                this.moveRight();
-            } else if (!this.reachedStartPoint()) {
-                this.moveLeft();
+                this.moveRight(); // enemy is moving right
+            } else if (!this.reachedStartPoint()) {  // check enemys position to a given coordinate
+                this.moveLeft(); // enemy is moving left
             }
-            if(this.hadFirstContact){
-                this.resetEnemyLifeBar();
-                this.setEnemyLifeBar(); 
-            }
-            
+            this.updateLifeBar(); // lifebar stay on top of enemy
         }, 1000 / 60);
         allIntervals.push(letEnemyMove);
     }
 
+
+    /**
+     * method to animate enemy
+     */
     animate() {
         let i = 0;
         const animate = setInterval(() => {
-            if(this.world){
+            if (this.world) {
                 if (this.isDead() && this.deathAnimationStarted) {
                     this.playAnimation(this.IMAGES_DEATH);
                     if (this.currentImage == this.IMAGES_DEATH.length - 1) {
-                        this.deathAnimationEnded = true;
+                        this.deathAnimationEnded = true;    // set variable to stop at end of animation
                     }
                 } else if (this.isHurt()) {
                     this.speed = 0;
-                    this.playAnimation(this.IMAGES_HURT)
+                    this.playAnimation(this.IMAGES_HURT) // play hurt animation
                 } else if (i < 4) {
-                    this.playAnimation(this.IMAGES_WAITING_BEAR);
+                    this.playAnimation(this.IMAGES_WAITING_BEAR); // play idle animation when character reached this enemy then let enemy moves
                 } else if (this.hadFirstContact && !this.isColliding(this.world.character)) {
                     this.speed = 1;
-                    this.playAnimation(this.IMAGES_WALKING_BEAR);
-                }else if(this.isColliding(this.world.character)){
-                    this.playAnimation(this.IMAGES_ATTACKING)
+                    this.playAnimation(this.IMAGES_WALKING_BEAR); // play walk animation
+                } else if (this.isColliding(this.world.character)) {
+                    this.playAnimation(this.IMAGES_ATTACKING)       // play attack animation
                 }
-            i++;
+                i++;
 
                 if (this.world.character.x > 1200 && !this.hadFirstContact) {
                     i = 0;
-                    this.hadFirstContact = true;
+                    this.hadFirstContact = true; // set variable to animate enemy only after test is passed
                 }
-        }
-
+            }
         }, 180);
 
         allIntervals.push(animate);

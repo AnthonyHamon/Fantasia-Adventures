@@ -302,7 +302,7 @@ class Character extends movableObject {
     }
 
     /**
-     * methode to restore energy continuely if not attacking
+     * methode to restore energy continuously if not attacking
      */
     restoreJumpEnergy() {
         if (this.maxEnergy < 80 && !this.world.keyboard.F) {

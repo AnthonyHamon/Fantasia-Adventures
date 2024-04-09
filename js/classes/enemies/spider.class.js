@@ -64,18 +64,21 @@ class Spider extends movableObject {
         this.playEnemiesSoundEffect();
     }
 
-    letEnemyMove() {
 
+    /**
+     * methode to make enemy move if passed a test
+     */
+    letEnemyMove() {
         const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
-            } else if (this.reachedEndPoint()) {
-                this.moveLeft();
+            } else if (this.reachedEndPoint()) { // check enemys position to a given coordinate
+                this.moveLeft(); // enemy is moving left
             }
             if (this.reachedStart && !this.reachedEnd) {
-                this.moveRight();
+                this.moveRight(); // enemy is moving right
             } else if (!this.reachedStartPoint()) {
-                this.moveLeft();
+                this.moveLeft(); // enemy is moving left
             }
             this.resetEnemyLifeBar();
             this.setEnemyLifeBar();

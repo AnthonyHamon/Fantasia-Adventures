@@ -1,4 +1,4 @@
-class Heart extends DrawableObjects{
+class Heart extends DrawableObjects {
     ANIMATEDHEARTIMAGES = [
         'img/level_set/forest/Objects_Animated/Heart/heart.png',
         'img/level_set/forest/Objects_Animated/Heart/heart2.png',
@@ -18,13 +18,17 @@ class Heart extends DrawableObjects{
     height = 32;
     FPS = 180;
 
-    constructor(x, y){
+    constructor(x, y) {
         super().loadImages(this.ANIMATEDHEARTIMAGES);
         this.animate();
         this.x = x;
         this.y = y;
     }
 
+
+    /**
+     * interval to start animation of the heart in game
+     */
     animate() {
         const animate = setInterval(() => {
             let i = this.currentImage % this.ANIMATEDHEARTIMAGES.length;

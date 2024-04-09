@@ -1,4 +1,10 @@
 let forestLevel;
+
+/**
+ * 
+ * @param {Object} level 
+ * @returns object with all level informations 
+ */
 function initLevel(level){
     if(level === 'The Forest')
 forestLevel = new Level(
@@ -154,6 +160,7 @@ setFirstFloor(forestLevel);
 setBackground(forestLevel);
 setClouds(forestLevel);
 setStairway(forestLevel);
+console.log(forestLevel)
 return forestLevel;
 }
 

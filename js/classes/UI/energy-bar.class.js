@@ -1,7 +1,7 @@
-class EnergyBar extends DrawableObjects{
+class EnergyBar extends DrawableObjects {
     width;
     height = 12;
-    
+
 
     constructor(imagePath, x, width) {
         super().loadImage(imagePath);

@@ -1,7 +1,7 @@
 class LifeBar extends DrawableObjects {
     width;
     height;
-    
+
 
     constructor(imagePath, x, y, width, height) {
         super().loadImage(imagePath);

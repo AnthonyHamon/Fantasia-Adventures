@@ -24,6 +24,9 @@ class Coin extends DrawableObjects {
         this.y = y;
     }
 
+    /**
+     * interval to start animation of the coin in game
+     */
     animate() {
         const animate = setInterval(() => {
             let i = this.currentImage % this.ANIMATEDCOINIMAGES.length;

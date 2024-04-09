@@ -17,10 +17,18 @@ class movableObject extends DrawableObjects {
     endPoint = 1790;
     enemyLifeBar = [];
 
+    /**
+     * method to set time of character last move
+     */
     stay() {
         this.lastMove = new Date().getTime();
     }
 
+    /**
+     *      
+     * method to set if character is inactive (time pased since last move is higher than 5 sec)
+     * @returns true or false
+     */
     isInactiv() {
         let timePassed = new Date().getTime() - this.lastMove;
         timePassed = timePassed / 1000;
@@ -31,50 +39,66 @@ class movableObject extends DrawableObjects {
         }
     }
 
+
+    /**
+     * 
+     * @param {number} speedX 
+     * method for walking to the right at the, as parameter, given speed
+     */
     moveRight(speedX) {
         if (speedX) this.speed = speedX;
         this.x += this.speed;
         this.otherDirection = false;
     }
 
+    /**
+     * 
+     * @param {number} speedX 
+     * method for walking to the left at the, as parameter, given speed
+     */
     moveLeft(speedX) {
         if (speedX) {
             this.speed = speedX;
             this.x += this.speed;
             this.otherDirection = true;
-        } else if (!speedX) {
+        } 
+        else if (!speedX) {
             this.x -= this.speed;
             this.otherDirection = true;
         }
     }
 
+    /**
+     * 
+     * @param {Array} images 
+     * method is fired with interval an set current image path according to array length thanks modulo operator 
+     */
     playAnimation(images) {
-        let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        let i = this.currentImage % images.length; // i set with modulo operator
+        let path = images[i];                      // path set from image array according to index (i)  
+        this.img = this.imageCache[path];          // image is now set from image cache and can be drawn
+        this.currentImage++;                       // current image get higher, methode fired again thanks interval and animation is drawn at interval speed
     }
 
+
+    /**
+     * methode to let character fall if in the air
+     */
     applyGravity() {
         const applyGravity = setInterval(() => {
-            this.y += this.speedY;
-            this.speedY += this.gravityAcceleration;
+            this.y += this.speedY;                      // y is character y coordinate, speedY is character speed when jumping
+            this.speedY += this.gravityAcceleration;    // gravity acceleration make character falling always faster by adding value to speedY.
         }, 1000 / 60);
         allIntervals.push(applyGravity);
     }
 
-    // applyGravity() {
-    //     const applyGravity = setInterval(() => {
-    //         this.isOnPlatform = false;
-    //         this.isOnTheGround = false;
-    //         this.y += this.speedY;
-    //         if (this instanceof Character && this.isOnPlatform || this.isOnTheGround)
-    //             this.speedY = 0
-    //          else this.speedY += this.gravityAcceleration;
-    //     }, 1000 / 60);
-    //     allIntervals.push(applyGravity);
-    // }
+    
 
+    /**
+     * 
+     * @param {string} boss 
+     * method to draw enemy lifebar. If enemy is endboss, lifebar is bigger 
+     */
     setEnemyLifeBar(boss) {
         let x = this.x + this.offset.left;
         let y = this.y + this.offset.top - 20;
@@ -96,16 +120,37 @@ class movableObject extends DrawableObjects {
         }
     }
 
+    /**
+     * method to reset enemy lifebar in order to be updated
+     */
     resetEnemyLifeBar() {
         this.enemyLifeBar.splice(0)
     }
 
-
-    jump() {
-        this.isJumping = true;
-        return this.speedY = -8;// -11; // -8
+     /**
+     * method to continuously set and reset lifebar for continuously update thank interval
+     */
+     updateLifeBar(boss) {
+        this.resetEnemyLifeBar();    // reset the lifebar
+        this.setEnemyLifeBar(boss);  // set lifebar again
     }
 
+
+    /**
+     * 
+     * @returns the speed by jump (how hight character is jumping)
+     */
+    jump() {
+        this.isJumping = true;
+        return this.speedY = -8;
+    }
+
+    /**
+     * 
+     * @param {Object} obj 
+     * @returns true or false if test is passed
+     * test is to check if the current object (character or enemy), is colliding with another object in all possible direction
+     */
     isColliding(obj) {
         return (this.x + this.width - this.offset.right) >= obj.x + obj.offset.left &&
             (this.y + this.height - this.offset.bottom) >= obj.y + obj.offset.top &&
@@ -114,6 +159,13 @@ class movableObject extends DrawableObjects {
         // && obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
+
+    /**
+     * 
+     * @param {Object} obj 
+     * @returns true or false if test is passed
+     * test is to check if there's a collision against a obstacle block
+     */
     obstacleCollision(obj) {
         return (
             this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
@@ -123,29 +175,49 @@ class movableObject extends DrawableObjects {
         )
     }
 
+
+    /**
+     * 
+     * @param {number} damages 
+     * method to make character or enemy losing life accfording to the damage given as parameter
+     */
     hit(damages) {
         this.life -= damages;
-        if (this.life < 0) this.life = 0;
-        else this.lastHit = new Date().getTime();
+        if (this.life < 0) this.life = 0;   // objet life cannot get under 0
+        else this.lastHit = new Date().getTime();  // set variable when the last time object got hurt 
     }
 
-
+    /**
+     * 
+     * @returns true or false if timepassed between two hit is under 0.5sec
+     */
     isHurt() {
-        let timePassed = new Date().getTime() - this.lastHit;
-        timePassed = timePassed / 1000;
-        return timePassed < 0.5;
+        let timePassed = new Date().getTime() - this.lastHit;  // set variable timePassed to calc tiem passed between two hit
+        timePassed = timePassed / 1000;     // formate timePassed in sec
+        return timePassed < 0.5;            // return true or false if timePassed under 0.5sec
     }
 
+    /**
+     * 
+     * @returns true or false if object life is 0;
+     */
     isDead() {
         return this.life == 0;
     }
 
+    /**
+     * method to let death animation starting at the beginning
+     */
     startDeathAnimation() {
         this.currentImage = 0;
         this.speed = 0;
         this.deathAnimationStarted = true;
     }
 
+    /**
+     * 
+     * @returns true or false if object reached a the startgame coordinate
+     */
     reachedStartPoint() {
         if (this.x + this.offset.left <= this.startPoint) {
             this.reachedStart = true;
@@ -156,6 +228,11 @@ class movableObject extends DrawableObjects {
         return false
     }
 
+
+    /**
+     * 
+     * @returns true or false if object reached a the endgame coordinate
+     */
     reachedEndPoint() {
         if (this.x + this.width - this.offset.right >= this.endPoint) {
             this.reachedEnd = true

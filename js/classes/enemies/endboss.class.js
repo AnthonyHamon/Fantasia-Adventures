@@ -65,26 +65,33 @@ class Endboss extends movableObject {
         this.playEnemiesSoundEffect();
     }
 
-    letEnemyMove(){
+
+    /**
+     * methode to make enemy move if passed a test
+     */
+    letEnemyMove() {
         const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
-            } else if (this.reachedEndPoint()) {
-                this.moveLeft();
+            } else if (this.reachedEndPoint()) { // check enemys position to a given coordinate
+                this.moveLeft(); // enemy is moving left
             }
             if (this.reachedStart && !this.reachedEnd) {
-                this.moveRight();
-            } else if (!this.reachedStartPoint()) {
-                this.moveLeft();
+                this.moveRight(); // enemy is moving right
+            } else if (!this.reachedStartPoint()) { // check enemys position to a given coordinate
+                this.moveLeft(); // enemy is moving left
             }
 
-            this.resetEnemyLifeBar();
-            this.setEnemyLifeBar('boss');
+            this.updateLifeBar('boss'); // lifebar stay on top of enemy + size updated for endboss
 
         }, 1000 / 60);
         allIntervals.push(letEnemyMove);
     }
 
+
+    /**
+     * method to animate enemy
+     */
     animate() {
         const animate = setInterval(() => {
             let i = 0;
@@ -92,18 +99,18 @@ class Endboss extends movableObject {
                 if (this.isDead() && this.deathAnimationStarted) {
                     this.playAnimation(this.IMAGES_DEATH);
                     if (this.currentImage == this.IMAGES_DEATH.length - 1) {
-                        this.deathAnimationEnded = true;
+                        this.deathAnimationEnded = true;    // set variable to stop at end of animation
                     }
                 } else if (this.isHurt()) {
                     this.speed = 0;
-                    this.playAnimation(this.IMAGES_HURT)
+                    this.playAnimation(this.IMAGES_HURT) // play hurt animation
                 } else if (!this.isColliding(this.world.character)) {
                     this.speed = 2;
-                    this.playAnimation(this.IMAGES_WALKING_BOSS);
+                    this.playAnimation(this.IMAGES_WALKING_BOSS); // play walk animation
                 } else if (this.isColliding(this.world.character)) {
-                    this.playAnimation(this.IMAGES_ATTACKING_BOSS)
+                    this.playAnimation(this.IMAGES_ATTACKING_BOSS) // play attack animation
                 }
-                i++;
+            i++;
         }, 180);
         allIntervals.push(animate);
     }

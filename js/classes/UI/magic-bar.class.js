@@ -1,7 +1,7 @@
-class MagicBar extends DrawableObjects{
+class MagicBar extends DrawableObjects {
     width;
     height = 12;
-    
+
 
     constructor(imagePath, x, width) {
         super().loadImage(imagePath);

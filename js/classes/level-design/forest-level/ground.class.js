@@ -9,7 +9,7 @@ class Ground extends movableObject {
         left: 0
     }
 
-    constructor(imagePath, x){
+    constructor(imagePath, x) {
         super().loadImage(imagePath);
         this.x = x;
         this.y = 512;

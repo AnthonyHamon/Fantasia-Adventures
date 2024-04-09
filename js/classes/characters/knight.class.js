@@ -1,4 +1,4 @@
-class Knight extends Character{
+class Knight extends Character {
     CHARACTERAVATAR = 'img/UI/character-icons/knight.png';
 
     IMAGES_WALKING = [
@@ -24,7 +24,7 @@ class Knight extends Character{
         'img/character/Knight/Attack/attack1.png',
         'img/character/Knight/Attack/attack2.png',
         'img/character/Knight/Attack/attack3.png',
-        'img/character/Knight/Attack/attack4.png',    
+        'img/character/Knight/Attack/attack4.png',
     ];
 
     IMAGES_HURT = [

@@ -42,25 +42,55 @@ class World {
         this.setWorld();
     }
 
+    /**
+     * 
+     * @param {Object} character 
+     * function hand over this world to other objects (character, enemies and longRangeattack), in order to be bounded to the object.
+     */
     setWorld(character) {
         if (character) this.character = character;
-        this.character.world = this;
-        this.level.enemies.forEach(enemy => {
+        this.character.world = this;        // variable world in object character is bounded to this world and become access to this world Object
+        this.level.enemies.forEach(enemy => { // variable world in each enemy Object is bounded to this world and become access to this world Object
             enemy.world = this;
         })
-        this.level.longRangeAttacks.forEach(attack => {
+        this.level.longRangeAttacks.forEach(attack => { // variable world in each longRange Object is bounded to this world and become access to this world Object
             attack.world = this;
         })
     }
 
 
 
-
+    /**
+     * methode to draw every necessary objects for the game 
+     */
     draw() {
+         // delete the canvas before drawing everything again
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        // methode to set camera x position as default
         this.ctx.translate(-this.camera_x, 0)
+        // add all movable object from level instance    
+        this.addMovableObjectToMap();
+        // methode to invert camera x position for the following object, in order to stay visible on the screen
+        this.ctx.translate(this.camera_x, 0)
+        // ------ space for fixed objects
+        this.addFixObjectsToMap();
+        // set the camera x position to default for the character
+        this.ctx.translate(-this.camera_x, 0);
+        // draw character between both ctn.translate method to let character switch direction and be drawn correctly without changing other object
+        this.drawCharacter(this.character);
+        this.ctx.translate(this.camera_x, 0);
 
+        // methode draw will be continuously fired according to GPU power
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
+    /**
+     *  methode to add movable objects from level instance to the world (game)
+     * */ 
+    addMovableObjectToMap() {
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.ground);
@@ -74,36 +104,33 @@ class World {
         this.drawEnemiesLifeBar(this.level.enemies);
         this.addObjectToMap(this.level.longRangeAttacks);
         this.addObjectToMap(this.level.throwableObjects);
+    }
 
-        // this.drawCollisionBlock(this.level.blockCollision); // only drawn to adjust position
-
-        this.ctx.translate(this.camera_x, 0)
-        // ------ space for fixed objects
+    /**
+     * methode to add fix objects from level instance to the world (game)
+     */
+    addFixObjectsToMap() {
         this.addTomap(this.characterInformations);
         this.addTomap(this.character.characterAvatar);
         this.addObjectToMap(this.lifeBar);
         this.addObjectToMap(this.energyBar);
         this.addObjectToMap(this.magicBar);
         this.addObjectToMap(this.coinBar);
-        this.ctx.translate(-this.camera_x, 0);
-
-        this.drawCharacter(this.character);
-        this.ctx.translate(this.camera_x, 0);
-
-
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
     }
 
+    /**
+     * interval method to check if character is dead and remove it if it's the case.
+     */
     checkCharactersDeath() {
         const charactersdeath = setInterval(() => {
-            this.removeCharacterAfterDeath();
+            this.removeCharacterAfterDeath();   // if dead, remove character from game
         }, 150);
         allIntervals.push(charactersdeath);
     }
 
+    /**
+     * method to end the game since character death animation ended
+     */
     removeCharacterAfterDeath() {
         if (this.character.isDead() && !this.character.deathAnimationStarted) {
             this.character.startDeathAnimation();
@@ -111,10 +138,13 @@ class World {
         if (this.character.deathAnimationEnded) {
             this.character.deathAnimationEnded = false;
             this.gameOver();
-            return
         }
     }
 
+
+    /**
+     * method to show won screen
+     */
     renderWonScreen() {
         this.levelDurationEndTime = this.calcLevelDuration();
         let gameMenuCtn = document.getElementById('gameMenuCtn');
@@ -123,6 +153,9 @@ class World {
         gameMainScreen.innerHTML = returnWonScreen(this.starsScore);
     }
 
+    /**
+     * method to show defeat screen
+     */
     renderDefeatScreen() {
         this.levelDurationEndTime = this.calcLevelDuration();
         let gameMenuCtn = document.getElementById('gameMenuCtn');
@@ -131,6 +164,10 @@ class World {
         gameMainScreen.innerHTML = returnDefeatScreen();
     }
 
+    /**
+     * methode which calculate the time player take to finish the level
+     * @returns string of numbers formated as time: "min : sec" to be rendered on end of level screen
+     */
     calcLevelDuration() {
         let timeAtEndOfLevel = Date.now();
         let levelTimePassed = timeAtEndOfLevel - this.levelDuration;
@@ -143,6 +180,11 @@ class World {
         return `${formatedMinutes} : ${formatedSeconds}`;
     }
 
+    /**
+     * methode which formate the time player take to finish the level in full seconds
+     * @param {number} timeAtEndOfLevel 
+     * @returns number in fully second to be used for the score calculation
+     */
     getTimePassed(timeAtEndOfLevel) {
         let elapsedTime = (timeAtEndOfLevel - this.levelDuration) / 1000;
         let minutes = Math.floor(elapsedTime / 60);
@@ -151,6 +193,20 @@ class World {
         return timePassed;
     }
 
+    /**
+     * @returns number. A defined score according to the time take by player for finishing level
+     */
+    calcTimeScore() {
+        let timeScore;
+        if (this.fullElapsedLevelTime <= 3) timeScore = 500;
+        if (this.fullElapsedLevelTime > 3 && this.fullElapsedLevelTime < 5) timeScore = 300;
+        if (this.fullElapsedLevelTime > 5) timeScore = 100;
+        return timeScore;
+    }
+
+    /**
+     * calculate player endscore according to every score variables (time, amount of collected coins and killed enemies)
+     */
     calcEndScore() {
         this.timeScore = this.calcTimeScore();
         this.endScore = this.character.enemyKillPoint + this.character.collectedCoins + this.timeScore;
@@ -160,64 +216,73 @@ class World {
         if (world.endScore >= 2000) this.starsScore = 3;
     }
 
-    calcTimeScore() {
-        let timeScore;
-        if (this.fullElapsedLevelTime <= 3) timeScore = 500;
-        if (this.fullElapsedLevelTime > 3 && this.fullElapsedLevelTime < 5) timeScore = 300;
-        if (this.fullElapsedLevelTime > 5) timeScore = 100;
-        return timeScore;
-    }
-
+    /**
+     * interval methode to check if enemy is dead and remove it from world if it's the case
+     */
     checkEnemiesDeath() {
         const enemiesDeath = setInterval(() => {
-            this.countEnemyKillPoint();
-            this.removeEnemyAfterDeath();
+            this.countEnemyKillPoint(); // fire method to count kill point if enemy is dead
+            this.removeEnemyAfterDeath(); // fire methode to remove enemy from world when dead animation ended
         }, 150);
         allIntervals.push(enemiesDeath);
 
     }
 
+    /**
+     * methode to check when character either inflict or receive damages
+     */
     checkEnemiesCollisions() {
         this.characterInflictDamages();
         this.characterReceiveDamages();
     }
 
+    /**
+     * methode check through each enemies if character attacks on jump on it.
+     * if it's the case, enemy is receiving damages
+     */
     characterInflictDamages() {
-
         const characterInflictDamages = setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.comesFromTop(enemy) && this.character.speedY !== 0.4 && this.character.maxEnergy > 0 && !enemy.isDead()) {
-                    this.character.jump();
-                    this.character.maxEnergy -= 30;
+                    this.character.jump(); // let character jump again if player jump on an enemy with enough energy
+                    this.character.maxEnergy -= this.character.doubleJumpEnergyDrain;   // drain energy after double jump
                     enemy.hit(enemy.receivedPhysicalDamages);
                 }
                 if (this.character.isAttacking(enemy) && !this.character.isHurt() && enemy instanceof Snake) {
-                    enemy.hit(enemy.receivedPhysicalDamages);
+                    enemy.hit(enemy.receivedPhysicalDamages);   
                 }
             });
         }, 1000 / 60);
         allIntervals.push(characterInflictDamages);
     }
 
+    /**
+     * methode check through each enemies if character collide with an enemy.
+     * if it's the case, character is receiving damage
+     */
     characterReceiveDamages() {
         const characterReceiveDamages = setInterval(() => {
             this.level.enemies.forEach(enemy => {
-                if (this.character.isColliding(enemy) && this.character.comesFromTop(enemy) && !this.character.isAttacking(enemy) && !enemy.isDead()) {
+                if (this.character.isColliding(enemy) && this.character.comesFromTop(enemy) && !this.character.isAttacking(enemy) && !enemy.isDead()) { 
                     this.character.hit(enemy.inflictDamages);
-                    this.resetLifeBar();
-                    this.setCharacterLifeBar();
+                    this.resetLifeBar(); // reset lifebar before set in new
+                    this.setCharacterLifeBar(); // set lifebar again
                 }
             })
         }, 100);
         allIntervals.push(characterReceiveDamages);
     }
 
+    /**
+     * check through each long range attack is there's a collision with enemy that isn't a snake. 
+     * if it's the case, this enemy receives damages
+     */
     checkMagicalAttackCollision() {
         const magicalAttackCollison = setInterval(() => {
-            this.level.longRangeAttacks.forEach(attack => {
-                this.level.enemies.forEach(enemy => {
-                    if (attack.isColliding(enemy) && !(enemy instanceof Snake)) {
-                        enemy.hit(enemy.receivedMagicalDamages);
+            this.level.longRangeAttacks.forEach(attack => { // go through long range object
+                this.level.enemies.forEach(enemy => {       // go through all enemies object
+                    if (attack.isColliding(enemy) && !(enemy instanceof Snake)) { // if colliding test
+                        enemy.hit(enemy.receivedMagicalDamages);    // inflict damage to enemy
                     }
                 })
             })
@@ -225,55 +290,66 @@ class World {
         allIntervals.push(magicalAttackCollison);
     }
 
+    /**
+     * method to go throught each enemy objects and when dead, add kill point to the character
+     * to be calculated at end of the game
+     */
     countEnemyKillPoint() {
-        this.level.enemies.forEach(enemy => {
+        this.level.enemies.forEach(enemy => { 
             if (enemy.isDead() && enemy.deathAnimationEnded) this.character.enemyKillPoint += enemy.killPoint;
         })
     }
 
+    /**
+     * check through each enemies if this is dead (life = 0). If it's the case, start the dead animation
+     * and only fire end of game function when animation ended 
+     */
     removeEnemyAfterDeath() {
-        this.level.enemies.forEach((enemy, index) => {
-            if (enemy.isDead() && !enemy.deathAnimationStarted) {
-                enemy.startDeathAnimation();
+        this.level.enemies.forEach((enemy, index) => {  // go through all enemies objects
+            if (enemy.isDead() && !enemy.deathAnimationStarted) { // check if an enemy is dead and if its animation already started, if test passed
+                enemy.startDeathAnimation();            // fire function to start the death animation
             }
-            if (enemy.deathAnimationEnded) {
-                this.level.enemies.splice(index, 1);
-                if (enemy instanceof Endboss) {
-                    this.endOfGame();
+            if (enemy.deathAnimationEnded) {            // if the death animation ended,  
+                this.level.enemies.splice(index, 1);    // remove the enemy from level object 
+                if (enemy instanceof Endboss) {         // and if the enemy is endboss,
+                    this.endOfGame();                   // fire function to show end of the game
                 }
             }
         })
     }
 
+
+    /**
+     * call every methods that are necessary for end of game when game won
+     */
     endOfGame() {
-        this.calcLevelDuration();
-        this.calcEndScore();
-        this.saveLevelResultPoint();
-        backgroundMusic.pause();
-        this.gameWonSound.play();
-        this.renderWonScreen();
+        this.calcLevelDuration();   // calculate the time player took to finish the level
+        this.calcEndScore();           // calculate total score of player
+        this.saveLevelResultPoint();   // save the result in local storage
+        backgroundMusic.pause();       // pause the background music
+        this.gameWonSound.play();      // play music when player won the game
+        this.renderWonScreen();        // show screen when game is won
     }
 
-    gameOver(){
-        backgroundMusic.pause();
-        this.gameOverSound.play();
-        this.renderDefeatScreen();
+    /**
+     * call methods necessary when game is over (character is dead)
+     */
+    gameOver() {
+        backgroundMusic.pause();    // pause background music
+        this.gameOverSound.play();  // play sound when character died
+        this.renderDefeatScreen();  // show screen when game is lost
     }
 
-    // saveLevelResultPoint() {
-    //     everyLevelsInformations.forEach(level => {
-    //         if (level.name === this.level.levelName) {
-    //             level.levelFinished = true;
-    //             if (!level.levelReward) level.levelReward = this.starsScore;
-    //             else if (this.starsScore > level.levelReward) level.levelReward = this.starsScore;
-    //         }
-    //     })
-    // }
 
+    /**
+     * when player won the game, he obtains a final score, this method save this score in local storage
+     * and also check if this score is better or not as the one done in a possible previous game and only save the best score
+     * in local storage
+     */
     saveLevelResultPoint() {
         everyLevelsInformations.forEach(level => {
             if (level.name === this.level.levelName) {
-                this.getPreviousScore(level) ;
+                this.getPreviousScore(level);
                 if (!level.levelScore) level.levelScore = this.starsScore;
                 else if (this.starsScore > level.levelScore) level.levelScore = this.starsScore;
             }
@@ -281,6 +357,12 @@ class World {
         })
     }
 
+
+    /**
+     * @param {Object} level 
+     * call level score information from local storage if available
+     * in order to be compared with current score when game is finished
+     */
     getPreviousScore(level) {
         try {
             level.levelScore = JSON.parse(localStorage.getItem('levelScore'));
@@ -289,58 +371,61 @@ class World {
         }
     }
 
-    // throwObjects() {
-    //     if (!this.character.isDead() && this.keyboard.E) {
-    //         let bottle = new throwableObjects(this.character.x + 35, this.character.y + 5);
-    //         this.level.longRangeAttacks.push(bottle);
-    //     }
-    // }
-
-
+    /**
+     * @param {Object} objects 
+     *
+     * method which try to add an object (images object) to the world in order to be drawn
+     */
     addObjectToMap(objects) {
         try {
-            objects.forEach(o => {
-                this.addTomap(o);
+            objects.forEach(o => {  // go through every objects
+                this.addTomap(o);   // and call add to map method for each of them
             });
-        } catch (e) {
+        } catch (e) {               // catch error if the image in object cannot be loaded
             console.warn('Error loading image', e);
             console.log('could not load image:', objects);
         }
     }
 
 
+    /**
+     * @param {Object} obj 
+     * 
+     * method to draw object set as parameter on the canvas context (ctx)
+     */
     addTomap(obj) {
-        if (obj.otherDirection) {
-            this.flipImage(obj);
-        }
-        try {
-            this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);                  // remove try catch when finished 
+        if (obj.otherDirection)  // check if variable otherDirection in current object is true and if it's the case
+            this.flipImage(obj);    // call method to invert image
+        try {   
+            this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);   // try to draw image from object on the canvas context
         } catch (e) {
-            console.warn('Error loading image', e);
-            console.log('could not load image:', this.img.src);
+            console.warn('Error loading image', e);  // put a warn log in console with error code
+            console.log('could not load image:', this.img.src); // put a log in console with information of image which could not be loaded
         }
-        if (obj.otherDirection) {
-            this.flipImageBack(obj);
-        }
-
-        // this.drawColisionFrame(obj);
-        // this.drawOffsetColisionFrame(obj);
-
-        if ((obj instanceof Platforms)) {
-            // this.drawColisionFrame(obj);
-            // this.drawOffsetColisionFrame(obj);
+        if (obj.otherDirection) {   // check if variable otherDirection in current object is true and if it's the case
+            this.flipImageBack(obj); // call method to invert image again
         }
     }
 
 
+    /**
+     * 
+     * @param {Object} enemies 
+     * method to draw a lifebar on top of all enemy that are not snakes
+     */
     drawEnemiesLifeBar(enemies) {
-        if (!(enemies instanceof Snake)) {
-            enemies.forEach(enemy => {
-                this.addObjectToMap(enemy.enemyLifeBar)
+        if (!(enemies instanceof Snake)) {  // check if object instance is Snake and if not the case
+            enemies.forEach(enemy => {      // go through the object
+                this.addObjectToMap(enemy.enemyLifeBar) // and add a lifebar for each of them
             });
         }
     }
 
+    /**
+     * 
+     * @param {Object} mo 
+     * method to draw a frame around an object in order to see the default border of the objects images
+     */
     drawColisionFrame(mo) {
         this.ctx.beginPath();
         this.ctx.lineWidth = '3';
@@ -349,50 +434,63 @@ class World {
         this.ctx.stroke();
     }
 
+
+    /**
+     * 
+     * @param {Object} mo 
+     * method to draw a frame around an object in order to see the border of the objects images taking care of its offset informations
+     */
     drawOffsetColisionFrame(mo) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = '3';
-        this.ctx.strokeStyle = 'red';
-        this.ctx.rect(mo.x + mo.offset.left, mo.y + mo.offset.top, mo.width - (mo.offset.right + mo.offset.left), mo.height - (mo.offset.top + mo.offset.bottom));
-        this.ctx.stroke();
+        this.ctx.beginPath(); // start a new path in order to be separate it from object image path
+        this.ctx.lineWidth = '3';  // the width of the line which should be drawn
+        this.ctx.strokeStyle = 'red'; // the color of the line which should be drawn
+        this.ctx.rect(mo.x + mo.offset.left, mo.y + mo.offset.top, mo.width - (mo.offset.right + mo.offset.left), mo.height - (mo.offset.top + mo.offset.bottom)); // draw a square box
+        this.ctx.stroke(); // draw the line with the style defined with lineWidth and strokeStyle.
     }
 
+    /**
+     * 
+     * @param {Object} mo 
+     * method to draw the player's character
+     */
     drawCharacter(mo) {
-        if (mo.otherDirection) {
-            this.flipImage(mo);
+        if (mo.otherDirection) { // check if variable otherDirection in current object is true and if it's the case
+            this.flipImage(mo);  // call method to invert image
         }
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        if (mo.otherDirection) {
-            this.flipImageBack(mo);
+        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);  // draw character object images on canvas context
+        if (mo.otherDirection) {    // check if variable otherDirection in current object is true and if it's the case
+            this.flipImageBack(mo); // call method to invert image
         }
-        // this.drawColisionFrame(mo);
-        // this.drawOffsetColisionFrame(mo);
     }
 
-    drawCollisionBlock(obj) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = '3';
-        this.ctx.strokeStyle = 'black';
-        this.ctx.fillStyle = 'black';
-        obj.forEach(block => {
-            this.ctx.rect(block.x, block.y, block.width, block.height);
-        })
-        this.ctx.stroke();
-    }
-
+    /**
+     * 
+     * @param {Object} mo 
+     * method to invert character image
+     */
     flipImage(mo) {
-        this.ctx.save();
-        this.ctx.translate((mo.width / 1.2), 0);
+        this.ctx.save(); // save the context current state
+        this.ctx.translate((mo.width / 1.2), 0); // move the image to the left before beeing flipped in order to stay at the same position
 
-        this.ctx.scale(-1, 1);
-        mo.x = mo.x * -1;
+        this.ctx.scale(-1, 1);  // flip the image
+        mo.x = mo.x * -1;       //  invert object x coordinate since translate() and scale() aren't changing the x coordinate from object
     }
 
+    /**
+     * 
+     * @param {Object} mo 
+     * method to invert character image back to default state
+     */
     flipImageBack(mo) {
-        mo.x = mo.x * -1;
-        this.ctx.restore();
+        mo.x = mo.x * -1;  // invert object x coordinate again before 
+        this.ctx.restore(); // restore the image to default state (saved in flipImage())
     }
 
+    /**
+     * method to set the character lifebar with a for loop
+     * this method is called everytime charater's life must be updated
+     * for exemple by taking damages or when life is restored with heart.
+     */
     setCharacterLifeBar() {
         let x = 80;
         let percentage = this.character.life;
@@ -411,6 +509,11 @@ class World {
         }
     }
 
+    /**
+     * method to set the character energyBar with a for loop
+     * this method is called everytime charater's energy must be updated
+     * for exemple when attacking or jumping.
+     */
     setEnergyBar() {
         let x = 79;
         let percentage = this.character.maxEnergy;
@@ -429,6 +532,11 @@ class World {
         }
     }
 
+    /**
+     * method to set the character magical energy Bar with a for loop
+     * this method is called everytime charater's magical energy must be updated
+     * for exemple when using magical skill or magical energy is restored widht potion.
+     */
     setMagicBar() {
         let x = 79;
         let percentage = this.character.maxMagicalEnergy;
@@ -447,6 +555,11 @@ class World {
         }
     }
 
+    /**
+     * method to set the coinbar with a for loop
+     * this method is called everytime the coinbar must be updated
+     * when character is collecting a coin.
+     */
     setCoinBar() {
         let x = 79;
         let percentage = this.character.maxCoin;
@@ -465,20 +578,31 @@ class World {
         }
     }
 
+    /**
+     * method to delete lifebar before being updated again
+     */
     resetLifeBar() {
         this.lifeBar.splice(0);
     }
 
+    /**
+     * method to delete energybar before being updated again
+     */
     resetEnergyBar() {
         this.energyBar.splice(0);
     }
 
+    /**
+     * method to delete magicbar before being updated again
+     */
     resetMagicBar() {
         this.magicBar.splice(0);
     }
 
+    /**
+     * method to delete coinbar before being updated again
+     */
     resetCoinBar() {
         this.coinBar.splice(0);
     }
-
 }

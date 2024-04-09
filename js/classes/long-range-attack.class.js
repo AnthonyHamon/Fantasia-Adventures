@@ -1,23 +1,28 @@
 class LongRangeAttack extends movableObject {
     speedX = 2;
 
-    // useLongRangeAttack(x) {
-    //     this.x = x;
-    //     let attackRange = setInterval(() => {
-    //         x += this.speedX;
-    //         this.stopAttackAnimation(attackRange);
-    //     }, 1000 / 60);
-    //     if(this.world) this.world.allIntervals.push({attackRange, "data": 'attack' });
-    // }
-
+    /**
+     * 
+     * @param {number} x 
+     * @param {boolean} otherDirection 
+     * 
+     * methode to activate long range attack from x coordinate and according to character's direction
+     */
     useLongRangeAttack(x, otherDirection) {
-        if(!otherDirection){
+        if (!otherDirection) {
             this.useLongRangeAttackRight(x)
-        }else{
+        } else {
             this.useLongRangeAttackLeft(x)
         }
     }
 
+
+    /**
+     * 
+     * @param {number} x 
+     * 
+     * methode to activate long range attack from x coordinate and if character looking to the right
+     */
     useLongRangeAttackRight(x) {
         let attackRange = setInterval(() => {
             this.x = x += this.speedX;
@@ -25,7 +30,12 @@ class LongRangeAttack extends movableObject {
         }, 1000 / 60);
     }
 
-
+    /**
+     * 
+     * @param {number} x 
+     * 
+     * methode to activate long range attack from x coordinate and if character looking to the left
+     */
     useLongRangeAttackLeft(x) {
         x = x - 95;
         let attackRange = setInterval(() => {
@@ -34,6 +44,9 @@ class LongRangeAttack extends movableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * methode to animate long range skill
+     */
     animate() {
         let attackAnimation = setInterval(() => {
             let i = this.currentImage % this.TORNADO_IMAGES.length;
@@ -43,33 +56,4 @@ class LongRangeAttack extends movableObject {
             this.stopAttackAnimation(attackAnimation);
         }, 150);
     }
-
-    // useLongRangeAttack(x, otherDirection) {
-    //     setInterval(() => {
-    //         if(!otherDirection){
-    //             this.x = this.longRangeAttackRight(x, otherDirection);
-    //         }else{
-    //             this.x = this.longRangeAttackLeft(x, otherDirection);
-    //         }
-    //     }, 1000 / 60);
-    // }
-
-    // longRangeAttackRight(x) {
-    //         let characterPosition = x;
-    //         let attackRange = setInterval(() => {
-    //             x = x += this.speedX;
-    //         }, 1000 / 60)
-    //         this.stopAttackAnimation(attackRange, characterPosition);
-    // }
-
-
-    // longRangeAttackLeft(x) {
-    //         let characterPosition = x;
-    //         x = x -95;
-    //         let attackRange = setInterval(() => {
-    //             this.x = x -= this.speedX;
-    //         }, 1000 / 60)
-    //         this.stopAttackAnimation(attackRange, characterPosition);
-    // }
-
 }

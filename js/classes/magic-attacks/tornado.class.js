@@ -1,4 +1,4 @@
-class Tornado extends LongRangeAttack{
+class Tornado extends LongRangeAttack {
     TORNADO_IMAGES = [
         'img/Skills/tornado/tornado1.png',
         'img/Skills/tornado/tornado2.png',
@@ -21,8 +21,8 @@ class Tornado extends LongRangeAttack{
     }
 
     tornado_effect = new Audio('audio/tornado_effect.mp3');
-    
-    
+
+
     constructor(x, y, otherDirection) {
         super().loadImages(this.TORNADO_IMAGES);
         this.animate();
@@ -33,14 +33,19 @@ class Tornado extends LongRangeAttack{
         this.width = 128;
         this.height = 128;
     }
-  
 
+
+    /**
+     * 
+     * @param {id} animation 
+     * method to clear interval of the magic skill used in order to be deleted
+     */
     stopAttackAnimation(animation) {
         if (this.currentImage == this.TORNADO_IMAGES.length) {
             clearInterval(animation);
         }
     }
 
-    
+
 }
 

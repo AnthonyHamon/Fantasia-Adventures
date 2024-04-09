@@ -59,37 +59,45 @@ class Snake extends movableObject {
         this.playEnemiesSoundEffect();
     };
 
+
+    /**
+     * methode to make enemy move if passed a test
+     */
     letEnemyMove() {
         const letEnemyMove = setInterval(() => {
             if (this.isDead()) {
                 this.speed = 0;
-            } else if (this.reachedEndPoint()) {
-                this.moveLeft();
+            } else if (this.reachedEndPoint()) { // check enemys position to a given coordinate
+                this.moveLeft();    // enemy is moving left
             }
             if (this.reachedStart && !this.reachedEnd) {
-                this.moveRight();
+                this.moveRight();   // enemy is moving right
             } else if (!this.reachedStartPoint()) {
-                this.moveLeft();
+                this.moveLeft();    // enemy is moving left
             }
         }, 1000 / 60);
 
         allIntervals.push(letEnemyMove);
     }
 
+
+     /**
+     * method to animate enemy
+     */
     animate() {
         const animate = setInterval(() => {
             if (this.world)
                 if (this.isDead() && this.deathAnimationStarted) {
                     this.playAnimation(this.IMAGES_DEATH);
                     if (this.currentImage == this.IMAGES_DEATH.length - 1) {
-                        this.deathAnimationEnded = true;
+                        this.deathAnimationEnded = true;    // set variable to stop at end of animation
                     }
-                } else if (this.isHurt()) {
-                    this.playAnimation(this.IMAGES_HURT);
+                } else if (this.isHurt()) { 
+                    this.playAnimation(this.IMAGES_HURT); // play hurt animation
                 } else if (this.isColliding(this.world.character)) {
-                    this.playAnimation(this.IMAGES_ATTACKING_SNAKE)
+                    this.playAnimation(this.IMAGES_ATTACKING_SNAKE); // play attack animation
                 } else {
-                    this.playAnimation(this.IMAGES_WALKING_SNAKE);
+                    this.playAnimation(this.IMAGES_WALKING_SNAKE); // play walk animation
                 }
         }, 180);
 

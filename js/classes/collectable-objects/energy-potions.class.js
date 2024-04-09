@@ -11,6 +11,10 @@ class EnergyPotions extends DrawableObjects {
         this.y = y;
     }
 
+
+    /**
+     * interval to start animation of the energy potion in game
+     */
     animate() {
         const animate = setInterval(() => {
             let i = this.currentImage % this.IMAGES_BOTTLES.length;

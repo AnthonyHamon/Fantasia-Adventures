@@ -389,10 +389,37 @@
 
 
 
+    // applyGravity() {
+    //     const applyGravity = setInterval(() => {
+    //         this.isOnPlatform = false;
+    //         this.isOnTheGround = false;
+    //         this.y += this.speedY;
+    //         if (this instanceof Character && this.isOnPlatform || this.isOnTheGround)
+    //             this.speedY = 0
+    //          else this.speedY += this.gravityAcceleration;
+    //     }, 1000 / 60);
+    //     allIntervals.push(applyGravity);
+    // }
 
 
 
+ // throwObjects() {
+    //     if (!this.character.isDead() && this.keyboard.E) {
+    //         let bottle = new throwableObjects(this.character.x + 35, this.character.y + 5);
+    //         this.level.longRangeAttacks.push(bottle);
+    //     }
+    // }
 
+
+// saveLevelResultPoint() {
+    //     everyLevelsInformations.forEach(level => {
+    //         if (level.name === this.level.levelName) {
+    //             level.levelFinished = true;
+    //             if (!level.levelReward) level.levelReward = this.starsScore;
+    //             else if (this.starsScore > level.levelReward) level.levelReward = this.starsScore;
+    //         }
+    //     })
+    // }
 
 
 
@@ -407,14 +434,14 @@
 
 // possible solution: have to set apply gravity only when character is aboveground.
 
-    applyGravity() {
-        const applyGravity = setInterval(() => {
-            this.y += this.speedY;
-            if(/*isOnGround && instance of Character*/) {
-                this.speedY = 0;
-            } else {
-                this.speedY += this.gravityAcceleration;
-            }
-        }, 1000 / 60);
-        allIntervals.push(applyGravity);
-    }
+    // applyGravity() {
+    //     const applyGravity = setInterval(() => {
+    //         this.y += this.speedY;
+    //         if(this.isOnGround && this.instance of Character) {
+    //             this.speedY = 0;
+    //         } else {
+    //             this.speedY += this.gravityAcceleration;
+    //         }
+    //     }, 1000 / 60);
+    //     allIntervals.push(applyGravity);
+    // }
