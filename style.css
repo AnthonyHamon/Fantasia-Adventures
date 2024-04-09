@@ -639,25 +639,29 @@ canvas {
 
 
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1024px) {
+
+    .fullScreen_img_ctn {
+        display: none;
+    }
 
     header {
         display: none;
     }
 
     canvas {
-        width: 100%;
+        width: 100vw;
         border-radius: unset;
 
     }
 
     .start_menu {
-        width: 100%;
+        width: 100vw;
         border-radius: unset;
     }
 
     #game-menu-main-ctn {
-        width: 100%;
+        width: 100vw;
     }
 
     .start_menu_content {
@@ -1032,7 +1036,7 @@ canvas {
     }
 
     .description_banner img {
-        width: 300px; 
+        width: 300px;
     }
 
     .level_avatar_ctn {
@@ -1040,7 +1044,7 @@ canvas {
         height: 96px;
     }
 
-    #character-selection-titel{
+    #character-selection-titel {
         margin-top: -24px;
     }
 
@@ -1084,30 +1088,30 @@ canvas {
         height: 48px;
     }
 
-    .content_ctn{
+    .content_ctn {
         gap: unset;
     }
 
-    #character-info-avatar-img{
+    #character-info-avatar-img {
         width: 48px;
         height: 48px;
     }
 
-    #character-selection-titel{
+    #character-selection-titel {
         font-size: 44px;
     }
-    
+
     #character-info {
         width: 300px;
         height: 190px;
     }
 
-    .character_info_ctn{
+    .character_info_ctn {
         background-size: contain;
         background-position: center;
     }
 
-    .mobile_charatcer_info_ctn{
+    .mobile_charatcer_info_ctn {
         gap: 8px;
     }
 
@@ -1115,7 +1119,7 @@ canvas {
         gap: 0;
     }
 
-    .option_menu{
+    .option_menu {
         gap: 8px;
         margin-bottom: 200px;
     }
@@ -1123,7 +1127,7 @@ canvas {
 
 @media only screen and (max-width: 480px) {
 
-    .start_menu button{
+    .start_menu button {
         font-size: 24px;
     }
 
