@@ -138,6 +138,7 @@ class World {
         if (this.character.deathAnimationEnded) {
             this.character.deathAnimationEnded = false;
             this.gameOver();
+            resetWorld();
         }
     }
 

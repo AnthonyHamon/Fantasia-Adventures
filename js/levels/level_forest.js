@@ -160,7 +160,6 @@ setFirstFloor(forestLevel);
 setBackground(forestLevel);
 setClouds(forestLevel);
 setStairway(forestLevel);
-console.log(forestLevel)
 return forestLevel;
 }
 
