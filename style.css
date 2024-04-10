@@ -252,6 +252,10 @@ canvas {
     gap: 24px;
 }
 
+.gap_76 {
+    gap: 76px;
+}
+
 .b_radius_50 {
     border-radius: 50%;
 }
@@ -262,6 +266,10 @@ canvas {
 
 .flex {
     display: flex;
+}
+
+.flex_end{
+    justify-content: flex-end;
 }
 
 .column {
@@ -511,7 +519,17 @@ canvas {
     justify-content: space-between;
 }
 
+.set_sound_button{
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+}
 
+.set_sound_button img{
+    width: 34px;
+}
 
 #legal-content-close-button {
     position: absolute;
@@ -555,7 +573,7 @@ canvas {
 .fullScreen_img_ctn img {
     width: 28px;
     height: 28px;
-    z-index: 1;
+    z-index: 2;
     position: relative;
 }
 

@@ -45,27 +45,27 @@ function renderCharacterSelection(event) {
     stopPropagation(event);                 // prevent possible other function in background to be fired.
     document.getElementById('gameMenu').innerHTML = returnCharacterSelection();
     let backToLevelSelectionButton = document.getElementById('back-to-level-selection-button');
-    let renderGameMenuButton = document.getElementById('backward-button');              
+    let renderGameMenuButton = document.getElementById('backward-button');
     if (wantToStartGame)
         backToLevelSelectionButton.classList.toggle('d-none'), // show / hide button to return to level selection
             renderGameMenuButton.classList.toggle('d-none');   // show / hide button to render game menu
 
 }
- /**
-  * 
-  * @param {string} name 
-  * @param {string} avatar 
-  * @param {string} characterPreview 
-  * @param {string} walkRightPreview 
-  * @param {string} walkLeftPreview 
-  * @param {string} climbPreview 
-  * @param {string} jumpPreview 
-  * @param {string} magicalAttackPreview 
-  * @param {string} closeAttackPreview 
-  * 
-  * function to render informations of selected character and
-  * toggle button for starting game if player is on character selection menu
-  */
+/**
+ * 
+ * @param {string} name 
+ * @param {string} avatar 
+ * @param {string} characterPreview 
+ * @param {string} walkRightPreview 
+ * @param {string} walkLeftPreview 
+ * @param {string} climbPreview 
+ * @param {string} jumpPreview 
+ * @param {string} magicalAttackPreview 
+ * @param {string} closeAttackPreview 
+ * 
+ * function to render informations of selected character and
+ * toggle button for starting game if player is on character selection menu
+ */
 function renderCharacterInformation(name, avatar, characterPreview, walkRightPreview, walkLeftPreview, climbPreview, jumpPreview, magicalAttackPreview, closeAttackPreview) {
     let characterInformations = document.getElementById('character-info');
     characterInformations.innerHTML = returnCharacterInformation(name, avatar, characterPreview, walkRightPreview, walkLeftPreview, climbPreview, jumpPreview, magicalAttackPreview, closeAttackPreview);
@@ -239,16 +239,34 @@ function initBackgroundMusic() {
 function toggleMusicSound() {
     let musicON = document.getElementById('music-on');
     let musicOFF = document.getElementById('music-off');
-    if (musicON.classList.contains('d-none'))
-        musicON.classList.toggle('d-none'),
-            musicOFF.classList.toggle('d-none'),
-            initBackgroundMusic();
-    else if (musicOFF.classList.contains('d-none'))
-        musicON.classList.toggle('d-none'),
-            musicOFF.classList.toggle('d-none'),
-            muteBackgroundMusic()
+    let musicON2 = document.getElementById('unmute-button');
+    let musicOFF2 = document.getElementById('mute-button');
+    if (musicON2.classList.contains('d-none')) {
+        toggleSetSoundImage(musicON, musicOFF, musicON2, musicOFF2);
+        initBackgroundMusic();  
+    } else if (musicOFF2.classList.contains('d-none')){
+        toggleSetSoundImage(musicON, musicOFF, musicON2, musicOFF2);
+        muteBackgroundMusic()
+    }        
 }
 
+/**
+ * 
+ * @param {DOM element} musicON 
+ * @param {DOM element} musicOFF 
+ * @param {DOM element} musicON2 
+ * @param {DOM element} musicOFF2 
+ * 
+ * function to show / hide mute / unmute icon and ON / OFF sound option in menu
+ */
+function toggleSetSoundImage(musicON, musicOFF, musicON2, musicOFF2){
+    if (musicON || musicOFF){
+        musicON.classList.toggle('d-none'),
+        musicOFF.classList.toggle('d-none');
+    }
+    musicON2.classList.toggle('d-none');
+    musicOFF2.classList.toggle('d-none');
+}
 
 /**
  * fucntion to mute background music
@@ -326,14 +344,14 @@ function exitFullscreen() {
  * function to switch between full screen and default screen
  * and change full screen icon according to current mode
  */
-function toggleFullScreenModus(){
+function toggleFullScreenModus() {
     let element = document.documentElement;
     if (!document.fullscreenElement &&
         !document.webkitFullscreenElement &&
         !document.mozFullScreenElement &&
         !document.msFullscreenElement) {
         getFullScreen(element);
-    }else{
+    } else {
         exitFullscreen();
     }
     toggleFullScreenIcon();
@@ -343,11 +361,11 @@ function toggleFullScreenModus(){
 /**
  * function to switch between fullscreen icon according to screen mode
  */
-function toggleFullScreenIcon(){
+function toggleFullScreenIcon() {
     let fullScreenOn = document.getElementById('full-screen-on');
     let fullScreenOff = document.getElementById('full-screen-off');
     fullScreenOn.classList.toggle('d-none'),
-    fullScreenOff.classList.toggle('d-none')
+        fullScreenOff.classList.toggle('d-none')
 }
 
 
@@ -360,10 +378,10 @@ function toggleFullScreenIcon(){
  * content is being render in game menu if resolution (width) is over 1024 px, else
  * legal content is being opened in another tab
  */
-function showLegalContent(contentName, functionName){
-    if(window.innerWidth >= 1024){
+function showLegalContent(contentName, functionName) {
+    if (window.innerWidth >= 1024) {
         renderLegalContent(contentName, functionName)
-    }else{
+    } else {
         redirectTo(functionName);
     }
 }
@@ -375,10 +393,9 @@ function showLegalContent(contentName, functionName){
  * 
  * function to render legal content in game menu 
  */
-function renderLegalContent(contentName, functionName){
+function renderLegalContent(contentName, functionName) {
     document.getElementById('gameMenu').innerHTML = returnLegalContent(contentName, functionName);
 }
-
 
 /**
  * 
@@ -386,6 +403,6 @@ function renderLegalContent(contentName, functionName){
  * 
  * function to open legal content in another tab
  */
-function redirectTo(functionName){
+function redirectTo(functionName) {
     window.open(`${functionName['name']}.html`, '_blank');
 }

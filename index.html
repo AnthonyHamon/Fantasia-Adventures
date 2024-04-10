@@ -63,9 +63,17 @@
     <canvas id="canvas" width="960" height="576"></canvas>
     <div class="hud_ctn p-absolute">
         <div class="hud">
-            <div class="fullScreen_img_ctn">
-                <img onclick="toggleFullScreenModus()" id="full-screen-on" src="./img/UI/fullscreen-enter-48.png" alt="">
-                <img onclick="toggleFullScreenModus()" id="full-screen-off" class="d-none" src="./img/UI/fullscreen-exit-48.png" alt="">
+            <div class="flex flex_end gap_76">
+                <div class="set_sound_button">
+                    <img onclick="toggleMusicSound()" id="mute-button" class="d-none" src="img/UI/mute-48.png" alt="">
+                    <img onclick="toggleMusicSound()" id="unmute-button" src="img/UI/volume-up-2-48.png" alt="">
+                </div>
+                <div class="fullScreen_img_ctn">
+                    <img onclick="toggleFullScreenModus()" id="full-screen-on" src="./img/UI/fullscreen-enter-48.png"
+                        alt="">
+                    <img onclick="toggleFullScreenModus()" id="full-screen-off" class="d-none"
+                        src="./img/UI/fullscreen-exit-48.png" alt="">
+                </div>
             </div>
             <div id="mobile-overlay" class="d-none">
                 <div class="mobile_overlay_attack">
