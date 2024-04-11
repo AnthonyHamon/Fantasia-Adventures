@@ -140,7 +140,6 @@ function closeLevelInformation() {
 
 }
 
-
 /**
  * function for starting the game by setting a new world with informaton given as parameter from
  * level and character selection menu
@@ -153,7 +152,6 @@ function startGame() {
     startMenu.classList.toggle('d-none');  // hide game menu
 }
 
-
 /**
  * 
  * @param {event} event 
@@ -164,7 +162,6 @@ function gameStartLevelSelection(event) {
     wantToStartGame = true;
     renderLevelSelection(event);  // render all possible level to play
 }
-
 
 /**
  * 
@@ -192,7 +189,6 @@ function returnToLevelMenuAfterEndgame(event) {
     backgroundMusic.play();     // restart background music if not paused in game menu
 }
 
-
 /**
  * clear all interval array in order to stop / restart the game
  */
@@ -201,7 +197,6 @@ function clearAllInterval() {
         clearInterval(interval);
     });
 }
-
 
 /**
  * fire clear interval function and set all world relevant variable to null
@@ -212,7 +207,6 @@ function resetWorld() {
     currentCharacter = null;    // no character selected
     world = null;               // no world available
 }
-
 
 /**
  * add event listener to start background music as soon as player interact with interface
@@ -276,7 +270,6 @@ function muteBackgroundMusic() {
     backgroundMusic.pause();
 }
 
-
 /**
  * 
  * @param {event} event 
@@ -296,7 +289,6 @@ function closeOptionMenu() {
     optionMenu.classList.add('d-none');
 }
 
-
 /**
  * 
  * @param {event} event 
@@ -305,7 +297,6 @@ function closeOptionMenu() {
 function stopPropagation(event) {
     event.stopPropagation();
 }
-
 
 /**
  * 
@@ -357,7 +348,6 @@ function toggleFullScreenModus() {
     toggleFullScreenIcon();
 }
 
-
 /**
  * function to switch between fullscreen icon according to screen mode
  */
@@ -367,7 +357,6 @@ function toggleFullScreenIcon() {
     fullScreenOn.classList.toggle('d-none'),
         fullScreenOff.classList.toggle('d-none')
 }
-
 
 /**
  * 
